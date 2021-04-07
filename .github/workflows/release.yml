@@ -42,7 +42,6 @@ jobs:
             ${{ runner.os }}-yarn-${{ matrix.node-version }}
       - run: yarn run setup
       - run: yarn run build
-      #- run: yarn run test
 
       - uses: actions/upload-artifact@v2
         with:
