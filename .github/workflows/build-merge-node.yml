@@ -6,11 +6,11 @@ name: release
 on:
   workflow_run:
     workflows: ["build-node"]
-    types: 
+    branches: [main, develop]
+    types:
       - completed
 
 jobs:
-
   release:
     runs-on: ubuntu-latest
 
@@ -28,7 +28,7 @@ jobs:
       - run: npm install --global semantic-release
       - run: npm install --global semantic-release/github
       - run: npm install --global semantic-release/exec
-      
+
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
