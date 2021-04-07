@@ -2,8 +2,7 @@
   "branches": ["main", "develop",
     {
       "name": "develop",
-      "channel": "beta",
-      "prerelease": true
+      "channel": "beta"
     }
   ],
   "plugins": [
