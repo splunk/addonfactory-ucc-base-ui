@@ -9,6 +9,7 @@ on:
     branches: [main, develop]
     types:
       - completed
+      - requested
 
 jobs:
   release:
