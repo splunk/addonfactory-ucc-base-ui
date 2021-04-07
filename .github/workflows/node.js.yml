@@ -40,3 +40,11 @@ jobs:
       - run: yarn run setup
       - run: yarn run build
       #- run: yarn run test
+
+      #package the output
+      - run: tar -czf /tmp/splunk-ucc-ui.tgz -C dist .
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: splunk-ucc-ui
+          path: /tmp/splunk-ucc-ui.tgz
