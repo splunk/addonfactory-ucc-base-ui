@@ -1,0 +1,17 @@
+---
+branches:
+  - "+([0-9])?(.{+([0-9]),x}).x"
+  - main
+  - name: develop
+    channel: beta
+    prerelease: true
+plugins:
+  - "@semantic-release/commit-analyzer"
+  - "@semantic-release/release-notes-generator"
+  - "@semantic-release/github"
+  - name: "@semantic-release/exec"
+    prepareCmd: echo ${VERSION} >package/etc/VERSION;tar -czf /tmp/splunk-ucc-ui.tgz -C dist .
+  - name: "@semantic-release/github"
+    assets:
+      - path: /tmp/splunk-ucc-ui.tgz
+        label: splunk-ucc-ui
