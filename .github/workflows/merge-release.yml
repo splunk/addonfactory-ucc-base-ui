@@ -72,7 +72,7 @@ jobs:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-15.x-release
+            ${{ runner.os }}-yarn-15.x
       - run: yarn run setup
 
       - uses: actions/download-artifact@v2
