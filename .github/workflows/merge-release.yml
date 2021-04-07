@@ -4,12 +4,9 @@
 name: merge-build
 
 on:
-  workflow_run:
-    workflows: ["build"]
+  push:
     branches: [main, develop]
-    types:
-      - completed
-
+    
 jobs:
   build:
     runs-on: ubuntu-latest
