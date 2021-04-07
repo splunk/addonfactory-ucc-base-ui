@@ -47,7 +47,7 @@ jobs:
           path: /tmp/splunk-ucc-ui.tgz
   semgrep:
     runs-on: ubuntu-latest
-    name: Check
+    name: semgrep
     steps:
       - uses: actions/checkout@v1
       - name: Semgrep
@@ -55,3 +55,14 @@ jobs:
         uses: returntocorp/semgrep-action@v1
         with:
           config: p/r2c
+        env:        
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}          
+          
+  snyk:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}          
