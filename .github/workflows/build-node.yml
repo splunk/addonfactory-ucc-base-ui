@@ -10,7 +10,7 @@ on:
     branches: [main, develop]
 
 jobs:
-  build:
+  build-node:
     runs-on: ubuntu-latest
 
     strategy:
