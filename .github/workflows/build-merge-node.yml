@@ -5,7 +5,7 @@ name: release
 
 on:
   workflow_run:
-    workflows: ["build-node"]
+    workflows: ["build"]
     branches: [main, develop]
     types:
       - completed
