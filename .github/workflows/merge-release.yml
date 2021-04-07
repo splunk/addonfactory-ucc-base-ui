@@ -76,5 +76,5 @@ jobs:
         run: npx semantic-release
       - uses: actions/upload-artifact@v2
         with:
-          name: splunk-ucc-ui
+          name: splunk-ucc-ui-versioned
           path: /tmp/splunk-ucc-ui.tgz
