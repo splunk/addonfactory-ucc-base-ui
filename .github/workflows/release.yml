@@ -43,13 +43,12 @@ jobs:
       - run: yarn run setup
       - run: yarn run build
 
-      - uses: actions/upload-artifact@v2
-        with:
-          name: splunk-ucc-ui
-          path: /tmp/splunk-ucc-ui.tgz
-
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release
+      - uses: actions/upload-artifact@v2
+        with:
+          name: splunk-ucc-ui
+          path: /tmp/splunk-ucc-ui.tgz
