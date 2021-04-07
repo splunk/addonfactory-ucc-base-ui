@@ -67,12 +67,12 @@ jobs:
       uses: snyk/actions/node@master
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}  
-                
+
   release:
     needs: 
       - build
       - semgrep
-      - snyk
+      #- snyk
 
     runs-on: ubuntu-latest
 
