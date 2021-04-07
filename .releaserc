@@ -10,7 +10,7 @@
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     ["@semantic-release/exec", {
-      "prepareCmd": "tar -czf /tmp/splunk-ucc-ui.tgz -C dist ."
+      "publishCmd": "tar -czf /tmp/splunk-ucc-ui.tgz -C dist ."
     }],
     ["@semantic-release/github", {
       "assets": [
