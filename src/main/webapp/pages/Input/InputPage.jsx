@@ -20,7 +20,6 @@ import EntityModal from '../../components/EntityModal';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import EntityPage from '../../components/EntityPage';
 import useQuery from '../../hooks/useQuery';
-import '../style.scss';
 
 const Row = styled(ColumnLayout.Row)`
     padding: 5px 0px;

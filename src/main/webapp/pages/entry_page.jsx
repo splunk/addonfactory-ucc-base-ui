@@ -9,6 +9,7 @@ import ConfigManager from '../util/configManager';
 import InputPage from './Input/InputPage';
 import ConfigurationPage from './Configuration/ConfigurationPage';
 import messageDict from '../constants/messageDict';
+import './style.css';
 
 // Take in a component as argument WrappedComponent
 function higherOrderComponent(WrappedComponent) {
