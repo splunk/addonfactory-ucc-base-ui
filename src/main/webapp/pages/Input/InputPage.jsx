@@ -165,6 +165,7 @@ function InputPage() {
             // Close page when any of the required query params are not provided
             setEntity({ ...entity, open: false });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [history.location.search]);
 
     return (

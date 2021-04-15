@@ -9,6 +9,7 @@ import { getUnifiedConfigs, generateToast } from '../../util/util';
 import CustomTable from './CustomTable';
 import TableHeader from './TableHeader';
 import TableContext from '../../context/TableContext';
+import { PAGE_INPUT } from '../../constants/pages';
 
 function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPageStyleDialog }) {
     const [sortKey, setSortKey] = useState('name');
@@ -21,6 +22,13 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
     );
 
     const unifiedConfigs = getUnifiedConfigs();
+    const tableConfig =
+        page === PAGE_INPUT
+            ? unifiedConfigs.pages.inputs.table
+            : unifiedConfigs.pages.configuration.tabs.filter((x) => x.name === serviceName)[0]
+                  .table;
+    const headers = tableConfig.header;
+    const { moreInfo } = tableConfig;
     const services =
         page === 'inputs'
             ? unifiedConfigs.pages.inputs.services
@@ -132,9 +140,9 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
                 });
             });
             if (response.data.entry[0].content.disabled === true) {
-                generateToast(`Disabled ${response.data.entry[0].name}`, "success");
+                generateToast(`Disabled ${response.data.entry[0].name}`, 'success');
             } else {
-                generateToast(`Enabled ${response.data.entry[0].name}`, "success");
+                generateToast(`Enabled ${response.data.entry[0].name}`, 'success');
             }
         });
     };
@@ -155,18 +163,26 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
      */
     const findByMatchingValue = (data) => {
         const arr = [];
+        const tableFields = [];
+
+        headers.forEach((headData) => {
+            tableFields.push(headData.field);
+        });
+        moreInfo.forEach((moreInfoData) => {
+            tableFields.push(moreInfoData.field);
+        });
+
         Object.keys(data).forEach((v) => {
             let found = false;
             Object.keys(data[v]).forEach((vv) => {
                 if (
-                    data[v].id === '' &&
+                    tableFields.includes(vv) &&
                     typeof data[v][vv] === 'string' &&
-                    data[v][vv].toLowerCase().includes(searchText.toLowerCase())
+                    data[v][vv].toLowerCase().includes(searchText.toLowerCase()) &&
+                    !found
                 ) {
-                    if (!found) {
-                        arr.push(data[v]);
-                        found = true;
-                    }
+                    arr.push(data[v]);
+                    found = true;
                 }
             });
         });

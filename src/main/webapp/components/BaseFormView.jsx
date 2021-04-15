@@ -112,6 +112,7 @@ class BaseFormView extends PureComponent {
         const temState = {};
         this.entities.forEach((e) => {
             const tempEntity = {};
+            e.encrypted = typeof e.encrypted !== 'undefined' ? e.encrypted : false;
 
             if (props.mode === MODE_CREATE) {
                 tempEntity.value = typeof e.defaultValue !== 'undefined' ? e.defaultValue : null;
@@ -125,6 +126,7 @@ class BaseFormView extends PureComponent {
                     typeof this.currentInput[e.field] !== 'undefined'
                         ? this.currentInput[e.field]
                         : null;
+                tempEntity.value = e.encrypted ? '' : this.currentInput[e.field];
 
                 tempEntity.display =
                     typeof e?.options?.display !== 'undefined' ? e.options.display : true;
@@ -137,7 +139,8 @@ class BaseFormView extends PureComponent {
                 }
                 temState[e.field] = tempEntity;
             } else if (props.mode === MODE_CLONE) {
-                tempEntity.value = e.field === 'name' ? '' : this.currentInput[e.field];
+                tempEntity.value =
+                    e.field === 'name' || e.encrypted ? '' : this.currentInput[e.field];
                 tempEntity.display =
                     typeof e?.options?.display !== 'undefined' ? e.options.display : true;
                 tempEntity.error = false;
@@ -149,6 +152,7 @@ class BaseFormView extends PureComponent {
                     typeof this.currentInput[e.field] !== 'undefined'
                         ? this.currentInput[e.field]
                         : e.defaultValue;
+                tempEntity.value = e.encrypted ? '' : this.currentInput[e.field];
                 tempEntity.display =
                     typeof e?.options?.display !== 'undefined' ? e.options.display : true;
                 tempEntity.error = false;
