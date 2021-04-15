@@ -107,7 +107,9 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
         setRowData((currentRowData) => {
             return update(currentRowData, {
                 [row.serviceName]: {
-                    [row.name]: { __toggleShowSpinner: { $set: true } },
+                    [row.name]: {
+                        __toggleShowSpinner: { $set: true },
+                    },
                 },
             });
         });
@@ -123,7 +125,9 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
                 setRowData((currentRowData) => {
                     return update(currentRowData, {
                         [row.serviceName]: {
-                            [row.name]: { __toggleShowSpinner: { $set: false } },
+                            [row.name]: {
+                                __toggleShowSpinner: { $set: false },
+                            },
                         },
                     });
                 });
@@ -139,11 +143,6 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
                     },
                 });
             });
-            if (response.data.entry[0].content.disabled === true) {
-                generateToast(`Disabled ${response.data.entry[0].name}`, 'success');
-            } else {
-                generateToast(`Enabled ${response.data.entry[0].name}`, 'success');
-            }
         });
     };
 

@@ -12,6 +12,7 @@ import { generateToast } from '../util/util';
 import { axiosCallWrapper } from '../util/axiosCallWrapper';
 import TableContext from '../context/TableContext';
 import { parseErrorMsg } from '../util/messageUtil';
+import { PAGE_INPUT } from '../constants/pages';
 
 const ModalWrapper = styled(Modal)`
     width: 800px;
@@ -78,7 +79,7 @@ class DeleteModal extends Component {
 
     render() {
         let deleteMsg;
-        if (this.props.isInput) {
+        if (this.props.page === PAGE_INPUT) {
             deleteMsg = _(`Are you sure you want to delete "`) + this.props.stanzaName + _(`" ?`);
         } else {
             deleteMsg =
@@ -118,7 +119,7 @@ class DeleteModal extends Component {
 }
 
 DeleteModal.propTypes = {
-    isInput: PropTypes.bool,
+    page: PropTypes.string.isRequired,
     open: PropTypes.bool,
     handleRequestClose: PropTypes.func,
     serviceName: PropTypes.string,

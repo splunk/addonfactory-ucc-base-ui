@@ -41,7 +41,6 @@ function CustomTable({
     const { moreInfo } = tableConfig;
     const headers = tableConfig.header;
 
-    // TODO: add multi field mapping support
     const statusMapping = moreInfo?.filter((a) => a.mapping);
 
     const serviceToStyleMap = {};
@@ -180,7 +179,7 @@ function CustomTable({
     const generateDeleteDialog = () => {
         return (
             <DeleteModal
-                isInput
+                page={page}
                 open={deleteModal.open}
                 handleRequestClose={handleDeleteClose}
                 serviceName={deleteModal.serviceName}
