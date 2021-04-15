@@ -15,6 +15,7 @@ import CustomTableRow from './CustomTableRow';
 import EntityModal from '../EntityModal';
 import DeleteModal from '../DeleteModal';
 import TableContext from '../../context/TableContext';
+import { NoRecordsDiv } from './CustomTableStyle';
 
 function CustomTable({
     page,
@@ -267,6 +268,7 @@ function CustomTable({
                     {getTableBody()}
                 </Table>
             )}
+            {!data.length ? <NoRecordsDiv>No records found</NoRecordsDiv> : null}
             {generateModalDialog()}
             {generateDeleteDialog()}
         </>

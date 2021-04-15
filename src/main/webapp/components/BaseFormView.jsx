@@ -269,7 +269,7 @@ class BaseFormView extends PureComponent {
                 handleError: false,
             })
                 .catch((err) => {
-                    const errorSubmitMsg = parseErrorMsg(err?.response?.data?.messages[0]?.text);
+                    const errorSubmitMsg = parseErrorMsg(err);
                     this.setState({ errorMsg: errorSubmitMsg });
                     if (this.hook && typeof this.hook.onSaveFail === 'function') {
                         this.hook.onSaveFail();

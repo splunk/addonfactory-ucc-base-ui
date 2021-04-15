@@ -23,3 +23,7 @@ export const TableSelectBoxWrapper = styled.span`
         min-width: 100px;
     }
 `;
+
+export const NoRecordsDiv = styled.div`
+    text-align: center;
+`;
