@@ -8,7 +8,7 @@ import Menu from '@splunk/react-ui/Menu';
 import styled from 'styled-components';
 import ToastMessages from '@splunk/react-toast-notifications/ToastMessages';
 import { _ } from '@splunk/ui-utils/i18n';
-
+import { getFormattedMessage} from '../../util/messageUtil';
 import { getUnifiedConfigs } from '../../util/util';
 import { TitleComponent, SubTitleComponent } from './InputPageStyle';
 import { TableContextProvider } from '../../context/TableContext';
@@ -207,7 +207,7 @@ function InputPage() {
                             {services && services.length === 1 && (
                                 <ColumnLayout.Column span={3} className="input_button">
                                     <Button
-                                        label="Create New Input"
+                                        label= {getFormattedMessage(100)}
                                         appearance="primary"
                                         onClick={() => {
                                             handleRequestOpen(services[0].name, services[0].title);

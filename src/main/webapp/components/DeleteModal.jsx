@@ -11,7 +11,7 @@ import { generateToast } from '../util/util';
 
 import { axiosCallWrapper } from '../util/axiosCallWrapper';
 import TableContext from '../context/TableContext';
-import { parseErrorMsg } from '../util/messageUtil';
+import { parseErrorMsg, getFormattedMessage } from '../util/messageUtil';
 import { PAGE_INPUT } from '../constants/pages';
 
 const ModalWrapper = styled(Modal)`
@@ -80,19 +80,14 @@ class DeleteModal extends Component {
     render() {
         let deleteMsg;
         if (this.props.page === PAGE_INPUT) {
-            deleteMsg = _(`Are you sure you want to delete "`) + this.props.stanzaName + _(`" ?`);
+            deleteMsg = getFormattedMessage(103, [this.props.stanzaName]);
         } else {
-            deleteMsg =
-                _(`Are you sure you want to delete "`) +
-                this.props.stanzaName +
-                _(`" ? Ensure that no input is configured with "`) +
-                this.props.stanzaName +
-                _(`" as this will stop data collection for that input.`);
+            deleteMsg = getFormattedMessage(102, [this.props.stanzaName]);
         }
         return (
             <ModalWrapper open={this.props.open}>
                 <Modal.Header
-                    title={_('Delete Confirmation')}
+                    title={getFormattedMessage(101)}
                     onRequestClose={this.handleRequestClose}
                 />
                 <Modal.Body>
