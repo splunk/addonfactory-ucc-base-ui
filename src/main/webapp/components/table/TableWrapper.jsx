@@ -167,7 +167,7 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
         headers.forEach((headData) => {
             tableFields.push(headData.field);
         });
-        moreInfo.forEach((moreInfoData) => {
+        moreInfo?.forEach((moreInfoData) => {
             tableFields.push(moreInfoData.field);
         });
 
