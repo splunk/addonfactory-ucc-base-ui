@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import PropTypes from 'prop-types';
-import Select from '@splunk/react-ui/Select';
-import ComboBox from '@splunk/react-ui/ComboBox';
-import Button from '@splunk/react-ui/Button';
-import Clear from '@splunk/react-icons/Clear';
+
 import { _ } from '@splunk/ui-utils/i18n';
+import useSplunkTheme from '@splunk/themes/useSplunkTheme';
 import axios from 'axios';
 import styled from 'styled-components';
 
 import { axiosCallWrapper } from '../util/axiosCallWrapper';
 import { filterResponse } from '../util/util';
-import ComboBoxWrapper from './ComboBoxWrapper';
 
 const SelectWrapper = styled(Select)`
     width: 300px !important;
 `;
 
-function SingleInputComponent(props) {
+const CreatableSelectWrapper = styled(CreatableSelect)`
+    width: 300px !important;
+`;
+
+function AltSingleInputComponent(props) {
     const {
         field,
         disabled = false,
@@ -38,43 +41,56 @@ function SingleInputComponent(props) {
         autoCompleteFields,
     } = controlOptions;
 
-    function handleChange(e, obj) {
-        restProps.handleChange(field, obj.value);
-    }
-    const [labelValueMapping, setLabelValueMapping] = useState(null);
-    // const [isGroup, setIsGroup] = useState(false);
-    const Option = createSearchChoice ? ComboBox.Option : Select.Option;
-    const Heading = createSearchChoice ? ComboBox.Heading : Select.Heading;
+    const handleChange = (newValue, actionMeta) => {
+        restProps.handleChange(field, newValue?.value || '');
+        console.group('Value Changed');
+        console.log(newValue);
+        console.log(`action: ${actionMeta.action}`);
+        console.groupEnd();
+    };
 
     function generateOptions(items) {
         const data = [];
-        const mapping = new Map();
-        // let groupFlag = false;
+
         items.forEach((item) => {
             if (item.value && item.label) {
-                // TODO: add conditional label in case of Select
-                data.push(<Option label={item.label} value={item.value} key={item.value} />);
-                mapping.set(item.label, item.value);
-                // data.push(<Option value={item.label} key={item.value} />);
+                data.push({ label: item.label, value: item.value });
             }
             if (item.children && item.label) {
-                // groupFlag = true;
-                mapping.set(item.label.toUpperCase(), new Map());
-                data.push(<Heading key={item.label}>{item.label}</Heading>);
+                const groupedItem = { label: item.label, options: [] };
                 item.children.forEach((child) => {
-                    data.push(<Option label={child.label} value={child.value} key={child.value} />);
-                    mapping.get(item.label.toUpperCase()).set(child.label, child.value);
-                    // data.push(<Option value={child.label} key={child.value} />);
+                    groupedItem.options.push({ label: child.label, value: child.value });
                 });
+                data.push(groupedItem);
             }
         });
-        setLabelValueMapping(mapping);
-        // setIsGroup(groupFlag);
         return data;
     }
 
     const [loading, setLoading] = useState(false);
     const [options, setOptions] = useState(null);
+    const [effectiveValue, setEffectiveValue] = useState({});
+    const { errorColor } = useSplunkTheme();
+
+    useEffect(() => {
+        setLoading(true);
+        let item = options?.find((x) =>
+            Object.prototype.hasOwnProperty.call(x, 'value')
+                ? x.value === props.value
+                : x.options.find((y) => y.value === props.value)
+        );
+        console.group('Item', field);
+        console.log(props.value);
+        console.log(item);
+        if (!item && options) {
+            item = { label: props.value, value: props.value };
+            // setOptions([...options, item]);
+        }
+        console.log(item);
+        console.groupEnd();
+        setEffectiveValue(item || {});
+        setLoading(false);
+    }, [options, props.value]);
 
     useEffect(() => {
         if (!endpointUrl && !referenceName && autoCompleteFields) {
@@ -126,47 +142,54 @@ function SingleInputComponent(props) {
     const effectiveDisabled = loading ? true : disabled;
     const effectivePlaceholder = loading ? _('Loading') : placeholder;
 
+    const customStyles = {
+        control: (base) => ({
+            ...base,
+            borderColor: error ? errorColor : base.borderColor,
+        }),
+    };
+    console.log('color', errorColor);
+    console.log(effectiveValue);
+    console.log(effectivePlaceholder);
+
     return (
         <>
             {createSearchChoice ? (
-                <ComboBoxWrapper
-                    value={props.value === null ? '' : props.value}
-                    name={field}
-                    error={error}
+                <CreatableSelectWrapper
+                    className="basic-single"
+                    classNamePrefix="select"
+                    value={effectiveValue.value ? effectiveValue : ''}
                     placeholder={effectivePlaceholder}
-                    disabled={effectiveDisabled}
-                    labelValueMapping={labelValueMapping}
-                    // isGroup={isGroup}
-                    handleChange={handleChange}
-                >
-                    {options && options.length > 0 && options}
-                </ComboBoxWrapper>
+                    isDisabled={effectiveDisabled}
+                    isClearable
+                    isLoading={loading}
+                    isSearchable={!disableSearch}
+                    name={field}
+                    options={options}
+                    onChange={handleChange}
+                    styles={customStyles}
+                />
             ) : (
-                <>
-                    <SelectWrapper
-                        value={props.value}
-                        name={field}
-                        error={error}
-                        placeholder={effectivePlaceholder}
-                        disabled={effectiveDisabled}
-                        onChange={handleChange}
-                        filter={!disableSearch}
-                        inline
-                    >
-                        {options && options.length > 0 && options}
-                    </SelectWrapper>
-                    <Button
-                        appearance="secondary"
-                        icon={<Clear />}
-                        onClick={() => restProps.handleChange(field, '')}
-                    />
-                </>
+                <SelectWrapper
+                    className="basic-single"
+                    classNamePrefix="select"
+                    value={effectiveValue.value ? effectiveValue : ''}
+                    placeholder={effectivePlaceholder}
+                    isDisabled={effectiveDisabled}
+                    isClearable
+                    isLoading={loading}
+                    isSearchable={!disableSearch}
+                    name={field}
+                    options={options}
+                    onChange={handleChange}
+                    styles={customStyles}
+                />
             )}
         </>
     );
 }
 
-SingleInputComponent.propTypes = {
+AltSingleInputComponent.propTypes = {
     disabled: PropTypes.bool,
     value: PropTypes.string,
     error: PropTypes.bool,
@@ -187,4 +210,4 @@ SingleInputComponent.propTypes = {
     }),
 };
 
-export default SingleInputComponent;
+export default AltSingleInputComponent;
