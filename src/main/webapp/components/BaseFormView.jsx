@@ -565,6 +565,7 @@ class BaseFormView extends PureComponent {
     };
 
     handleChange = (field, targetValue) => {
+        console.log(field, targetValue);
         const changes = {};
         if (field === 'auth_type') {
             Object.keys(this.authMap).forEach((type) => {

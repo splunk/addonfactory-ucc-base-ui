@@ -74,17 +74,29 @@ function AltSingleInputComponent(props) {
 
     useEffect(() => {
         setLoading(true);
-        let item = options?.find((x) =>
-            Object.prototype.hasOwnProperty.call(x, 'value')
-                ? x.value === props.value
-                : x.options.find((y) => y.value === props.value)
-        );
+        let item;
+        (options || []).every((x) => {
+            if (Object.prototype.hasOwnProperty.call(x, 'value')) {
+                if (x.value === props.value) {
+                    item = x;
+                    return false;
+                }
+            } else {
+                x.options.every((y) => {
+                    if (y.value === props.value) {
+                        item = y;
+                        return false;
+                    }
+                    return true;
+                });
+            }
+            return true;
+        });
         console.group('Item', field);
         console.log(props.value);
         console.log(item);
         if (!item && options) {
             item = { label: props.value, value: props.value };
-            // setOptions([...options, item]);
         }
         console.log(item);
         console.groupEnd();
@@ -148,9 +160,6 @@ function AltSingleInputComponent(props) {
             borderColor: error ? errorColor : base.borderColor,
         }),
     };
-    console.log('color', errorColor);
-    console.log(effectiveValue);
-    console.log(effectivePlaceholder);
 
     return (
         <>
