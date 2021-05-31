@@ -115,7 +115,7 @@ function CustomTable({
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [entityModal][history.location.search]
+        [entityModal, history.location.search]
     );
 
     const handleDeleteClose = () => {
