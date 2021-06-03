@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { _ } from '@splunk/ui-utils/i18n';
@@ -62,15 +62,11 @@ function ConfigurationPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleChange = useCallback(
-        (e, { selectedTabId }) => {
-            setActiveTabId(selectedTabId);
-            query.set('tab', selectedTabId);
-            history.push({ search: query.toString() });
-        },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [activeTabId]
-    );
+    const handleChange = (e, { selectedTabId }) => {
+        setActiveTabId(selectedTabId);
+        query.set('tab', selectedTabId);
+        history.push({ search: query.toString() });
+    };
 
     return (
         <ErrorBoundary>
@@ -100,6 +96,7 @@ function ConfigurationPage() {
                             key={tab.name}
                             serviceName={tab.name}
                             serviceTitle={tab.title}
+                            isActive={activeTabId === tab.name}
                         />
                     </div>
                 ) : (

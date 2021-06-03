@@ -20,6 +20,7 @@ import { NoRecordsDiv } from './CustomTableStyle';
 function CustomTable({
     page,
     serviceName,
+    isActive,
     data,
     handleToggleActionClick,
     handleOpenPageStyleDialog,
@@ -58,32 +59,34 @@ function CustomTable({
     // and when query params are updated
     useEffect(() => {
         // Only run when tab matches serviceName or if in input page where serviceName is undefined
-        if (query && (query.get('tab') === serviceName || typeof serviceName === 'undefined')) {
-            // Open modal when record is available in query params and modal is not open
-            if (query.get('record') && !entityModal.open) {
-                const serviceKey = Object.keys(rowData).find(
-                    (x) => typeof rowData[x][query.get('record')] !== 'undefined'
-                );
-                if (serviceKey) {
-                    const row = rowData[serviceKey][query.get('record')];
-                    setEntityModal({
-                        ...entityModal,
-                        open: true,
-                        serviceName: row.serviceName,
-                        stanzaName: row.name,
-                        mode: MODE_EDIT,
-                    });
+        if (isActive) {
+            if (query && (query.get('tab') === serviceName || typeof serviceName === 'undefined')) {
+                // Open modal when record is available in query params and modal is not open
+                if (query.get('record') && !entityModal.open) {
+                    const serviceKey = Object.keys(rowData).find(
+                        (x) => typeof rowData[x][query.get('record')] !== 'undefined'
+                    );
+                    if (serviceKey) {
+                        const row = rowData[serviceKey][query.get('record')];
+                        setEntityModal({
+                            ...entityModal,
+                            open: true,
+                            serviceName: row.serviceName,
+                            stanzaName: row.name,
+                            mode: MODE_EDIT,
+                        });
+                    }
+                } else if (!query.get('record') && entityModal.open) {
+                    // Close modal if record query param is not available and modal is open
+                    // NOTE: This should only be executed in case of MODE_EDIT which is handled by
+                    // useEffect dependency which will only be changed in case of editing entity
+                    setEntityModal({ ...entityModal, open: false });
                 }
-            } else if (!query.get('record') && entityModal.open) {
-                // Close modal if record query param is not available and modal is open
-                // NOTE: This should only be executed in case of MODE_EDIT which is handled by
-                // useEffect dependency which will only be changed in case of editing entity
-                setEntityModal({ ...entityModal, open: false });
+            } else if (query.get('tab') !== serviceName && query.get('record')) {
+                // remove the record param in case of wrong tab
+                query.delete('record');
+                history.push({ search: query.toString() });
             }
-        } else if (query.get('tab') !== serviceName && query.get('record')) {
-            // remove the record param in case of wrong tab
-            query.delete('record');
-            history.push({ search: query.toString() });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [history.location.search]);
@@ -97,26 +100,22 @@ function CustomTable({
         }
     };
 
-    const handleEditActionClick = useCallback(
-        (selectedRow) => {
-            if (serviceToStyleMap[selectedRow.serviceName] === 'page') {
-                handleOpenPageStyleDialog(selectedRow, MODE_EDIT);
-            } else {
-                setEntityModal({
-                    ...entityModal,
-                    open: true,
-                    serviceName: selectedRow.serviceName,
-                    stanzaName: selectedRow.name,
-                    mode: MODE_EDIT,
-                });
-                // set query and push to history
-                query.set('record', selectedRow.name);
-                history.push({ search: query.toString() });
-            }
-        },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [entityModal, history.location.search]
-    );
+    const handleEditActionClick = (selectedRow) => {
+        if (serviceToStyleMap[selectedRow.serviceName] === 'page') {
+            handleOpenPageStyleDialog(selectedRow, MODE_EDIT);
+        } else {
+            setEntityModal({
+                ...entityModal,
+                open: true,
+                serviceName: selectedRow.serviceName,
+                stanzaName: selectedRow.name,
+                mode: MODE_EDIT,
+            });
+            // set query and push to history
+            query.set('record', selectedRow.name);
+            history.push({ search: query.toString() });
+        }
+    };
 
     const handleDeleteClose = () => {
         setDeleteModal({ ...deleteModal, open: false });
@@ -283,6 +282,7 @@ function CustomTable({
 CustomTable.propTypes = {
     page: PropTypes.string.isRequired,
     serviceName: PropTypes.string,
+    isActive: PropTypes.bool,
     data: PropTypes.array.isRequired,
     handleToggleActionClick: PropTypes.func,
     handleOpenPageStyleDialog: PropTypes.func,

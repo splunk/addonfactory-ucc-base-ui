@@ -9,7 +9,7 @@ import EntityModal from './EntityModal';
 import { MODE_CREATE } from '../constants/modes';
 import { PAGE_CONF } from '../constants/pages';
 
-function ConfigurationTable({ serviceName, serviceTitle }) {
+function ConfigurationTable({ serviceName, serviceTitle, isActive }) {
     const [open, setOpen] = useState(false);
     const serviceLabel = `Add ${serviceTitle}`;
 
@@ -42,6 +42,7 @@ function ConfigurationTable({ serviceName, serviceTitle }) {
                 <TableWrapper
                     page={PAGE_CONF}
                     serviceName={serviceName}
+                    isActive={isActive}
                     handleRequestModalOpen={() => handleRequestOpen()}
                 />
                 <ToastMessages position="top-right" />
@@ -54,6 +55,7 @@ function ConfigurationTable({ serviceName, serviceTitle }) {
 ConfigurationTable.propTypes = {
     serviceName: PropTypes.string.isRequired,
     serviceTitle: PropTypes.string.isRequired,
+    isActive: PropTypes.bool,
 };
 
 export default memo(ConfigurationTable);
