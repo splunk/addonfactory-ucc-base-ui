@@ -50,7 +50,7 @@ jobs:
         uses: apache/skywalking-eyes@main # always prefer to use a revision instead of `main`.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # needed only when you want License-Eye to comment on the pull request.
-  
+
   lint:
     runs-on: ubuntu-latest
     name: Lint Code Base
@@ -150,7 +150,7 @@ jobs:
         #NPM in some unusual way
         run: |
           cp -f /tmp/analysis-reports/NOTICE_default THIRDPARTY
-          cp -f /tmp/analysis-reports/NOTICE_default dist/THIRDPARTY
+          cp -f /tmp/analysis-reports/NOTICE_default dist/THIRDPARTY-UCC-FRONTEND
 
       - run: tar -czf /tmp/splunk-ucc-ui.tgz -C dist .
       - uses: actions/upload-artifact@v2

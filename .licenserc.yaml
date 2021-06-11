@@ -39,4 +39,5 @@ header:
     - "**/*.js"
     - "**/*.jsx"
     - "package.json"
+    - "src/main/webapp/schema/schema.json"
   comment: on-failure
