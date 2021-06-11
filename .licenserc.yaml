@@ -35,7 +35,8 @@ header:
     - "*.po"
     - "test/functional/sample_ta/**"
     - "test/functional/data/**"
-    - "examples/**"
-    - "**/*.json"
-
+    - "src/main/resources/splunk/default/app.conf"
+    - "**/*.js"
+    - "**/*.jsx"
+    - "package.json"
   comment: on-failure
