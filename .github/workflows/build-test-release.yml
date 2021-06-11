@@ -152,7 +152,7 @@ jobs:
       - run: yarn run setup
       - run: yarn run build
 
-      - run: tar -czf /tmp/splunk-ucc-ui.tgz -C dist .
+      - run: tar -czvf /tmp/splunk-ucc-ui.tgz -C dist .
       - uses: actions/upload-artifact@v2
         with:
           name: splunk-ucc-ui
