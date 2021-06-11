@@ -148,11 +148,9 @@ jobs:
         #NPM in some unusual way
         run: |
           cp -f /tmp/analysis-reports/NOTICE_default THIRDPARTY
-          cp -f /tmp/analysis-reports/NOTICE_default dist/THIRDPARTY-UCC-FRONTEND
 
       - run: yarn run setup
       - run: yarn run build
-
 
       - run: tar -czf /tmp/splunk-ucc-ui.tgz -C dist .
       - uses: actions/upload-artifact@v2
