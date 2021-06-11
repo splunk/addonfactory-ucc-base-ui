@@ -138,6 +138,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-${{ matrix.node-version }}
 
+      - uses: actions/download-artifact@v2
+        with:
+          name: analysis-reports
+          path: /tmp/analysis-reports
+
       - name: Update Notices
         #Note while in most projects we use "NOTICE" the size of this file breaks
         #NPM in some unusual way
@@ -148,10 +153,6 @@ jobs:
       - run: yarn run setup
       - run: yarn run build
 
-      - uses: actions/download-artifact@v2
-        with:
-          name: analysis-reports
-          path: /tmp/analysis-reports
 
       - run: tar -czf /tmp/splunk-ucc-ui.tgz -C dist .
       - uses: actions/upload-artifact@v2
