@@ -137,13 +137,6 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-${{ matrix.node-version }}
-      - run: yarn run setup
-      - run: yarn run build
-
-      - uses: actions/download-artifact@v2
-        with:
-          name: analysis-reports
-          path: /tmp/analysis-reports
 
       - name: Update Notices
         #Note while in most projects we use "NOTICE" the size of this file breaks
@@ -151,6 +144,14 @@ jobs:
         run: |
           cp -f /tmp/analysis-reports/NOTICE_default THIRDPARTY
           cp -f /tmp/analysis-reports/NOTICE_default dist/THIRDPARTY-UCC-FRONTEND
+
+      - run: yarn run setup
+      - run: yarn run build
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: analysis-reports
+          path: /tmp/analysis-reports
 
       - run: tar -czf /tmp/splunk-ucc-ui.tgz -C dist .
       - uses: actions/upload-artifact@v2
