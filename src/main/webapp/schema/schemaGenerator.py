@@ -63,7 +63,7 @@ class ValidatorBase(DocumentWithoutAddProp):
 class Meta(DocumentWithoutAddProp):
     displayName = StringField(required=True, max_length=200)
     name = StringField(required=True, pattern="^[^<>\:\"\/\\\|\?\*]+$")
-    restRoot = StringField(required=True, pattern="^\w+$")
+    restRoot = StringField(required=True, pattern="^[\w-]+$")
     apiVersion = StringField(required=True, pattern="^(?:\d{1,3}\.){2}\d{1,3}$")
     version = StringField(required=True)
     schemaVersion = StringField( pattern="^(?:\d{1,3}\.){2}\d{1,3}$")
@@ -378,7 +378,7 @@ class UCCConfig(DocumentWithoutAddProp):
 # SchemaGenerator responsible to generate schema json file holding information of Flow of UI based on UCCConfig Object
 ##
 if __name__ == "__main__":
-    formated = json.dumps(UCCConfig.get_schema(ordered=True), indent=4)
+    formated = json.dumps(UCCConfig.get_schema(ordered=True), indent=2)
     formated = formated.replace("__main__.", "")
 
     cur_dir = os.path.dirname(__file__)
