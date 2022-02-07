@@ -10,75 +10,75 @@ on:
     branches: [main, develop]
 
 jobs:
-  compliance-dependencies:
-    name: Compliance Dependencies
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: ort-action
-        uses: splunk/addonfactory-ort-action@v1.4
-        id: ort-action
-      - name: ort-action-artifacts-reports
-        uses: actions/upload-artifact@v2
-        with:
-          name: analysis-reports
-          path: |
-            .ort/reports/*
-        if: always()
-      - name: ort-action-artifacts-analyzer
-        uses: actions/upload-artifact@v2
-        with:
-          name: analysis-analyzer
-          path: |
-            .ort/analyzer/*
-        if: always()
-  compliance-copyrights:
-    name: Compliance Copyright Headers
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Check License Header
-        uses: apache/skywalking-eyes@main # always prefer to use a revision instead of `main`.
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # needed only when you want License-Eye to comment on the pull request.
-
-  lint:
-    runs-on: ubuntu-latest
-    name: Lint Code Base
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          # Full git history is needed to get a proper list of changed files within `super-linter`
-          fetch-depth: 0
-      - name: Lint Code Base
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  semgrep:
-    runs-on: ubuntu-latest
-    name: security-sast-semgrep
-    steps:
-      - uses: actions/checkout@v2
-      - name: Semgrep
-        id: semgrep
-        uses: returntocorp/semgrep-action@v1
-        with:
-          publishToken: ${{ secrets.SEMGREP_PUBLISH_TOKEN }}
+#  compliance-dependencies:
+#    name: Compliance Dependencies
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: ort-action
+#        uses: splunk/addonfactory-ort-action@v1.4
+#        id: ort-action
+#      - name: ort-action-artifacts-reports
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: analysis-reports
+#          path: |
+#            .ort/reports/*
+#        if: always()
+#      - name: ort-action-artifacts-analyzer
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: analysis-analyzer
+#          path: |
+#            .ort/analyzer/*
+#        if: always()
+#  compliance-copyrights:
+#    name: Compliance Copyright Headers
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: Check License Header
+#        uses: apache/skywalking-eyes@main # always prefer to use a revision instead of `main`.
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # needed only when you want License-Eye to comment on the pull request.
+#
+#  lint:
+#    runs-on: ubuntu-latest
+#    name: Lint Code Base
+#    steps:
+#      - uses: actions/checkout@v2
+#        with:
+#          # Full git history is needed to get a proper list of changed files within `super-linter`
+#          fetch-depth: 0
+#      - name: Lint Code Base
+#        uses: github/super-linter@v4
+#        env:
+#          VALIDATE_ALL_CODEBASE: false
+#          DEFAULT_BRANCH: main
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#
+#  semgrep:
+#    runs-on: ubuntu-latest
+#    name: security-sast-semgrep
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Semgrep
+#        id: semgrep
+#        uses: returntocorp/semgrep-action@v1
+#        with:
+#          publishToken: ${{ secrets.SEMGREP_PUBLISH_TOKEN }}
 
   build:
     name: Build Release
     strategy:
       matrix:
         node-version: [14.x]
-    needs:
-      - compliance-copyrights
-      - compliance-dependencies
+#    needs:
+#      - compliance-copyrights
+#      - compliance-dependencies
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -105,19 +105,24 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-${{ matrix.node-version }}
 
-      - uses: actions/download-artifact@v2
-        with:
-          name: analysis-reports
-          path: /tmp/analysis-reports
+#      - uses: actions/download-artifact@v2
+#        with:
+#          name: analysis-reports
+#          path: /tmp/analysis-reports
 
-      - name: Update Notices
+#      - name: Update Notices
         #Note while in most projects we use "NOTICE" the size of this file breaks
         #NPM in some unusual way
-        run: |
-          cp -f /tmp/analysis-reports/NOTICE_default THIRDPARTY
+#        run: |
+#          cp -f /tmp/analysis-reports/NOTICE_default THIRDPARTY
 
       - run: yarn run setup
       - run: yarn run build
+      - run: |
+         cd dist
+         ls -al
+         cd package/appserver/static/js/build
+         ls -al
 
       - run: tar -czvf /tmp/splunk-ucc-ui.tgz -C dist .
       - uses: actions/upload-artifact@v2
@@ -125,22 +130,22 @@ jobs:
           name: splunk-ucc-ui
           path: /tmp/splunk-ucc-ui.tgz
 
-      - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v2.5.4
-        with:
-          semantic_version: 17
-          extra_plugins: |
-            @semantic-release/exec
-            @semantic-release/git
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_ADMIN }}
-          PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-  update-semver:
-    name: Move Respository semver tags
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: haya14busa/action-update-semver@v1
+#      - name: Semantic Release
+#        uses: cycjimmy/semantic-release-action@v2.5.4
+#        with:
+#          semantic_version: 17
+#          extra_plugins: |
+#            @semantic-release/exec
+#            @semantic-release/git
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_ADMIN }}
+#          PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
+#          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+#  update-semver:
+#    name: Move Respository semver tags
+#    if: startsWith(github.ref, 'refs/tags/v')
+#    needs: build
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - uses: haya14busa/action-update-semver@v1
