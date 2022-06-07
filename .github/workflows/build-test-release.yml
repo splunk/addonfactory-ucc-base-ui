@@ -99,8 +99,6 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: THIRDPARTY
-      - name: Update Notices
-        run: cp -f THIRDPARTY THIRDPARTY
 
       - run: yarn run setup
       - run: yarn run build
