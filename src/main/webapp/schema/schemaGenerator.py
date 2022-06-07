@@ -17,7 +17,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-from builtins import object
 import json
 import os
 
@@ -43,7 +42,7 @@ from jsl import (
 
 # Base Document Class with restricting properties population
 class DocumentWithoutAddProp(Document):
-    class Options(object):
+    class Options:
         additional_properties = False
 
 
@@ -69,7 +68,7 @@ class ValidatorBase(DocumentWithoutAddProp):
 # MetaData component for detailing brief information of document/component
 class Meta(DocumentWithoutAddProp):
     displayName = StringField(required=True, max_length=200)
-    name = StringField(required=True, pattern='^[^<>\:"\/\\\|\?\*]+$')
+    name = StringField(required=True, pattern='^[^<>\\:"\\/\\\\|\\?\\*]+$')
     restRoot = StringField(required=True, pattern=r"^\w+$")
     apiVersion = StringField(required=False, pattern=r"^(?:\d{1,3}\.){2}\d{1,3}$")
     version = StringField(required=True)
@@ -260,7 +259,7 @@ class Table(DocumentWithoutAddProp):
     moreInfo = ArrayField(
         DictField(
             properties={
-                "field": StringField(required=True, pattern="^\w+$"),
+                "field": StringField(required=True, pattern=r"^\w+$"),
                 "label": StringField(required=True, max_length=30),
                 "mapping": DictField(required=False),
             }
@@ -270,7 +269,7 @@ class Table(DocumentWithoutAddProp):
     header = ArrayField(
         DictField(
             properties={
-                "field": StringField(required=True, pattern="^\w+$"),
+                "field": StringField(required=True, pattern=r"^\w+$"),
                 "label": StringField(required=True, max_length=30),
                 "mapping": DictField(required=False),
                 "customCell": DictField(required=False),
