@@ -20,14 +20,26 @@
 from builtins import object
 import json
 import os
-from jsl import AnyOfField, ArrayField, BooleanField, DictField, Document
-from jsl import DocumentField, NumberField, OneOfField, StringField, UriField
+
+from jsl import (
+    AnyOfField,
+    ArrayField,
+    BooleanField,
+    DictField,
+    Document,
+    DocumentField,
+    NumberField,
+    OneOfField,
+    StringField,
+    UriField,
+)
 
 ###
 # TODO Need to fix this: Make sure schemagenerator generates proper element for hook
 # For time being do the following change in generated schema.json
 # replace: "hook": {"$ref": "#/definitions/Hooks"} with "hook": {"type": "object"}
 ###
+
 
 # Base Document Class with restricting properties population
 class DocumentWithoutAddProp(Document):
@@ -58,10 +70,10 @@ class ValidatorBase(DocumentWithoutAddProp):
 class Meta(DocumentWithoutAddProp):
     displayName = StringField(required=True, max_length=200)
     name = StringField(required=True, pattern='^[^<>\:"\/\\\|\?\*]+$')
-    restRoot = StringField(required=True, pattern="^\w+$")
-    apiVersion = StringField(required=False, pattern="^(?:\d{1,3}\.){2}\d{1,3}$")
+    restRoot = StringField(required=True, pattern=r"^\w+$")
+    apiVersion = StringField(required=False, pattern=r"^(?:\d{1,3}\.){2}\d{1,3}$")
     version = StringField(required=True)
-    schemaVersion = StringField(pattern="^(?:\d{1,3}\.){2}\d{1,3}$")
+    schemaVersion = StringField(pattern=r"^(?:\d{1,3}\.){2}\d{1,3}$")
 
 
 # Text validator for the String Field Value input
@@ -105,7 +117,7 @@ class UrlValidator(ValidatorBase):
 
 # Entity for Alert Actions
 class AlertEntity(DocumentWithoutAddProp):
-    field = StringField(required=True, pattern="^\w+$")
+    field = StringField(required=True, pattern=r"^\w+$")
     label = StringField(required=True, max_length=30)
     type = StringField(
         required=True,
@@ -129,7 +141,7 @@ class AlertEntity(DocumentWithoutAddProp):
 #  Validators and UI Controls such as visibility etc
 ##
 class Entity(DocumentWithoutAddProp):
-    field = StringField(required=True, pattern="^\w+$")
+    field = StringField(required=True, pattern=r"^\w+$")
     label = StringField(required=True, max_length=30)
     type = StringField(
         required=True,
@@ -222,7 +234,7 @@ class InputsEntity(Entity):
 
     field = StringField(
         required=True,
-        pattern="(?!^(?:persistentQueueSize|queueSize|start_by_shell|output_mode|output_field|owner|app|sharing)$)(?:^\w+$)",
+        pattern=r"(?!^(?:persistentQueueSize|queueSize|start_by_shell|output_mode|output_field|owner|app|sharing)$)(?:^\w+$)",
     )
 
 
@@ -237,7 +249,7 @@ class InputsEntity(Entity):
 class ConfigurationEntity(Entity):
     field = StringField(
         required=True,
-        pattern="(?!^(?:output_mode|output_field|owner|app|sharing)$)(?:^\w+$)",
+        pattern=r"(?!^(?:output_mode|output_field|owner|app|sharing)$)(?:^\w+$)",
     )
 
 
@@ -300,7 +312,7 @@ class Hooks(DocumentWithoutAddProp):
 ##
 class TabContent(DocumentWithoutAddProp):
     entity = ArrayField(DocumentField(ConfigurationEntity, as_ref=True), required=True)
-    name = StringField(required=True, pattern="^[\/\w]+$", max_length=250)
+    name = StringField(required=True, pattern=r"^[\/\w]+$", max_length=250)
     title = StringField(required=True, max_length=50)
     options = DocumentField(Hooks, as_ref=True)
     table = DocumentField(ConfigurationTable, as_ref=True)
@@ -351,7 +363,7 @@ class InputsPage(DocumentWithoutAddProp):
                             ),
                             "label": StringField(required=True, max_length=100),
                             "field": ArrayField(
-                                StringField(required=True, pattern="^\w+$")
+                                StringField(required=True, pattern=r"^\w+$")
                             ),
                         }
                     ),
@@ -381,7 +393,7 @@ class Pages(DocumentWithoutAddProp):
 ##
 class Technology(DocumentWithoutAddProp):
     version = ArrayField(
-        StringField(required=True, pattern="^\d+(?:\.\d+)*$"),
+        StringField(required=True, pattern=r"^\d+(?:\.\d+)*$"),
         required=True,
         min_items=1,
     )
