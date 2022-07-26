@@ -37,11 +37,11 @@ function CustomTable({
             ? unifiedConfigs.pages.inputs.table
             : unifiedConfigs.pages.configuration.tabs.filter((x) => x.name === serviceName)[0]
                   .table;
-    const { moreInfo, header } = tableConfig;
+    const { moreInfo, actions } = tableConfig;
     const headers = tableConfig.header;
 
     const headerMapping = {};
-    header.forEach((x) => {
+    headers.forEach((x) => {
         headerMapping[x.field] = x.mapping;
     });
 
@@ -189,7 +189,9 @@ function CustomTable({
                 });
             });
         }
-        column.push({ label: 'Actions', field: 'actions', sortKey: '' });
+        if (actions.filter((x) => x !== 'add').length > 0) {
+            column.push({ label: 'Actions', field: 'actions', sortKey: '' });
+        }
         return column;
     };
 
@@ -227,6 +229,8 @@ function CustomTable({
                                 key={row.id}
                                 row={row}
                                 columns={columns}
+                                // rename prop to avoid collision with build-in props
+                                rowActions={actions}
                                 headerMapping={headerMapping}
                                 {...{
                                     handleEditActionClick,

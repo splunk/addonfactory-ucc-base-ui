@@ -194,38 +194,51 @@ function InputPage() {
                                 <TitleComponent>{_(title)}</TitleComponent>
                                 <SubTitleComponent>{_(description || '')}</SubTitleComponent>
                             </ColumnLayout.Column>
-                            {services && services.length > 1 && !customMenuField?.src && (
-                                <ColumnLayout.Column className="dropdown" span={3}>
-                                    <Dropdown toggle={toggle}>
-                                        <Menu
-                                            onClick={(event) => {
-                                                const findname =
-                                                    services[
-                                                        services.findIndex(
-                                                            (x) =>
-                                                                x.title === event.target.innerText
-                                                        )
-                                                    ].name;
-                                                handleRequestOpen(findname, event.target.innerText);
+                            {services &&
+                                services.length > 1 &&
+                                !customMenuField?.src &&
+                                unifiedConfigs.pages.inputs.table.actions.includes('add') && (
+                                    <ColumnLayout.Column className="dropdown" span={3}>
+                                        <Dropdown toggle={toggle}>
+                                            <Menu
+                                                onClick={(event) => {
+                                                    const findname =
+                                                        services[
+                                                            services.findIndex(
+                                                                (x) =>
+                                                                    x.title ===
+                                                                    event.target.innerText
+                                                            )
+                                                        ].name;
+                                                    handleRequestOpen(
+                                                        findname,
+                                                        event.target.innerText
+                                                    );
+                                                }}
+                                            >
+                                                {getInputMenu()}
+                                            </Menu>
+                                        </Dropdown>
+                                    </ColumnLayout.Column>
+                                )}
+                            {services &&
+                                services.length === 1 &&
+                                !customMenuField?.src &&
+                                unifiedConfigs.pages.inputs.table.actions.includes('add') && (
+                                    <ColumnLayout.Column span={3} className="input_button">
+                                        <Button
+                                            label={getFormattedMessage(100)}
+                                            appearance="primary"
+                                            id="addInputBtn"
+                                            onClick={() => {
+                                                handleRequestOpen(
+                                                    services[0].name,
+                                                    services[0].title
+                                                );
                                             }}
-                                        >
-                                            {getInputMenu()}
-                                        </Menu>
-                                    </Dropdown>
-                                </ColumnLayout.Column>
-                            )}
-                            {services && services.length === 1 && !customMenuField?.src && (
-                                <ColumnLayout.Column span={3} className="input_button">
-                                    <Button
-                                        label={getFormattedMessage(100)}
-                                        appearance="primary"
-                                        id="addInputBtn"
-                                        onClick={() => {
-                                            handleRequestOpen(services[0].name, services[0].title);
-                                        }}
-                                    />
-                                </ColumnLayout.Column>
-                            )}
+                                        />
+                                    </ColumnLayout.Column>
+                                )}
                             {customMenuField?.src && (
                                 <ColumnLayout.Column span={3} className="input_button">
                                     {React.createElement(CustomMenu, {

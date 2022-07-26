@@ -101,13 +101,15 @@ function TableHeader({ page, services, totalElement, handleRequestModalOpen }) {
                     alwaysShowLastPageLink
                     totalPages={Math.ceil(totalElement / pageSize)}
                 />
-                {page === PAGE_INPUT ? null : (
-                    <Button
-                        label={_('Add')}
-                        appearance="primary"
-                        onClick={handleRequestModalOpen}
-                    />
-                )}
+                {page === PAGE_INPUT
+                    ? null
+                    : services[0].table.actions.includes('add') && (
+                          <Button
+                              label={_('Add')}
+                              appearance="primary"
+                              onClick={handleRequestModalOpen}
+                          />
+                      )}
             </div>
         </TableHeaderWrapper>
     );

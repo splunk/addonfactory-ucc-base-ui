@@ -432,7 +432,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["edit", "delete", "clone"]
+            "enum": ["edit", "delete", "clone", "add"]
           }
         }
       },
@@ -846,7 +846,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["edit", "delete", "clone", "enable"]
+            "enum": ["edit", "delete", "clone", "add"]
           }
         }
       },
