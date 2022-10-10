@@ -28,6 +28,5 @@ function loadYAMLFile() {
 }
 
 export function loadGlobalConfig() {
-    // Get the configuraiton json file in sync mode
     return loadJSONFile().catch(e => loadYAMLFile());
 }
