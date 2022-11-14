@@ -53,12 +53,16 @@ function InputPage() {
         <Button appearance="primary" id="addInputBtn" label={_('Create New Input')} isMenu />
     );
     const PERMITTED_MODES = [MODE_CLONE, MODE_CREATE, MODE_EDIT];
+    const permittedTabNames = services.map((service) => {
+        return service.name;
+    });
 
     const history = useHistory();
     const query = useQuery();
 
     useEffect(() => {
-        setServiceEntity()
+        setServiceEntity();
+        setActiveTab();
     }, [history.location.search]);
 
     const setServiceEntity = () => {
@@ -92,6 +96,12 @@ function InputPage() {
         ) {
             // Close page when any of the required query params are not provided
             setEntity({ ...entity, open: false });
+        }
+    }
+
+    const setActiveTab = () => {
+        if (query && permittedTabNames.includes(query.get('service'))) { 
+            setActiveTabId(query.get('service'));
         }
     }
 
