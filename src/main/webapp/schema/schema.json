@@ -1281,6 +1281,14 @@
           "type": "string",
           "maxLength": 100
         },
+        "restHandlerModule": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "restHandlerClass": {
+          "type": "string",
+          "maxLength": 100
+        },
         "hook": {
           "type": "object"
         }
