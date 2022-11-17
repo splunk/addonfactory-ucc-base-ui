@@ -20,7 +20,7 @@
   "dependencies": {
     "@splunk/react-page": "^5.0.0",
     "@splunk/react-toast-notifications": "^0.10.0",
-    "@splunk/react-ui": "^4.2.0",
+    "@splunk/react-ui": "^4.5.3",
     "@splunk/splunk-utils": "^2.0.0",
     "@splunk/themes": "^0.7.0",
     "axios": "^0.21.2",
