@@ -34,7 +34,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.0",
+    "@babel/core": "^7.20.2",
     "@babel/plugin-transform-runtime": "^7.13.15",
     "@babel/runtime": "^7.13.10",
     "@semantic-release/exec": "semantic-release/exec",
