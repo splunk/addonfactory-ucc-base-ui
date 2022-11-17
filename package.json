@@ -18,7 +18,7 @@
     "stylelint": "stylelint \"src/**/*.{js,jsx}\" --config stylelint.config.js"
   },
   "dependencies": {
-    "@splunk/react-page": "^5.0.0",
+    "@splunk/react-page": "^5.2.0",
     "@splunk/react-toast-notifications": "^0.10.0",
     "@splunk/react-ui": "^4.2.0",
     "@splunk/splunk-utils": "^2.0.0",
