@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useLocation, useNavigate, createSearchParams, useSearchParams } from 'react-router-dom';
 
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 import Button from '@splunk/react-ui/Button';
@@ -57,13 +57,16 @@ function InputPage() {
         return service.name;
     });
 
-    const history = useHistory();
+    const history = useLocation();
+    const navigate = useNavigate();
+    let [searchParams] = useSearchParams();
+
     const query = useQuery();
 
     useEffect(() => {
         setServiceEntity();
         setActiveTab();
-    }, [history.location.search]);
+    }, [history.search]);
 
     const setServiceEntity = () => {
         const service = services.find((x) => x.name === query.get('service'));
@@ -100,8 +103,8 @@ function InputPage() {
     }
 
     const setActiveTab = () => {
-        if (query && permittedTabNames.includes(query.get('service'))) {
-            setActiveTabId(query.get('service'));
+        if (query && permittedTabNames.includes(searchParams.get('service'))) {
+            setActiveTabId(searchParams.get('service'));
         }
     }
 
@@ -129,7 +132,12 @@ function InputPage() {
             // set query and push to history
             query.set('service', serviceName);
             query.set('action', MODE_CREATE);
-            history.push({ search: query.toString() });
+            // history.push({ search: query.toString() });
+            
+            navigate({
+                pathname: history.pathname,
+                search: `?${createSearchParams(query.toString())}`,
+            });
         }
     };
 
@@ -167,7 +175,12 @@ function InputPage() {
         // set query and push to history
         query.set('service', row.serviceName);
         query.set('action', mode);
-        history.push({ search: query.toString() });
+        // history.push({ search: query.toString() });
+
+        navigate({
+            pathname: history.pathname,
+            search: `?${createSearchParams(query.toString())}`,
+        });
     };
 
     // handle close request for page style dialog
@@ -175,7 +188,12 @@ function InputPage() {
         setEntity({ ...entity, open: false });
         query.delete('service');
         query.delete('action');
-        history.push({ search: query.toString() });
+        // history.push({ search: query.toString() });
+
+        navigate({
+            pathname: history.pathname,
+            search: `?${createSearchParams(query.toString())}`,
+        });
     };
 
     // generate page style dialog
@@ -207,7 +225,12 @@ function InputPage() {
         }
 
         query.set('service', selectedTabId);
-        history.push({ search: query.toString() });
+        // history.push({ search: query.toString() });
+
+        navigate({
+            pathname: history.pathname,
+            search: `?${createSearchParams(query.toString())}`,
+        });
 
     }, [activeTabId]);
 
