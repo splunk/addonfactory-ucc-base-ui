@@ -1,8 +1,10 @@
 const path = require('path');
+const { merge } = require('webpack-merge');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const {merge} = require('webpack-merge');
-const baseConfig = require('@splunk/webpack-configs/base.config').default;
 const { LicenseWebpackPlugin } = require('license-webpack-plugin');
+const baseConfig = require('@splunk/webpack-configs/base.config').default;
+
+const dev = process.env.NODE_ENV !== 'production';
 
 module.exports = merge(baseConfig, {
     entry: {
@@ -40,8 +42,5 @@ module.exports = merge(baseConfig, {
             ],
         })
     ],
-    resolve: {
-        fallback: { "querystring": false, "url": false },
-    },
-    devtool: 'inline-source-map',
+    devtool: dev ? 'inline-source-map' : false
 });
