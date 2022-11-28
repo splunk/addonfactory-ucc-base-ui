@@ -4,6 +4,8 @@ const webpackMerge = require('webpack-merge');
 const baseConfig = require('@splunk/webpack-configs/base.config').default;
 const { LicenseWebpackPlugin } = require('license-webpack-plugin');
 
+const dev = process.env.NODE_ENV !== 'production';
+
 module.exports = webpackMerge(baseConfig, {
     entry: {
         entry_page: path.join(__dirname, 'src/main/webapp/pages/entry_page'),
@@ -38,5 +40,5 @@ module.exports = webpackMerge(baseConfig, {
             },
         ]),
     ],
-    devtool: 'inline-source-map',
+    devtool: dev ? 'inline-source-map' : false
 });
