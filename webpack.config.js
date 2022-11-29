@@ -1,12 +1,12 @@
 const path = require('path');
+const { merge } = require('webpack-merge');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const webpackMerge = require('webpack-merge');
-const baseConfig = require('@splunk/webpack-configs/base.config').default;
 const { LicenseWebpackPlugin } = require('license-webpack-plugin');
+const baseConfig = require('@splunk/webpack-configs/base.config').default;
 
 const dev = process.env.NODE_ENV !== 'production';
 
-module.exports = webpackMerge(baseConfig, {
+module.exports = merge(baseConfig, {
     entry: {
         entry_page: path.join(__dirname, 'src/main/webapp/pages/entry_page'),
     },
@@ -25,20 +25,22 @@ module.exports = webpackMerge(baseConfig, {
     },
     plugins: [
         new LicenseWebpackPlugin(),
-        new CopyWebpackPlugin([
-            {
-                from: path.join(__dirname, 'src/main/resources/splunk'),
-                to: path.join(__dirname, 'dist/package'),
-            },
-            {
-                from: path.join(__dirname, 'src/main/webapp/schema/schema.json'),
-                to: path.join(__dirname, 'dist/schema'),
-            },
-            {
-                from: path.join(__dirname, 'THIRDPARTY'),
-                to: path.join(__dirname, 'dist'),
-            },
-        ]),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.join(__dirname, 'src/main/resources/splunk'),
+                    to: path.join(__dirname, 'dist/package'),
+                },
+                {
+                    from: path.join(__dirname, 'src/main/webapp/schema/schema.json'),
+                    to: path.join(__dirname, 'dist/schema'),
+                },
+                {
+                    from: path.join(__dirname, 'THIRDPARTY'),
+                    to: path.join(__dirname, 'dist'),
+                },
+            ],
+        })
     ],
     devtool: dev ? 'inline-source-map' : false
 });
