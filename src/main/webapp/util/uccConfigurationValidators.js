@@ -64,6 +64,17 @@ export const parseFunctionRawStr = (rawStr) => {
     return { error, result };
 };
 
+export const parseFileValidator = (data, validFileTypes) => {
+
+    const fileName = data.split(",")[0].split(".");
+    const extention = fileName[fileName.length - 1];
+    const isValidExtention = validFileTypes.map((file) => (file.replace(/\./g, ''))).includes(extention);
+
+    const getFileSize = data?.split(",")[1];    
+
+    return { isValidExtention, getFileSize };
+}
+
 export const checkDupKeyValues = (config, isInput, location) => {
     // Forbid dup name/title in services and tabs
     const servicesLikeArr = _.get(config, isInput ? 'services' : 'tabs');
