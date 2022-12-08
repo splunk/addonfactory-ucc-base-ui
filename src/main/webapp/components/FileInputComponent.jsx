@@ -31,8 +31,13 @@ function FileInputComponent(props) {
       fileReader.readAsBinaryString(file);
 
       fileReader.onload = () => {
+        const value = {
+            fileName: file.name,
+            fileSize: file.size,
+            fileContent: fileReader.result
+        };
         setFileName(file.name);
-        handleChange(field, fileReader.result);
+        handleChange(field, value);
       };
     };
   };
@@ -51,9 +56,10 @@ function FileInputComponent(props) {
       onRequestAdd={handleAddFiles}
       onRequestRemove={handleRemoveFile}
       supportsMessage={
-        <> {controlOptions?.supportsMessage} </>
+        <> {controlOptions?.fileSupportMessage} </>
       }
       disabled={disabled}
+      accept=".json"
     >
       {fileName && <File.Item error={error}  name={fileName} />}
     </FileWrapper>

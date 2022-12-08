@@ -245,7 +245,7 @@
               "type": "string",
               "maxLength": 350
             },
-            "supportsMessage": {
+            "fileSupportMessage": {
               "type": "string",
               "maxLength": 350
             },

@@ -7,6 +7,7 @@ import {
     parseFunctionRawStr,
     parseFileValidator
 } from './uccConfigurationValidators';
+import FILE from "../constants/constant";
 
 // Validate provided saveValidator function
 export function SaveValidator(validatorFunc, formData) {
@@ -138,17 +139,24 @@ class Validator {
 
     FileValidator(field, validator, data) {
         if(data) {
-            const { isValidExtention, getFileSize } = parseFileValidator(data, validator.supportedFileTypes);
-            if(!isValidExtention) {
+            const { isValidExtension, fileSize, isValidContent } = parseFileValidator(data, validator.supportedFileTypes);
+            if(!isValidExtension) {
                 return {
                     errorField: field,
                     errorMsg: validator.errorMsg || getFormattedMessage(24, [validator.supportedFileTypes])
                 };
             }
-            if(getFileSize > 2000000) {
+            if(fileSize > FILE.MAX_SIZE) {
+                const file_size = FILE.MAX_SIZE/1024 + "KB";
                 return {
                     errorField: field,
-                    errorMsg: getFormattedMessage(25)
+                    errorMsg: getFormattedMessage(25, [file_size])
+                };
+            }
+            if (!isValidContent) {
+                return {
+                    errorField: field,
+                    errorMsg: getFormattedMessage(26)
                 };
             }
         }
