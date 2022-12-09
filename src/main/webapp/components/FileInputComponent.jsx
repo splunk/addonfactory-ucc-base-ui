@@ -7,6 +7,8 @@ const FileWrapper = styled(File)`
     width: 320px !important;
 `;
 
+const supportedFileTypes = ".json";
+
 function FileInputComponent(props) {
   const {
     field,
@@ -59,7 +61,7 @@ function FileInputComponent(props) {
         <> {controlOptions?.fileSupportMessage} </>
       }
       disabled={disabled}
-      accept=".json"
+      accept={supportedFileTypes}
     >
       {fileName && <File.Item error={error}  name={fileName} />}
     </FileWrapper>

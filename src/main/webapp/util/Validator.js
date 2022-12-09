@@ -146,8 +146,8 @@ class Validator {
                     errorMsg: validator.errorMsg || getFormattedMessage(24, [validator.supportedFileTypes])
                 };
             }
-            if(fileSize > FILE.MAX_SIZE) {
-                const file_size = FILE.MAX_SIZE/1024 + "KB";
+            if(fileSize > FILE.FILE_MAX_SIZE) {
+                const file_size = FILE.FILE_MAX_SIZE/1024 + "KB";
                 return {
                     errorField: field,
                     errorMsg: getFormattedMessage(25, [file_size])
