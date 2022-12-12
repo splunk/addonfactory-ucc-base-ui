@@ -1953,10 +1953,10 @@
     keycode "^2.1.9"
     lodash "^4.17.21"
 
-"@splunk/webpack-configs@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@splunk/webpack-configs/-/webpack-configs-5.0.0.tgz"
-  integrity sha512-IxM7i6hdGHj/HxRaLi+4tudycvEcWmO6Ohig94NZRWkzVsxhIbLrYYL39PFDhc8259AkA7wsxu18OVHc3bPl9A==
+"@splunk/webpack-configs@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@splunk/webpack-configs/-/webpack-configs-6.0.0.tgz#fd55f031239c8cfbc9c472fcb293d0c8a3318887"
+  integrity sha512-+jBXB7eszAWtmm0PsB50rIkKruwxoRIvF5cxy/IvCMcz2S2Qc6lXbsDnV6H0yFn1B7QfLrAh/BjYheKrnMUWrA==
   dependencies:
     file-loader "^1.1.11"
     imports-loader "^0.8.0"
