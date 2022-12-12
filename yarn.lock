@@ -1901,12 +1901,12 @@
     tinycolor2 "^1.4.1"
     use-typed-event-listener "^3.0.0"
 
-"@splunk/splunk-utils@^2.2.2", "@splunk/splunk-utils@^2.2.3":
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/@splunk/splunk-utils/-/splunk-utils-2.2.3.tgz#903c2dbbfd7856b4e9dd4acf2922c9c8bdf797eb"
-  integrity sha512-WpewKubvtPSkRHgukwQpam5a8nhKn+1no6LuYdcxIXWmx026jc3XgYCTf2saDow1e5vod7FUVVaSLZsoxvAlTg==
+"@splunk/splunk-utils@^2.2.2", "@splunk/splunk-utils@^2.2.4":
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/@splunk/splunk-utils/-/splunk-utils-2.2.4.tgz#81984560c990688c5cfa923e1a769c2945b55318"
+  integrity sha512-B9iey0FBVcJOiSi5gBy46hWFUV6U/kOp8/DA/W4+RbS35y66h5WbXCoSBzyBZbqz9v6Q7OPJ4zViSM1R7BtoWg==
   dependencies:
-    "@splunk/ui-utils" "^1.5.0"
+    "@splunk/ui-utils" "^1.5.2"
     lodash "^4.17.14"
     scriptjs "^2.5.8"
 
@@ -1945,10 +1945,10 @@
     lodash "^4.17.14"
     tinycolor2 "^1.4.1"
 
-"@splunk/ui-utils@^1.4.0", "@splunk/ui-utils@^1.5.0", "@splunk/ui-utils@^1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@splunk/ui-utils/-/ui-utils-1.5.1.tgz#68e9430607a6fd8843a26c5768eee2ebcf304611"
-  integrity sha512-EK+11WafNyiIb0Ormh+ygVTpxQHqPKBk8yE7FcrSpCvlE4i/V1L/RpNYhUcf8VRXXFP165c5lGdtblz8+0A/1g==
+"@splunk/ui-utils@^1.4.0", "@splunk/ui-utils@^1.5.0", "@splunk/ui-utils@^1.5.1", "@splunk/ui-utils@^1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@splunk/ui-utils/-/ui-utils-1.5.2.tgz#2108fd8d4e0937bc9ed9f81d6ac92821f57391e0"
+  integrity sha512-kOUM13GxMybYxZkiibT8MhtIYfAA4ub0MxyC50rJSSADGv7aq+QRNh7N/zHF9ov8Ir7EpNUDlKxxOtuAkCKTtw==
   dependencies:
     keycode "^2.1.9"
     lodash "^4.17.21"
