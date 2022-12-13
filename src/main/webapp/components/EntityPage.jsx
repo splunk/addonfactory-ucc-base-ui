@@ -9,11 +9,10 @@ import { _ } from '@splunk/ui-utils/i18n';
 import { useSplunkTheme } from '@splunk/themes';
 
 import { MODE_CLONE, MODE_CREATE, MODE_EDIT } from '../constants/modes';
-import { PAGE_INPUT } from '../constants/pages';
 import BaseFormView from './BaseFormView';
 import { SubTitleComponent } from '../pages/Input/InputPageStyle';
 
-function EntityPage({ handleRequestClose, serviceName, mode, stanzaName, formLabel }) {
+function EntityPage({ handleRequestClose, serviceName, mode, stanzaName, formLabel, page }) {
     // Ref is used here to call submit method of form only
     const form = useRef(); // nosemgrep: typescript.react.security.audit.react-no-refs.react-no-refs
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -52,18 +51,18 @@ function EntityPage({ handleRequestClose, serviceName, mode, stanzaName, formLab
             <ColumnLayout.Row style={{ padding: '5px 0px' }}>
                 <ColumnLayout.Column>
                     <SubTitleComponent>
-                        <Link onClick={handleRequestClose}>{_('Inputs')}</Link>
+                        <Link onClick={handleRequestClose}>{page}</Link>
                         {' > '}
                         {_(formLabel)}
                     </SubTitleComponent>
                 </ColumnLayout.Column>
             </ColumnLayout.Row>
-            <ColumnLayout.Row>
+            <ColumnLayout.Row style={{"boxShadow": "0 0 8px 0px #d0d0d0"}}>
                 <ColumnLayout.Column span={2} />
                 <ColumnLayout.Column span={8} style={colStyle}>
                     <BaseFormView // nosemgrep: typescript.react.security.audit.react-no-refs.react-no-refs
                         ref={form}
-                        page={PAGE_INPUT}
+                        page={page}
                         serviceName={serviceName}
                         mode={mode}
                         stanzaName={stanzaName}
@@ -80,12 +79,14 @@ function EntityPage({ handleRequestClose, serviceName, mode, stanzaName, formLab
                         onClick={handleRequestClose}
                         label={_('Cancel')}
                         disabled={isSubmitting}
+                        style={{"width": "80px"}}
                     />
                     <Button
                         appearance="primary"
                         label={isSubmitting ? <WaitSpinner /> : buttonText}
                         onClick={handleSubmit}
                         disabled={isSubmitting}
+                        style={{"width": "80px"}}
                     />
                 </ColumnLayout.Column>
                 <ColumnLayout.Column span={2} />
@@ -100,6 +101,7 @@ EntityPage.propTypes = {
     mode: PropTypes.string,
     stanzaName: PropTypes.string,
     formLabel: PropTypes.string,
+    page: PropTypes.string,
 };
 
 export default memo(EntityPage);

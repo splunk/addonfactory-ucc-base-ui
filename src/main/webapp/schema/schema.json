@@ -1300,6 +1300,10 @@
         "table": {
           "$ref": "#/definitions/ConfigurationTable"
         },
+        "style": {
+          "type": "string",
+          "enum": ["page", "dialog"]
+        },
         "conf": {
           "type": "string",
           "maxLength": 100

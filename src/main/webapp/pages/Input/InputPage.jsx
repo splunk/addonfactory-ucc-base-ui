@@ -57,7 +57,7 @@ function InputPage() {
         return service.name;
     });
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const query = useQuery();
 
     useEffect(() => {
@@ -187,6 +187,7 @@ function InputPage() {
                 stanzaName={entity.stanzaName}
                 mode={entity.mode}
                 formLabel={entity.formLabel}
+                page={PAGE_INPUT}
             />
         );
     };

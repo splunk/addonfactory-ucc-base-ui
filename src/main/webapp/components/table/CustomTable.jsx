@@ -46,6 +46,10 @@ function CustomTable({
         unifiedConfigs.pages.inputs.services.forEach((x) => {
             serviceToStyleMap[x.name] = x.style === STYLE_PAGE ? STYLE_PAGE : STYLE_MODAL;
         });
+    } else {
+        unifiedConfigs.pages.configuration.tabs.forEach((x) => {
+            serviceToStyleMap[x.name] = x.style === STYLE_PAGE ? STYLE_PAGE : STYLE_MODAL;
+        });
     }
 
     const query = useQuery();
@@ -86,7 +90,7 @@ function CustomTable({
 
     const handleEditActionClick = useCallback(
         (selectedRow) => {
-            if (serviceToStyleMap[selectedRow.serviceName] === 'page') {
+            if (serviceToStyleMap[selectedRow.serviceName] === STYLE_PAGE) {
                 handleOpenPageStyleDialog(selectedRow, MODE_EDIT);
             } else {
                 setEntityModal({
@@ -108,7 +112,7 @@ function CustomTable({
 
     const handleCloneActionClick = useCallback(
         (selectedRow) => {
-            if (serviceToStyleMap[selectedRow.serviceName] === 'page') {
+            if (serviceToStyleMap[selectedRow.serviceName] === STYLE_PAGE) {
                 handleOpenPageStyleDialog(selectedRow, MODE_CLONE);
             } else {
                 setEntityModal({
