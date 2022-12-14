@@ -58,7 +58,7 @@ function EntityPage({ handleRequestClose, serviceName, mode, stanzaName, formLab
                     </SubTitleComponent>
                 </ColumnLayout.Column>
             </ColumnLayout.Row>
-            <ColumnLayout.Row style={{"boxShadow": "0 0 8px 0px #d0d0d0"}}>
+            <ColumnLayout.Row>
                 <ColumnLayout.Column span={2} />
                 <ColumnLayout.Column span={8} style={colStyle}>
                     <BaseFormView // nosemgrep: typescript.react.security.audit.react-no-refs.react-no-refs
