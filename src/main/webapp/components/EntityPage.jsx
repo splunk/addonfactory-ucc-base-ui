@@ -11,6 +11,7 @@ import { useSplunkTheme } from '@splunk/themes';
 import { MODE_CLONE, MODE_CREATE, MODE_EDIT } from '../constants/modes';
 import BaseFormView from './BaseFormView';
 import { SubTitleComponent } from '../pages/Input/InputPageStyle';
+import { PAGE_INPUT } from '../constants/pages';
 
 function EntityPage({ handleRequestClose, serviceName, mode, stanzaName, formLabel, page }) {
     // Ref is used here to call submit method of form only
@@ -51,7 +52,7 @@ function EntityPage({ handleRequestClose, serviceName, mode, stanzaName, formLab
             <ColumnLayout.Row style={{ padding: '5px 0px' }}>
                 <ColumnLayout.Column>
                     <SubTitleComponent>
-                        <Link onClick={handleRequestClose}>{page}</Link>
+                        <Link onClick={handleRequestClose}>{page === PAGE_INPUT ? _('Inputs') : _('Configuration')}</Link>
                         {' > '}
                         {_(formLabel)}
                     </SubTitleComponent>
