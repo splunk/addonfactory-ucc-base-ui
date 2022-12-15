@@ -34,6 +34,7 @@ function ConfigurationPage() {
     });
 
     const [activeTabId, setActiveTabId] = useState(tabs[0].name);
+    const [isPageOpen, setIsPageOpen] = useState(false);
 
     const query = useQuery();
 
@@ -55,26 +56,33 @@ function ConfigurationPage() {
     const handleChange = useCallback(
         (e, { selectedTabId }) => {
             setActiveTabId(selectedTabId);
+            setIsPageOpen(false);
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [activeTabId]
     );
 
+    const updateIsPageOpen = (data) => {
+        setIsPageOpen(data);
+    };
+
     return (
         <ErrorBoundary>
-            <ColumnLayout gutter={8}>
-                <Row>
-                    <ColumnLayout.Column span={9}>
-                        <TitleComponent>{_(title)}</TitleComponent>
-                        <SubTitleComponent>{_(description || '')}</SubTitleComponent>
-                    </ColumnLayout.Column>
-                </Row>
-            </ColumnLayout>
-            <TabBar activeTabId={activeTabId} onChange={handleChange}>
-                {tabs.map((tab) => (
-                    <TabBar.Tab key={tab.name} label={_(tab.title)} tabId={tab.name} />
-                ))}
-            </TabBar>
+            <div style={isPageOpen ? { display: 'none' } : { display: 'block' }}>
+                <ColumnLayout gutter={8}>
+                    <Row>
+                        <ColumnLayout.Column span={9}>
+                            <TitleComponent>{_(title)}</TitleComponent>
+                            <SubTitleComponent>{_(description || '')}</SubTitleComponent>
+                        </ColumnLayout.Column>
+                    </Row>
+                </ColumnLayout>
+                <TabBar activeTabId={activeTabId} onChange={handleChange}>
+                    {tabs.map((tab) => (
+                        <TabBar.Tab key={tab.name} label={_(tab.title)} tabId={tab.name} />
+                    ))}
+                </TabBar>
+            </div>
             {tabs.map((tab) => {
                 return tab.table ? (
                     <div
@@ -86,8 +94,8 @@ function ConfigurationPage() {
                     >
                         <ConfigurationTable
                             key={tab.name}
-                            serviceName={tab.name}
-                            serviceTitle={tab.title}
+                            selectedTab={tab}
+                            updateIsPageOpen={updateIsPageOpen}
                         />
                     </div>
                 ) : (
