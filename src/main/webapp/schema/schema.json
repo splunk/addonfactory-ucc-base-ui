@@ -1302,7 +1302,10 @@
         },
         "style": {
           "type": "string",
-          "enum": ["page", "dialog"]
+          "enum": [
+            "page",
+            "dialog"
+          ]
         },
         "conf": {
           "type": "string",
