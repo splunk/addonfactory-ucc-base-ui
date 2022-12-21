@@ -49,7 +49,7 @@ function FileInputComponent(props) {
         fileReader.abort();
       };
       setFileName(null);
-      handleChange(field, null);
+      handleChange(field, '');
   };
 
   return(

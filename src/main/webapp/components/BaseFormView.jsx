@@ -591,7 +591,11 @@ class BaseFormView extends PureComponent {
         const body = new URLSearchParams();
         Object.keys(this.datadict).forEach((key) => {
             if (this.datadict[key] != null) {
-                body.append(key, this.datadict[key]);
+                if (typeof (this.datadict[key]) === 'object') {
+                    body.append(key, JSON.stringify(this.datadict[key]));
+                } else {
+                    body.append(key, this.datadict[key]);
+                }
             }
         });
 
