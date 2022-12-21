@@ -70,9 +70,7 @@ class BaseFormView extends PureComponent {
         this.util = {
             setState: (callback) => {
                 this.onSavePromise = new Promise((resolve) => {
-                    this.setState((previousState) => {
-                        return callback(previousState);
-                    }, resolve);
+                    this.setState((previousState) => callback(previousState), resolve);
                 });
             },
             setErrorFieldMsg: this.setErrorFieldMsg,
@@ -172,9 +170,10 @@ class BaseFormView extends PureComponent {
                         };
                         entity.options = {};
                         entity.options.hideClearBtn = true;
-                        entity.options.autoCompleteFields = authType.map((type) => {
-                            return { label: content[type], value: type };
-                        });
+                        entity.options.autoCompleteFields = authType.map((type) => ({
+                            label: content[type],
+                            value: type,
+                        }));
                         temEntities.push(entity);
                     } else {
                         this.isSingleOauth = authType.includes('oauth');
@@ -346,9 +345,7 @@ class BaseFormView extends PureComponent {
             let load = true;
 
             values.forEach((dependency) => {
-                const required = !!this.entities.find((e) => {
-                    return e.field === dependency;
-                }).required;
+                const required = !!this.entities.find((e) => e.field === dependency).required;
 
                 const currentValue = temState[dependency].value;
                 if (required && !currentValue) {
@@ -693,9 +690,7 @@ class BaseFormView extends PureComponent {
                 let load = true;
 
                 value[loadField].forEach((dependency) => {
-                    const required = !!this.entities.find((e) => {
-                        return e.field === dependency;
-                    }).required;
+                    const required = !!this.entities.find((e) => e.field === dependency).required;
 
                     const currentValue =
                         dependency === field ? targetValue : this.state.data[dependency].value;
@@ -759,25 +754,21 @@ class BaseFormView extends PureComponent {
 
     // Set error in perticular field
     setErrorField = (field) => {
-        this.setState((previousState) => {
-            return update(previousState, { data: { [field]: { error: { $set: true } } } });
-        });
+        this.setState((previousState) =>
+            update(previousState, { data: { [field]: { error: { $set: true } } } })
+        );
     };
 
     // Clear error message
     clearErrorMsg = () => {
         if (this.state.errorMsg) {
-            this.setState((previousState) => {
-                return { ...previousState, errorMsg: '' };
-            });
+            this.setState((previousState) => ({ ...previousState, errorMsg: '' }));
         }
     };
 
     // Set error message
     setErrorMsg = (msg) => {
-        this.setState((previousState) => {
-            return { ...previousState, errorMsg: msg };
-        });
+        this.setState((previousState) => ({ ...previousState, errorMsg: msg }));
     };
 
     // Clear error/warning message and errors from fields
@@ -976,9 +967,7 @@ class BaseFormView extends PureComponent {
     /*
      * This function will resolve the promise once the provided timeout occurs
      */
-    timeout = (ms) => {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-    };
+    timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     renderGroupElements = () => {
         let el = null;
@@ -986,8 +975,8 @@ class BaseFormView extends PureComponent {
             el = this.groups.map((group) => {
                 const collpsibleElement =
                     group.fields?.length &&
-                    group.fields.map((fieldName) => {
-                        return this.entities.map((e) => {
+                    group.fields.map((fieldName) =>
+                        this.entities.map((e) => {
                             if (e.field === fieldName) {
                                 const temState = this.state.data[e.field];
                                 return (
@@ -1007,8 +996,8 @@ class BaseFormView extends PureComponent {
                                 );
                             }
                             return null;
-                        });
-                    });
+                        })
+                    );
 
                 return group.options.isExpandable ? (
                     <CollapsiblePanelWrapper title={group.label}>

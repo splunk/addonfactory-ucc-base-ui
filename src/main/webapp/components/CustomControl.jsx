@@ -47,8 +47,8 @@ class CustomControl extends Component {
         return false;
     }
 
-    loadCustomControl = (module, type, appName) => {
-        return new Promise((resolve) => {
+    loadCustomControl = (module, type, appName) =>
+        new Promise((resolve) => {
             if (type === 'external') {
                 import(/* webpackIgnore: true */ `${getBuildDirPath()}/custom/${module}.js`).then(
                     (external) => {
@@ -62,7 +62,6 @@ class CustomControl extends Component {
                 });
             }
         });
-    };
 
     setValue = (newValue) => {
         this.props.handleChange(this.props.field, newValue);

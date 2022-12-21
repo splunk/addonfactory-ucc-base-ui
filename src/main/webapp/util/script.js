@@ -15,18 +15,18 @@ export function getBuildDirPath() {
 }
 
 function loadJSONFile() {
-    return axios.get(`${getBuildDirPath()}/globalConfig.json`).then((res) => {
-        return typeof res.data === 'object' ? res.data : JSON.parse(res.data);
-    });
+    return axios
+        .get(`${getBuildDirPath()}/globalConfig.json`)
+        .then((res) => (typeof res.data === 'object' ? res.data : JSON.parse(res.data)));
 }
 
 function loadYAMLFile() {
     const yaml = require('js-yaml');
-    return axios.get(`${getBuildDirPath()}/globalConfig.yaml`).then((res) => {
-        return typeof res.data === 'object' ? res.data : yaml.load(res.data);
-    });
+    return axios
+        .get(`${getBuildDirPath()}/globalConfig.yaml`)
+        .then((res) => (typeof res.data === 'object' ? res.data : yaml.load(res.data)));
 }
 
 export function loadGlobalConfig() {
-    return loadJSONFile().catch(e => loadYAMLFile());
+    return loadJSONFile().catch((e) => loadYAMLFile());
 }

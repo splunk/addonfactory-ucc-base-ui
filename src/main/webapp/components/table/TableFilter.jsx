@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import TableContext from '../../context/TableContext';
 
 function TableFilter(props) {
-
     const { searchText } = useContext(TableContext);
 
     // We need to remove this function later

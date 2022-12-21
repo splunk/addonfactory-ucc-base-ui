@@ -35,9 +35,7 @@ class ControlWrapper extends React.PureComponent {
             : null;
     }
 
-    isString = (str) => {
-        return !!(typeof str === 'string' || str instanceof String);
-    };
+    isString = (str) => !!(typeof str === 'string' || str instanceof String);
 
     render() {
         const { field, type, label, tooltip, help, encrypted = false } = this.props.entity;
@@ -56,26 +54,26 @@ class ControlWrapper extends React.PureComponent {
 
             rowView = this.controlType
                 ? React.createElement(this.controlType, {
-                    data,
-                    field,
-                    handleChange,
-                    addCustomValidator,
-                    utilCustomFunctions,
-                    controlOptions: this.props.entity.options,
-                })
+                      data,
+                      field,
+                      handleChange,
+                      addCustomValidator,
+                      utilCustomFunctions,
+                      controlOptions: this.props.entity.options,
+                  })
                 : `No View Found for ${type} type`;
         } else {
             rowView = this.controlType
                 ? React.createElement(this.controlType, {
-                    handleChange,
-                    value: this.props.value,
-                    field,
-                    controlOptions: this.props.entity.options,
-                    error: this.props.error,
-                    disabled: this.props.disabled,
-                    encrypted,
-                    dependencyValues: this.props.dependencyValues,
-                })
+                      handleChange,
+                      value: this.props.value,
+                      field,
+                      controlOptions: this.props.entity.options,
+                      error: this.props.error,
+                      disabled: this.props.disabled,
+                      encrypted,
+                      dependencyValues: this.props.dependencyValues,
+                  })
                 : `No View Found for ${type} type`;
         }
 

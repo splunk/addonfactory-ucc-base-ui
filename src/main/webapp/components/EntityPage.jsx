@@ -52,7 +52,9 @@ function EntityPage({ handleRequestClose, serviceName, mode, stanzaName, formLab
             <ColumnLayout.Row style={{ padding: '5px 0px' }}>
                 <ColumnLayout.Column>
                     <SubTitleComponent>
-                        <Link onClick={handleRequestClose}>{page === PAGE_INPUT ? _('Inputs') : _('Configuration')}</Link>
+                        <Link onClick={handleRequestClose}>
+                            {page === PAGE_INPUT ? _('Inputs') : _('Configuration')}
+                        </Link>
                         {' > '}
                         {_(formLabel)}
                     </SubTitleComponent>
@@ -80,14 +82,14 @@ function EntityPage({ handleRequestClose, serviceName, mode, stanzaName, formLab
                         onClick={handleRequestClose}
                         label={_('Cancel')}
                         disabled={isSubmitting}
-                        style={{"width": "80px"}}
+                        style={{ width: '80px' }}
                     />
                     <Button
                         appearance="primary"
                         label={isSubmitting ? <WaitSpinner /> : buttonText}
                         onClick={handleSubmit}
                         disabled={isSubmitting}
-                        style={{"width": "80px"}}
+                        style={{ width: '80px' }}
                     />
                 </ColumnLayout.Column>
                 <ColumnLayout.Column span={2} />

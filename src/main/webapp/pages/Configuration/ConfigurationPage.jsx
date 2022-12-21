@@ -29,9 +29,7 @@ const Row = styled(ColumnLayout.Row)`
 function ConfigurationPage() {
     const unifiedConfigs = getUnifiedConfigs();
     const { title, description, tabs } = unifiedConfigs.pages.configuration;
-    const permittedTabNames = tabs.map((tab) => {
-        return tab.name;
-    });
+    const permittedTabNames = tabs.map((tab) => tab.name);
 
     const [activeTabId, setActiveTabId] = useState(tabs[0].name);
     const [isPageOpen, setIsPageOpen] = useState(false);
@@ -83,8 +81,8 @@ function ConfigurationPage() {
                     ))}
                 </TabBar>
             </div>
-            {tabs.map((tab) => {
-                return tab.table ? (
+            {tabs.map((tab) =>
+                tab.table ? (
                     <div
                         key={tab.name}
                         style={
@@ -108,8 +106,8 @@ function ConfigurationPage() {
                     >
                         <ConfigurationFormView key={tab.name} serviceName={tab.name} />
                     </div>
-                );
-            })}
+                )
+            )}
             <ToastMessages position="top-right" />
         </ErrorBoundary>
     );
