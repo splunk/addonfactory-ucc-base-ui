@@ -28,14 +28,15 @@ const ControlGroupWrapper = styled(ControlGroup).attrs((props) => ({
 `;
 
 class ControlWrapper extends React.PureComponent {
+    
+    static isString = (str) => !!(typeof str === 'string' || str instanceof String);
+
     constructor(props) {
         super(props);
-        this.controlType = this.isString(props.entity.type)
+        this.controlType = ControlWrapper.isString(props.entity.type)
             ? CONTROL_TYPE_MAP[props.entity.type]
             : null;
     }
-
-    isString = (str) => !!(typeof str === 'string' || str instanceof String);
 
     render() {
         const { field, type, label, tooltip, help, encrypted = false } = this.props.entity;

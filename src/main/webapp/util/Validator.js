@@ -27,6 +27,7 @@ class Validator {
         this.isName = entities.find((e) => e.field === 'name');
     }
 
+    // eslint-disable-next-line class-methods-use-this
     checkIsFieldHasInput = (attrValue) =>
         attrValue !== undefined && attrValue !== '' && attrValue !== null;
 
@@ -136,6 +137,7 @@ class Validator {
         return false;
     }
 
+    // eslint-disable-next-line class-methods-use-this
     FileValidator(field, validator, data) {
         if (data) {
             const { isValidExtension, fileSize, isValidContent } = parseFileValidator(
@@ -151,10 +153,10 @@ class Validator {
                 };
             }
             if (fileSize > FILE.FILE_MAX_SIZE) {
-                const file_size = `${FILE.FILE_MAX_SIZE / 1024}KB`;
+                const fileSizeInKb = `${FILE.FILE_MAX_SIZE / 1024}KB`;
                 return {
                     errorField: field,
-                    errorMsg: getFormattedMessage(25, [file_size]),
+                    errorMsg: getFormattedMessage(25, [fileSizeInKb]),
                 };
             }
             if (!isValidContent) {

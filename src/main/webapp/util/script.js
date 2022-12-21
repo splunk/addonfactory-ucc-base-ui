@@ -28,5 +28,5 @@ function loadYAMLFile() {
 }
 
 export function loadGlobalConfig() {
-    return loadJSONFile().catch((e) => loadYAMLFile());
+    return loadJSONFile().catch(() => loadYAMLFile());
 }

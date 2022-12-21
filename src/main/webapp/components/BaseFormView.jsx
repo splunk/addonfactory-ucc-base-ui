@@ -404,6 +404,7 @@ class BaseFormView extends PureComponent {
         }
     };
 
+    // eslint-disable-next-line react/no-unused-class-component-methods
     handleSubmit = () => {
         this.clearErrorMsg();
         this.props.handleFormSubmit(/* isSubmitting */ true, /* closeEntity */ false);
@@ -729,7 +730,7 @@ class BaseFormView extends PureComponent {
         if (this.hookDeferred) {
             this.hookDeferred.then(() => {
                 if (typeof this.hook.onChange === 'function') {
-                    this.hook.onChange(field, target_value, tempState);
+                    this.hook.onChange(field, updatedTargetValue, tempState);
                 }
             });
         }
@@ -753,6 +754,7 @@ class BaseFormView extends PureComponent {
     };
 
     // Set error in perticular field
+    // eslint-disable-next-line react/no-unused-class-component-methods
     setErrorField = (field) => {
         this.setState((previousState) =>
             update(previousState, { data: { [field]: { error: { $set: true } } } })
@@ -967,7 +969,8 @@ class BaseFormView extends PureComponent {
     /*
      * This function will resolve the promise once the provided timeout occurs
      */
-    timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    // eslint-disable-next-line class-methods-use-this
+    timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms)); // eslint-disable-line no-promise-executor-return
 
     renderGroupElements = () => {
         let el = null;

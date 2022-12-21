@@ -6,6 +6,23 @@ import { getUnifiedConfigs } from '../util/util';
 import { getBuildDirPath } from '../util/script';
 
 class CustomControl extends Component {
+
+    static loadCustomControl = (module, type, appName) =>
+        new Promise((resolve) => {
+            if (type === 'external') {
+                import(/* webpackIgnore: true */ `${getBuildDirPath()}/custom/${module}.js`).then(
+                    (external) => {
+                        const Control = external.default;
+                        resolve(Control);
+                    }
+                );
+            } else {
+                __non_webpack_require__([`app/${appName}/js/build/custom/${module}`], (Control) => {
+                    resolve(Control);
+                });
+            }
+        });
+        
     constructor(props) {
         super(props);
         this.state = {
@@ -18,7 +35,7 @@ class CustomControl extends Component {
         const globalConfig = getUnifiedConfigs();
         const appName = globalConfig.meta.name;
 
-        this.loadCustomControl(
+        CustomControl.loadCustomControl(
             this.props.controlOptions.src,
             this.props.controlOptions.type,
             appName
@@ -46,22 +63,6 @@ class CustomControl extends Component {
         }
         return false;
     }
-
-    loadCustomControl = (module, type, appName) =>
-        new Promise((resolve) => {
-            if (type === 'external') {
-                import(/* webpackIgnore: true */ `${getBuildDirPath()}/custom/${module}.js`).then(
-                    (external) => {
-                        const Control = external.default;
-                        resolve(Control);
-                    }
-                );
-            } else {
-                __non_webpack_require__([`app/${appName}/js/build/custom/${module}`], (Control) => {
-                    resolve(Control);
-                });
-            }
-        });
 
     setValue = (newValue) => {
         this.props.handleChange(this.props.field, newValue);

@@ -144,10 +144,10 @@ function CustomTable({
         if (entityModal.open) {
             let label;
             if (page === 'inputs') {
-                const { services } = unifiedConfigs.pages?.inputs;
+                const { services } = unifiedConfigs.pages.inputs;
                 label = services.find((x) => x.name === entityModal.serviceName)?.title;
-            } else {
-                const { tabs } = unifiedConfigs.pages?.configuration;
+            } else if (page === 'configuration') {
+                const { tabs } = unifiedConfigs.pages.configuration;
                 label = tabs.find((x) => x.name === entityModal.serviceName)?.title;
             }
             return (

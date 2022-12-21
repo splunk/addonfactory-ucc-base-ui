@@ -218,18 +218,18 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
             arr = arr.filter((v) => v.serviceName === serviceName);
         }
 
-        const _sortKey = isCustomMapping ? 'serviceTitle' : sortKey;
+        const updatedSortKey = isCustomMapping ? 'serviceTitle' : sortKey;
 
         // Sort the array based on the sort value
         const sortedArr = arr.sort((rowA, rowB) => {
             if (sortDir === 'asc') {
-                const rowAValue = rowA[_sortKey] === undefined ? '' : rowA[_sortKey];
-                const rowBValue = rowB[_sortKey] === undefined ? '' : rowB[_sortKey];
+                const rowAValue = rowA[updatedSortKey] === undefined ? '' : rowA[updatedSortKey];
+                const rowBValue = rowB[updatedSortKey] === undefined ? '' : rowB[updatedSortKey];
                 return rowAValue > rowBValue ? 1 : -1;
             }
             if (sortDir === 'desc') {
-                const rowAValue = rowA[_sortKey] === undefined ? '' : rowA[_sortKey];
-                const rowBValue = rowB[_sortKey] === undefined ? '' : rowB[_sortKey];
+                const rowAValue = rowA[updatedSortKey] === undefined ? '' : rowA[updatedSortKey];
+                const rowBValue = rowB[updatedSortKey] === undefined ? '' : rowB[updatedSortKey];
                 return rowBValue > rowAValue ? 1 : -1;
             }
             return 0;

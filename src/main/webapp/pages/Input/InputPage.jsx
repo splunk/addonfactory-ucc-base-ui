@@ -61,9 +61,11 @@ function InputPage() {
     const query = useQuery();
 
     useEffect(() => {
+        // eslint-disable-next-line no-use-before-define
         setServiceEntity();
+        // eslint-disable-next-line no-use-before-define
         setActiveTab();
-    }, [useLocation().search]);
+    }, [useLocation().search]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const setServiceEntity = () => {
         const service = services.find((x) => x.name === query.get('service'));
@@ -206,7 +208,7 @@ function InputPage() {
             navigate({ search: query.toString() });
             // eslint-disable-next-line react-hooks/exhaustive-deps
         },
-        [activeTabId]
+        [activeTabId] // eslint-disable-line react-hooks/exhaustive-deps
     );
 
     // Making a dropdown if we have more than one service

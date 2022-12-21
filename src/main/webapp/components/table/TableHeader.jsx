@@ -117,6 +117,7 @@ TableHeader.propTypes = {
     page: PropTypes.string,
     services: PropTypes.array,
     totalElement: PropTypes.number,
+    isOuterTable: PropTypes.bool,
     handleRequestModalOpen: PropTypes.func,
 };
 
