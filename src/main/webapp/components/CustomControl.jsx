@@ -6,7 +6,6 @@ import { getUnifiedConfigs } from '../util/util';
 import { getBuildDirPath } from '../util/script';
 
 class CustomControl extends Component {
-
     static loadCustomControl = (module, type, appName) =>
         new Promise((resolve) => {
             if (type === 'external') {
@@ -22,7 +21,7 @@ class CustomControl extends Component {
                 });
             }
         });
-        
+
     constructor(props) {
         super(props);
         this.state = {

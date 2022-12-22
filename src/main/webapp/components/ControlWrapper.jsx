@@ -28,7 +28,6 @@ const ControlGroupWrapper = styled(ControlGroup).attrs((props) => ({
 `;
 
 class ControlWrapper extends React.PureComponent {
-    
     static isString = (str) => !!(typeof str === 'string' || str instanceof String);
 
     constructor(props) {

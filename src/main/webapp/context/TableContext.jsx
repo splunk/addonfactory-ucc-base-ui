@@ -15,7 +15,7 @@ export function TableContextProvider({ children }) {
 
     return (
         <TableContext.Provider
-        // eslint-disable-next-line react/jsx-no-constructed-context-values
+            // eslint-disable-next-line react/jsx-no-constructed-context-values
             value={{
                 rowData,
                 setRowData,

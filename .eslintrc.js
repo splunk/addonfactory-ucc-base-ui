@@ -8,6 +8,7 @@ module.exports = {
         __non_webpack_require__: 'readonly',
     },
     rules: {
-        indent: 'off'
+        'prettier/prettier': 2,
+        indent: 'off',
     }
 };

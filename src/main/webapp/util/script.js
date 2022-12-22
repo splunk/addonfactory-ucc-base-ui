@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import yaml from 'js-yaml';
 // NOTE: if bundle script is put some dir instead of js/build, this function will broken.
 export function getBuildDirPath() {
     const scripts = document.getElementsByTagName('script');
@@ -21,7 +21,6 @@ function loadJSONFile() {
 }
 
 function loadYAMLFile() {
-    const yaml = require('js-yaml');
     return axios
         .get(`${getBuildDirPath()}/globalConfig.yaml`)
         .then((res) => (typeof res.data === 'object' ? res.data : yaml.load(res.data)));

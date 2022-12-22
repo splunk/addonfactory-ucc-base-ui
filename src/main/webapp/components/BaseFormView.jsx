@@ -715,13 +715,13 @@ class BaseFormView extends PureComponent {
         }
 
         /*
-        * Custom logic to handle the dropdown's reset value by clicking "X" button.
-        * DO NOT CHANGE: value of targetValue to null or any other value. Keep it as blank string only.
-        * Reason: We are sending a blank string value in the API, and this validation is inside the saveData().
-        */
+         * Custom logic to handle the dropdown's reset value by clicking "X" button.
+         * DO NOT CHANGE: value of targetValue to null or any other value. Keep it as blank string only.
+         * Reason: We are sending a blank string value in the API, and this validation is inside the saveData().
+         */
 
-        const target_value = targetValue === 'RESET_DROPDOWN_VALUE' ? '' : targetValue;
-        changes[field] = { value: { $set: target_value } };
+        const updatedTargetValue = targetValue === 'RESET_DROPDOWN_VALUE' ? '' : targetValue;
+        changes[field] = { value: { $set: updatedTargetValue } };
 
         const newFields = update(this.state, { data: changes });
         const tempState = this.clearAllErrorMsg(newFields);
