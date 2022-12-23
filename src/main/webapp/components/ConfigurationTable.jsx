@@ -10,7 +10,6 @@ import { PAGE_CONF } from '../constants/pages';
 import { STYLE_PAGE } from '../constants/dialogStyles';
 
 function ConfigurationTable({ selectedTab, updateIsPageOpen }) {
-
     const [entity, setEntity] = useState({ open: false });
 
     const isConfigurationPageStyle = selectedTab.style === STYLE_PAGE;
@@ -30,18 +29,16 @@ function ConfigurationTable({ selectedTab, updateIsPageOpen }) {
     };
 
     // generate modal style dialog
-    const generateModalDialog = () => {
-        return (
-            <EntityModal
-                page={PAGE_CONF}
-                open={entity.open}
-                handleRequestClose={handleModalDialogClose}
-                serviceName={selectedTab.name}
-                mode={MODE_CREATE}
-                formLabel={entity.formLabel}
-            />
-        );
-    };
+    const generateModalDialog = () => (
+        <EntityModal
+            page={PAGE_CONF}
+            open={entity.open}
+            handleRequestClose={handleModalDialogClose}
+            serviceName={selectedTab.name}
+            mode={MODE_CREATE}
+            formLabel={entity.formLabel}
+        />
+    );
 
     // handle clone/edit request per row from table for page style dialog
     const handleOpenPageStyleDialog = (row, mode) => {
@@ -49,7 +46,8 @@ function ConfigurationTable({ selectedTab, updateIsPageOpen }) {
             ...entity,
             open: true,
             stanzaName: row.name,
-            formLabel: mode === MODE_CLONE ? `Clone ${selectedTab.title}` : `Update ${selectedTab.title}`,
+            formLabel:
+                mode === MODE_CLONE ? `Clone ${selectedTab.title}` : `Update ${selectedTab.title}`,
             mode,
         });
     };
@@ -76,31 +74,27 @@ function ConfigurationTable({ selectedTab, updateIsPageOpen }) {
         );
     };
 
-    const getTableWrapper = () => {
-        return (
-            <TableWrapper
-                page={PAGE_CONF}
-                serviceName={selectedTab.name}
-                handleRequestModalOpen={() => handleRequestOpen()}
-                handleOpenPageStyleDialog={handleOpenPageStyleDialog}
-            />
-        );
-    };
+    const getTableWrapper = () => (
+        <TableWrapper
+            page={PAGE_CONF}
+            serviceName={selectedTab.name}
+            handleRequestModalOpen={() => handleRequestOpen()}
+            handleOpenPageStyleDialog={handleOpenPageStyleDialog}
+        />
+    );
 
     return (
-        <>
-            <TableContextProvider value={null}>
-                {isConfigurationPageStyle && entity.open ? generatePageDialog() : null}
-                {!(isConfigurationPageStyle && entity.open) ? getTableWrapper() : null}
-                {!isConfigurationPageStyle && entity.open ? generateModalDialog() : null}
-            </TableContextProvider>
-        </>
+        <TableContextProvider value={null}>
+            {isConfigurationPageStyle && entity.open ? generatePageDialog() : null}
+            {!(isConfigurationPageStyle && entity.open) ? getTableWrapper() : null}
+            {!isConfigurationPageStyle && entity.open ? generateModalDialog() : null}
+        </TableContextProvider>
     );
 }
 
 ConfigurationTable.propTypes = {
     selectedTab: PropTypes.object,
-    updateIsPageOpen: PropTypes.func
+    updateIsPageOpen: PropTypes.func,
 };
 
 export default memo(ConfigurationTable);

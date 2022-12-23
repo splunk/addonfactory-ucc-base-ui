@@ -25,7 +25,7 @@ function CustomTable({
     handleSort,
     sortDir,
     sortKey,
-    tableConfig
+    tableConfig,
 }) {
     const unifiedConfigs = getUnifiedConfigs();
     const [entityModal, setEntityModal] = useState({ open: false });
@@ -144,10 +144,10 @@ function CustomTable({
         if (entityModal.open) {
             let label;
             if (page === 'inputs') {
-                const { services } = unifiedConfigs.pages?.inputs;
+                const { services } = unifiedConfigs.pages.inputs;
                 label = services.find((x) => x.name === entityModal.serviceName)?.title;
-            } else {
-                const { tabs } = unifiedConfigs.pages?.configuration;
+            } else if (page === 'configuration') {
+                const { tabs } = unifiedConfigs.pages.configuration;
                 label = tabs.find((x) => x.name === entityModal.serviceName)?.title;
             }
             return (
@@ -167,17 +167,15 @@ function CustomTable({
         return null;
     };
 
-    const generateDeleteDialog = () => {
-        return (
-            <DeleteModal
-                page={page}
-                open={deleteModal.open}
-                handleRequestClose={handleDeleteClose}
-                serviceName={deleteModal.serviceName}
-                stanzaName={deleteModal.stanzaName}
-            />
-        );
-    };
+    const generateDeleteDialog = () => (
+        <DeleteModal
+            page={page}
+            open={deleteModal.open}
+            handleRequestClose={handleDeleteClose}
+            serviceName={deleteModal.serviceName}
+            stanzaName={deleteModal.stanzaName}
+        />
+    );
 
     const generateColumns = () => {
         const column = [];
@@ -186,7 +184,7 @@ function CustomTable({
                 column.push({
                     ...item,
                     sortKey: item.field || null,
-                    isCustomMapping: !!item.mapping
+                    isCustomMapping: !!item.mapping,
                 });
             });
         }
@@ -196,15 +194,15 @@ function CustomTable({
 
     const columns = generateColumns();
 
-    const getTableHeaderCell = useCallback(() => {
-        return (
+    const getTableHeaderCell = useCallback(
+        () => (
             <Table.Head>
                 {columns &&
                     columns.length &&
                     columns.map((headData) => (
                         <Table.HeadCell
                             key={headData.field}
-                            onSort={(e) => headData.sortKey ? handleSort(e, headData) : null}
+                            onSort={(e) => (headData.sortKey ? handleSort(e, headData) : null)}
                             sortKey={headData.sortKey ? headData.sortKey : null}
                             sortDir={
                                 headData.sortKey && headData.sortKey === sortKey ? sortDir : 'none'
@@ -214,49 +212,42 @@ function CustomTable({
                         </Table.HeadCell>
                     ))}
             </Table.Head>
-        );
-    }, [columns, handleSort, sortDir, sortKey]);
+        ),
+        [columns, handleSort, sortDir, sortKey]
+    );
 
-    const getTableBody = () => {
-        return (
-            <Table.Body>
-                {data &&
-                    data.length &&
-                    data.map((row) => {
-                        return (
-                            <CustomTableRow // nosemgrep: typescript.react.best-practice.react-props-spreading.react-props-spreading
-                                key={row.id}
-                                row={row}
-                                columns={columns}
-                                headerMapping={headerMapping}
-                                {...{
-                                    handleEditActionClick,
-                                    handleCloneActionClick,
-                                    handleDeleteActionClick,
-                                }}
-                                handleToggleActionClick={handleToggleActionClick}
-                                {...(moreInfo
-                                    ? {
-                                        expansionRow: getExpansionRow(
-                                            columns.length,
-                                            row,
-                                            moreInfo
-                                        ),
-                                    }
-                                    : {})}
-                            />
-                        );
-                    })}
-            </Table.Body>
-        );
-    };
+    const getTableBody = () => (
+        <Table.Body>
+            {data &&
+                data.length &&
+                data.map((row) => (
+                    <CustomTableRow // nosemgrep: typescript.react.best-practice.react-props-spreading.react-props-spreading
+                        key={row.id}
+                        row={row}
+                        columns={columns}
+                        headerMapping={headerMapping}
+                        {...{
+                            handleEditActionClick,
+                            handleCloneActionClick,
+                            handleDeleteActionClick,
+                        }}
+                        handleToggleActionClick={handleToggleActionClick}
+                        {...(moreInfo
+                            ? {
+                                  expansionRow: getExpansionRow(columns.length, row, moreInfo),
+                              }
+                            : {})}
+                    />
+                ))}
+        </Table.Body>
+    );
 
     return (
         <>
             {columns && columns.length && (
                 <Table // nosemgrep: typescript.react.best-practice.react-props-spreading.react-props-spreading
                     stripeRows
-                    headType='docked'
+                    headType="docked"
                     {...(moreInfo ? { rowExpansion: 'single' } : {})}
                 >
                     {getTableHeaderCell()}
