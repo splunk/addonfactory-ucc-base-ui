@@ -30,8 +30,7 @@ function MenuInput({ handleRequestOpen }) {
             setOpenDropDown(true);
             setIsSubMenu(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [openDropDown]);
+    }, [openDropDown]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleRequestDropDownClose = ({ reason }) => {
         setOpenDropDown(!closeReasons.includes(reason));
@@ -92,7 +91,7 @@ function MenuInput({ handleRequestOpen }) {
     const getSlidingsPanels = (servicesGroup) =>
         Object.keys(servicesGroup).map((groupsName) => (
             <SlidingPanels.Panel key={groupsName} panelId={groupsName}>
-                <Menu style={{ width: 150 }}>
+                <Menu>
                     {groupsName !== 'main_panel' && getBackButton()}
                     {getMenuItems(servicesGroup[groupsName], groupsName)}
                 </Menu>
@@ -101,32 +100,37 @@ function MenuInput({ handleRequestOpen }) {
 
     const getInputMenu = () => {
         const servicesGroup = { main_panel: [] };
-        const groupServiceslist = [];
-        groupsMenu?.forEach((group) => {
-            servicesGroup[group.groupName] = [];
-            group.groupServices.forEach((serviceName) => {
-                servicesGroup[group.groupName].push({
-                    name: serviceName,
-                    title: services.find((service) => service.name === serviceName).title,
-                    hasSubmenu: false,
-                });
-                groupServiceslist.push(serviceName);
+        if (groupsMenu) {
+            groupsMenu.forEach((group) => {
+                if (group?.groupServices) {
+                    servicesGroup[group.groupName] = [];
+                    group.groupServices.forEach((serviceName) => {
+                        servicesGroup[group.groupName].push({
+                            name: serviceName,
+                            title: services.find((service) => service.name === serviceName).title,
+                            hasSubmenu: false,
+                        });
+                    });
+                    servicesGroup.main_panel.push({
+                        name: group.groupName,
+                        title: group.groupTitle,
+                        hasSubmenu: true,
+                    });
+                } else {
+                    servicesGroup.main_panel.push({
+                        name: group.groupName,
+                        title: group.groupTitle,
+                        hasSubmenu: false,
+                    });
+                }
             });
-            servicesGroup.main_panel.push({
-                name: group.groupName,
-                title: group.groupTitle,
-                hasSubmenu: true,
-            });
-        });
-        services.forEach((service) => {
-            if (!groupServiceslist.includes(service.name)) {
-                servicesGroup.main_panel.push({
-                    name: service.name,
-                    title: service.title,
-                    hasSubmenu: false,
-                });
-            }
-        });
+        } else {
+            servicesGroup.main_panel = services.map((service) => ({
+                name: service.name,
+                title: service.title,
+                hasSubmenu: false,
+            }));
+        }
         return getSlidingsPanels(servicesGroup);
     };
 
@@ -138,7 +142,11 @@ function MenuInput({ handleRequestOpen }) {
             onRequestClose={handleRequestDropDownClose}
             onRequestOpen={handleRequestDropDownOpen}
         >
-            <SlidingPanels activePanelId={activePanelId} transition={slidingPanelsTransition}>
+            <SlidingPanels
+                activePanelId={activePanelId}
+                transition={slidingPanelsTransition}
+                style={{ width: '200px' }}
+            >
                 {getInputMenu()}
             </SlidingPanels>
         </Dropdown>

@@ -796,33 +796,32 @@
             "table": {
               "$ref": "#/definitions/InputsTable"
             },
-            "groupsMenu" : {
-              "type":"array",
+            "groupsMenu": {
+              "type": "array",
               "items": {
-                "type":"object",
+                "type": "object",
                 "properties": {
-                  "groupTitle":{
+                  "groupName": {
                     "type": "string",
                     "pattern": "^[0-9a-zA-Z][\\w-]*$",
                     "maxLength": 50
                   },
-                  "groupName":{
+                  "groupTitle": {
                     "type": "string",
                     "maxLength": 100
                   },
-                  "groupServices":{
-                    "type":"array",
+                  "groupServices": {
+                    "type": "array",
                     "items": {
-                      "type":"string",
+                      "type": "string",
                       "pattern": "^[0-9a-zA-Z][\\w-]*$",
                       "maxLength": 50
                     }
                   }
                 },
-                "required":[
+                "required": [
                   "groupTitle",
-                  "groupName",
-                  "groupServices"
+                  "groupName"
                 ]
               }
             },
@@ -1332,7 +1331,10 @@
         },
         "style": {
           "type": "string",
-          "enum": ["page", "dialog"]
+          "enum": [
+            "page",
+            "dialog"
+          ]
         },
         "conf": {
           "type": "string",
