@@ -829,7 +829,8 @@ class BaseFormView extends PureComponent {
                             this.props.serviceName,
                             this.state,
                             this.props.mode,
-                            this.util
+                            this.util,
+                            this.props.groupName
                         );
                         resolve(Hook);
                     }
@@ -1116,6 +1117,7 @@ BaseFormView.propTypes = {
     currentServiceState: PropTypes.object,
     mode: PropTypes.string,
     handleFormSubmit: PropTypes.func,
+    groupName: PropTypes.string,
 };
 
 export default BaseFormView;

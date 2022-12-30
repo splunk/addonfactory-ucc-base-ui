@@ -13,7 +13,15 @@ import BaseFormView from './BaseFormView';
 import { SubTitleComponent } from '../pages/Input/InputPageStyle';
 import { PAGE_INPUT } from '../constants/pages';
 
-function EntityPage({ handleRequestClose, serviceName, mode, stanzaName, formLabel, page }) {
+function EntityPage({
+    handleRequestClose,
+    serviceName,
+    mode,
+    stanzaName,
+    formLabel,
+    page,
+    groupName,
+}) {
     // Ref is used here to call submit method of form only
     const form = useRef(); // nosemgrep: typescript.react.security.audit.react-no-refs.react-no-refs
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -70,6 +78,7 @@ function EntityPage({ handleRequestClose, serviceName, mode, stanzaName, formLab
                         mode={mode}
                         stanzaName={stanzaName}
                         handleFormSubmit={handleFormSubmit}
+                        groupName={groupName}
                     />
                 </ColumnLayout.Column>
                 <ColumnLayout.Column span={2} />
@@ -105,6 +114,7 @@ EntityPage.propTypes = {
     stanzaName: PropTypes.string,
     formLabel: PropTypes.string,
     page: PropTypes.string,
+    groupName: PropTypes.string,
 };
 
 export default memo(EntityPage);
