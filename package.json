@@ -5,17 +5,13 @@
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --bail",
-    "format": "git ls-files | grep -E \"\\.(jsx?|css)$\" | xargs prettier --write",
-    "format:verify": "git ls-files | grep -E \"\\.(jsx?|css)$\" | xargs prettier --list-different",
+    "format": "prettier \"src/main/webapp/**/*.(js|jsx|css)\" --write",
+    "format:verify": "prettier \"src/main/webapp/**/*.(js|jsx|css)\" --list-different",
     "eslint": "eslint src --ext \".js,.jsx\"",
     "eslint:ci": "yarn run eslint -f junit -o test-reports/lint-results.xml",
     "eslint:fix": "eslint src --ext \".js, .jsx\" --fix",
-    "link:app": "ln -s $PWD/dist/package $SPLUNK_HOME/etc/apps/my-splunk-app",
-    "lint": "yarn run eslint && yarn run stylelint",
-    "lint:ci": "yarn run eslint:ci && yarn run stylelint",
     "start": "webpack --watch",
     "setup": "yarn && yarn run build",
-    "stylelint": "stylelint \"src/**/*.{js,jsx}\" --config stylelint.config.js",
     "prepare": "husky install"
   },
   "dependencies": {
