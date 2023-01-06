@@ -1320,5 +1320,5 @@
     }
   },
   "required": ["meta", "pages"],
-  "additionalProperties": true
+  "additionalProperties": false
 }
