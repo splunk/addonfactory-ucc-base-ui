@@ -38,7 +38,7 @@
     "@splunk/eslint-config": "^4.0.0",
     "@splunk/webpack-configs": "^6.0.0",
     "babel-eslint": "^10.1.0",
-    "babel-loader": "^9.1.0",
+    "babel-loader": "^9.1.2",
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.3",
