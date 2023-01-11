@@ -1,7 +1,7 @@
 /* eslint no-undef: "error" */
 /* eslint-env node */
 module.exports = {
-    /* eslint no-undef: "error" */ parser: '@babel/eslint-parser',
+    parser: '@babel/eslint-parser',
     extends: ['@splunk/eslint-config/browser', 'prettier', 'plugin:jest/recommended'],
     plugins: ['prettier', 'jest'],
     env: {
