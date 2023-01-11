@@ -10,8 +10,12 @@
     "eslint": "eslint src --ext \".js,.jsx\"",
     "eslint:ci": "yarn run eslint -f junit -o test-reports/lint-results.xml",
     "eslint:fix": "eslint src --ext \".js, .jsx\" --fix",
+<<<<<<< HEAD
     "test": "jest --coverage",
     "test:watch": "jest --watch",
+=======
+    "test": "jest --verbose --coverage",
+>>>>>>> f9bbe7e (test(UI): ADDON-58762 Jest setup)
     "start": "webpack --watch",
     "setup": "yarn && yarn run build",
     "prepare": "husky install"
