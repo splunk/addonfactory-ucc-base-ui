@@ -34,7 +34,6 @@ function CustomTable({
     const { rowData } = useContext(TableContext);
 
     const { moreInfo, header: headers, actions } = tableConfig;
-    // const headers = tableConfig.header;
 
     const headerMapping = {};
     headers.forEach((x) => {
