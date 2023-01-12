@@ -1,7 +1,6 @@
 /* eslint no-undef: "error" */
 /* eslint-env node */
 module.exports = {
-    /* eslint no-undef: "error" */
     // Mock
     clearMocks: true,
 
