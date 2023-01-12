@@ -10,7 +10,8 @@
     "eslint": "eslint src --ext \".js,.jsx\"",
     "eslint:ci": "yarn run eslint -f junit -o test-reports/lint-results.xml",
     "eslint:fix": "eslint src --ext \".js, .jsx\" --fix",
-    "test": "jest --verbose --coverage",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
     "start": "webpack --watch",
     "setup": "yarn && yarn run build",
     "prepare": "husky install"
