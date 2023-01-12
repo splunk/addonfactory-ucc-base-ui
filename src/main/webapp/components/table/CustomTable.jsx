@@ -34,6 +34,10 @@ function CustomTable({
     const { rowData } = useContext(TableContext);
 
     const { moreInfo, header: headers, actions } = tableConfig;
+<<<<<<< HEAD
+=======
+    // const headers = tableConfig.header;
+>>>>>>> e502dfd (fix ADDON-58705 Table action buttons are dynamic from the global config file)
 
     const headerMapping = {};
     headers.forEach((x) => {
