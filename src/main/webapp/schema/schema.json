@@ -1236,9 +1236,19 @@
         },
         "hook": {
           "type": "object"
+        },
+        "customTab": {
+          "type": "object"
         }
       },
-      "required": ["entity", "name", "title"],
+      "anyOf": [
+        {
+          "required": ["entity", "name", "title"]
+        },
+        {
+          "required": ["customTab", "name", "title"]
+        }
+      ],
       "additionalProperties": false
     },
     "Technology": {
