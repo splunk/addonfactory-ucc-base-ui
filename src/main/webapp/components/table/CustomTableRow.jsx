@@ -76,7 +76,7 @@ function CustomTableRow(props) {
                     {rowActions.includes('delete') && (
                         <Tooltip content={_('Delete')}>
                             <ActionButtonComponent
-                                appearance="destructive"
+                                appearance="flat"
                                 icon={<Trash screenReaderText={null} size={1} />}
                                 onClick={() => handleDeleteActionClick(selectedRow)}
                                 className="deleteBtn"
