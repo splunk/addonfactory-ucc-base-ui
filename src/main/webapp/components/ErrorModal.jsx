@@ -34,6 +34,6 @@ function ErrorModal(props) {
 }
 ErrorModal.propTypes = {
     message: PropTypes.string,
-    open: PropTypes.string,
+    open: PropTypes.bool,
 };
 export default ErrorModal;

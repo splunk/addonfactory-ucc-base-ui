@@ -192,13 +192,27 @@ const checkConfigDetails = ({ pages: { configuration, inputs } }) => {
     };
 
     if (inputs) {
-        const { services } = inputs;
+        const { services, groupsMenu } = inputs;
         services.forEach((service, i) => {
             const { entity, options, name } = service;
             checkBaseOptions(options, `${position}.inputs.services[${i}].options`);
             checkEntity(entity, name, `${position}.inputs.services[${i}].entity`);
         });
         errors = errors.concat(checkDupKeyValues(inputs, true, `${position}.inputs`));
+
+        if (groupsMenu) {
+            groupsMenu.forEach((group) => {
+                if (group.groupServices) {
+                    group.groupServices.forEach((serviceName) => {
+                        if (!services.find((service) => service.name === serviceName)) {
+                            appendError(errors, getFormattedMessage(28));
+                        }
+                    });
+                } else if (!services.find((service) => service.name === group.groupName)) {
+                    appendError(errors, getFormattedMessage(28));
+                }
+            });
+        }
     }
 
     if (configuration) {
