@@ -76,7 +76,7 @@ function CustomTableRow(props) {
                     {rowActions.includes('delete') && (
                         <Tooltip content={_('Delete')}>
                             <ActionButtonComponent
-                                appearance="destructive"
+                                appearance="flat"
                                 icon={<Trash screenReaderText={null} size={1} />}
                                 onClick={() => handleDeleteActionClick(selectedRow)}
                                 className="deleteBtn"
@@ -151,7 +151,7 @@ function CustomTableRow(props) {
                     } else {
                         cellHTML = (
                             <Table.Cell
-                                style={{ wordBreak: 'break-all' }}
+                                style={{ wordBreak: 'break-word' }}
                                 data-column={header.field}
                                 key={header.field}
                             >

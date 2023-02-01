@@ -14,7 +14,6 @@ import { PAGE_INPUT } from '../../constants/pages';
 function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPageStyleDialog }) {
     const [sortKey, setSortKey] = useState('name');
     const [sortDir, setSortDir] = useState('asc');
-    const [isCustomMapping, setCustomMappingStatus] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -159,7 +158,6 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
         const nextSortDir = prevSortDir === 'asc' ? 'desc' : 'asc';
         setSortDir(nextSortDir);
         setSortKey(val.sortKey);
-        setCustomMappingStatus(val.isCustomMapping);
     };
 
     /**
@@ -217,18 +215,16 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
             arr = arr.filter((v) => v.serviceName === serviceName);
         }
 
-        const updatedSortKey = isCustomMapping ? 'serviceTitle' : sortKey;
-
         // Sort the array based on the sort value
         const sortedArr = arr.sort((rowA, rowB) => {
             if (sortDir === 'asc') {
-                const rowAValue = rowA[updatedSortKey] === undefined ? '' : rowA[updatedSortKey];
-                const rowBValue = rowB[updatedSortKey] === undefined ? '' : rowB[updatedSortKey];
+                const rowAValue = rowA[sortKey] === undefined ? '' : rowA[sortKey];
+                const rowBValue = rowB[sortKey] === undefined ? '' : rowB[sortKey];
                 return rowAValue > rowBValue ? 1 : -1;
             }
             if (sortDir === 'desc') {
-                const rowAValue = rowA[updatedSortKey] === undefined ? '' : rowA[updatedSortKey];
-                const rowBValue = rowB[updatedSortKey] === undefined ? '' : rowB[updatedSortKey];
+                const rowAValue = rowA[sortKey] === undefined ? '' : rowA[sortKey];
+                const rowBValue = rowB[sortKey] === undefined ? '' : rowB[sortKey];
                 return rowBValue > rowAValue ? 1 : -1;
             }
             return 0;
