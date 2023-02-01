@@ -23,8 +23,6 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
 
     const unifiedConfigs = getUnifiedConfigs();
 
-    const outerTable = unifiedConfigs.pages.inputs?.table;
-
     const services =
         page === PAGE_INPUT
             ? unifiedConfigs.pages.inputs.services
@@ -32,12 +30,13 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
 
     const tableConfig =
         page === PAGE_INPUT
-            ? outerTable || services.find((x) => x.name === serviceName).table
+            ? unifiedConfigs.pages.inputs.table ||
+              services.find((x) => x.name === serviceName).table
             : unifiedConfigs.pages.configuration.tabs.find((x) => x.name === serviceName).table;
 
     const { moreInfo } = tableConfig;
     const headers = tableConfig.header;
-    const isOuterTable = !!outerTable;
+    const isTabs = !!serviceName;
 
     const modifyAPIResponse = (data) => {
         const obj = {};
@@ -214,7 +213,7 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
         }
 
         // For Inputs page, filter the data when tab change
-        if (!isOuterTable) {
+        if (isTabs) {
             arr = arr.filter((v) => v.serviceName === serviceName);
         }
 
@@ -261,7 +260,7 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
                 services={services}
                 totalElement={totalElement}
                 handleRequestModalOpen={handleRequestModalOpen}
-                isOuterTable={isOuterTable}
+                isTabs={isTabs}
             />
             <CustomTable
                 page={page}
