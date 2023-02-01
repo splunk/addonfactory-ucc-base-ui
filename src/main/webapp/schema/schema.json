@@ -811,7 +811,7 @@
                           "type": "string",
                           "maxLength": 100
                         },
-                        "field": {
+                        "fields": {
                           "type": "array",
                           "items": {
                             "type": "string",
@@ -819,7 +819,8 @@
                           }
                         }
                       },
-                      "required": ["label"]
+                      "required": ["label", "fields"],
+                      "additionalProperties": false
                     }
                   },
                   "style": {
