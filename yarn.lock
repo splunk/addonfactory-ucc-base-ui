@@ -1973,19 +1973,6 @@
     lodash "^4.17.14"
     tinycolor2 "^1.4.1"
 
-"@splunk/themes@^0.14.0":
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/@splunk/themes/-/themes-0.14.0.tgz#afa46ca12098875d3292d8d56ad50d66d3f6f259"
-  integrity sha512-V70vky2KDvdDddRnYvXInHQRfwnXs4afvDPmXnM+IX504kQQ1/X5lQIijSDjWeCTSJfE4fWm3Y9Sm6E7pB6v1A==
-  dependencies:
-    "@types/lodash" "^4.14.156"
-    "@types/react" "^16.9.38"
-    "@types/styled-components" "^5.1.0"
-    "@types/tinycolor2" "^1.4.2"
-    color-blend "^2.0.9"
-    lodash "^4.17.14"
-    tinycolor2 "^1.4.1"
-
 "@splunk/themes@^0.15.0":
   version "0.15.0"
   resolved "https://registry.yarnpkg.com/@splunk/themes/-/themes-0.15.0.tgz#fc29f8760359a14bcae4e17bf8c11b00e72c8d63"
