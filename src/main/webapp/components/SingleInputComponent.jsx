@@ -89,7 +89,7 @@ function SingleInputComponent(props) {
         if (dependencyValues) {
             options.params = { ...options.params, ...dependencyValues };
         }
-        if (!dependencies || (dependencyValues && Object.keys(dependencyValues).length)) {
+        if (!dependencies || dependencyValues) {
             setLoading(true);
             axiosCallWrapper(options)
                 .then((response) => {
@@ -106,6 +106,7 @@ function SingleInputComponent(props) {
                     if (current) {
                         setLoading(false);
                     }
+                    setOptions(null);
                 });
         } else {
             setOptions(null);
@@ -121,7 +122,8 @@ function SingleInputComponent(props) {
     const effectiveDisabled = loading ? true : disabled;
     const effectivePlaceholder = loading ? _('Loading') : placeholder;
     // hideClearBtn=true only passed for OAuth else its undefined
-    const effectiveIsClearable = effectiveDisabled ? false : !hideClearBtn;
+    // effectiveIsClearable button will be visible only for the required=false and createSearchChoice=false single-select fields.
+    const effectiveIsClearable = !(effectiveDisabled || restProps.required || hideClearBtn);
 
     return createSearchChoice ? (
         <StyledDiv className="dropdownBox">
@@ -158,7 +160,7 @@ function SingleInputComponent(props) {
                     data-test="clear"
                     appearance="secondary"
                     icon={<Clear />}
-                    onClick={() => restProps.handleChange(field, 'RESET_DROPDOWN_VALUE')}
+                    onClick={() => restProps.handleChange(field, '')}
                 />
             ) : null}
         </>
@@ -185,6 +187,7 @@ SingleInputComponent.propTypes = {
         labelField: PropTypes.string,
         hideClearBtn: PropTypes.bool,
     }),
+    required: PropTypes.bool,
 };
 
 export default SingleInputComponent;
