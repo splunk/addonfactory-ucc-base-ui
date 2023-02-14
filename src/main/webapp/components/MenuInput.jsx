@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import Button from '@splunk/react-ui/Button';
 import Dropdown from '@splunk/react-ui/Dropdown';
 import Menu from '@splunk/react-ui/Menu';
 import SlidingPanels from '@splunk/react-ui/SlidingPanels';
@@ -10,6 +9,7 @@ import { _ } from '@splunk/ui-utils/i18n';
 import { getFormattedMessage } from '../util/messageUtil';
 import { getUnifiedConfigs } from '../util/util';
 import CustomMenu from './CustomMenu';
+import { StyledButton } from '../pages/EntryPageStyle';
 
 function MenuInput({ handleRequestOpen }) {
     const [activePanelId, setActivePanelId] = useState('main_panel');
@@ -22,7 +22,7 @@ function MenuInput({ handleRequestOpen }) {
 
     const closeReasons = ['clickAway', 'escapeKey', 'offScreen', 'toggleClick', 'contentClick'];
     const toggle = (
-        <Button appearance="primary" id="addInputBtn" label={_('Create New Input')} isMenu />
+        <StyledButton appearance="primary" id="addInputBtn" label={_('Create New Input')} isMenu />
     );
 
     useEffect(() => {
@@ -154,7 +154,7 @@ function MenuInput({ handleRequestOpen }) {
 
     // Making a dropdown if we have one service
     const makeInputButton = () => (
-        <Button
+        <StyledButton
             label={getFormattedMessage(100)}
             appearance="primary"
             id="addInputBtn"
