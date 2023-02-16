@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import Dropdown from '@splunk/react-ui/Dropdown';
@@ -15,22 +15,22 @@ function MenuInput({ handleRequestOpen }) {
     const [activePanelId, setActivePanelId] = useState('main_panel');
     const [slidingPanelsTransition, setSlidingPanelsTransition] = useState('forward');
     const [openDropDown, setOpenDropDown] = useState(false);
-    const [isSubMenu, setIsSubMenu] = useState(false);
+    const [isSubMenu, setIsSubMenu] = useState(true);
 
     const unifiedConfigs = getUnifiedConfigs();
     const { services, menu: customMenuField, groupsMenu } = unifiedConfigs.pages.inputs;
 
-    const closeReasons = ['clickAway', 'escapeKey', 'offScreen', 'toggleClick', 'contentClick'];
+    const closeReasons = ['clickAway', 'escapeKey', 'offScreen', 'toggleClick'];
     const toggle = (
         <StyledButton appearance="primary" id="addInputBtn" label={_('Create New Input')} isMenu />
     );
 
     useEffect(() => {
-        if (isSubMenu) {
-            setOpenDropDown(true);
-            setIsSubMenu(false);
+        if (!isSubMenu) {
+            setOpenDropDown(false);
+            setIsSubMenu(true);
         }
-    }, [openDropDown]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [isSubMenu]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleRequestDropDownClose = ({ reason }) => {
         setOpenDropDown(!closeReasons.includes(reason));
@@ -54,7 +54,6 @@ function MenuInput({ handleRequestOpen }) {
                     onClick={() => {
                         setActivePanelId(service.name);
                         setSlidingPanelsTransition('forward');
-                        setIsSubMenu(true);
                     }}
                 >
                     {service.title}
@@ -79,10 +78,9 @@ function MenuInput({ handleRequestOpen }) {
                 onClick={() => {
                     setActivePanelId('main_panel');
                     setSlidingPanelsTransition('backward');
-                    setIsSubMenu(true);
                 }}
             >
-                Back
+                Back111
             </Menu.Item>
             <Menu.Divider />
         </>
@@ -98,7 +96,7 @@ function MenuInput({ handleRequestOpen }) {
             </SlidingPanels.Panel>
         ));
 
-    const getInputMenu = () => {
+    const getInputMenu = useMemo(() => {
         const servicesGroup = { main_panel: [] };
         if (groupsMenu) {
             groupsMenu.forEach((group) => {
@@ -132,7 +130,7 @@ function MenuInput({ handleRequestOpen }) {
             }));
         }
         return getSlidingsPanels(servicesGroup);
-    };
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     // Making a dropdown if we have more than one service
     const makeSingleSelectDropDown = () => (
@@ -147,7 +145,7 @@ function MenuInput({ handleRequestOpen }) {
                 transition={slidingPanelsTransition}
                 style={{ width: '200px' }}
             >
-                {getInputMenu()}
+                {getInputMenu}
             </SlidingPanels>
         </Dropdown>
     );
