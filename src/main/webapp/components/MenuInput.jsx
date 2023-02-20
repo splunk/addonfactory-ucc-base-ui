@@ -80,7 +80,7 @@ function MenuInput({ handleRequestOpen }) {
                     setSlidingPanelsTransition('backward');
                 }}
             >
-                Back111
+                Back
             </Menu.Item>
             <Menu.Divider />
         </>
