@@ -1048,7 +1048,10 @@ class BaseFormView extends PureComponent {
         }
         return (
             <div>
-                <form style={this.props.mode === MODE_CONFIG ? { marginTop: '25px' } : {}}>
+                <form
+                    onSubmit={(e) => e.preventDefault()}
+                    style={this.props.mode === MODE_CONFIG ? { marginTop: '25px' } : {}}
+                >
                     {this.generateWarningMessage()}
                     {this.generateErrorMessage()}
                     {this.entities.map((e) => {
