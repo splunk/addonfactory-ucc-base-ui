@@ -497,7 +497,14 @@ class BaseFormView extends PureComponent {
                     parameters = `${parameters}&state=${this.oauth_state}`;
                 }
 
-                const host = `https://${this.datadict.endpoint}${this.oauthConf.authCodeEndpoint}${parameters}`;
+                if (this.datadict.scope) {
+                    parameters = `${parameters}&scope=${this.datadict.scope}`;
+                }
+
+                const host = encodeURI(
+                    `https://${this.datadict.endpoint}${this.oauthConf.authCodeEndpoint}${parameters}`
+                );
+
                 (async () => {
                     this.isCalled = false;
                     this.isError = false;
@@ -876,6 +883,10 @@ class BaseFormView extends PureComponent {
             code,
             redirect_uri: this.datadict.redirect_url,
         };
+
+        if (this.datadict.scope) {
+            data.scope = this.datadict.scope;
+        }
 
         const body = new URLSearchParams();
         Object.keys(data).forEach((key) => {
