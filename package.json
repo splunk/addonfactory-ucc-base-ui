@@ -63,7 +63,7 @@
     "jest-environment-jsdom": "^29.3.1",
     "lint-staged": "^13.1.0",
     "prettier": "^2.8.3",
-    "semantic-release": "^19.0.5",
+    "semantic-release": "^20.1.1",
     "style-loader": "^3.3.1",
     "stylelint": "^14.16.1",
     "url": "^0.11.0",
