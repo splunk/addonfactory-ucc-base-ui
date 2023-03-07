@@ -17,7 +17,9 @@ function isValidFile(fileType, fileSize, supportedFileTypes, maxFileSize) {
     if (!supportedFileTypes.includes(fileType)) {
         return (
             <span style={{ color: 'red' }}>
-                {getFormattedMessage(24, [supportedFileTypes.join(', ')])}
+                {getFormattedMessage(supportedFileTypes.length === 1 ? 28 : 24, [
+                    supportedFileTypes.join(', '),
+                ])}
             </span>
         );
     }

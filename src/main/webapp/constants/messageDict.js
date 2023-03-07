@@ -27,6 +27,7 @@ export default {
     25: 'The file size should not exceed {{args[0]}} KB',
     26: 'The file is invalid',
     27: '{{args[0]}} type is not present in supported File Types',
+    28: 'The file must be in {{args[0]}} format',
 
     // general messages, range [100, 499]
     100: 'Create New Input',
