@@ -1,3 +1,4 @@
+import ButtonComponent from '../components/ButtonComponent';
 import HelpLinkComponent from '../components/HelpLinkComponent';
 import TextComponent from '../components/TextComponent';
 import TextAreaComponent from '../components/TextAreaComponent';
@@ -13,6 +14,7 @@ export default {
     text: TextComponent,
     textarea: TextAreaComponent,
     singleSelect: SingleInputComponent,
+    button: ButtonComponent,
     helpLink: HelpLinkComponent,
     multipleSelect: MultiInputComponent,
     checkbox: CheckBoxComponent,
