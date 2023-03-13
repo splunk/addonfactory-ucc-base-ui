@@ -1923,10 +1923,10 @@
     prop-types "^15.6.2"
     react-flip-move "^3.0.1"
 
-"@splunk/react-ui@^4.15.0", "@splunk/react-ui@^4.16.0":
-  version "4.16.2"
-  resolved "https://registry.yarnpkg.com/@splunk/react-ui/-/react-ui-4.16.2.tgz#077aad01b77557b9dd84c2d0e5c24e4da11e4300"
-  integrity sha512-BTn7J7aEFFGrF0qtk8Upzts68UfKe/vc8C6KEqAwn/5FcBx024zLnjPp0NJrXzT/uzHvqskrBOXJtOZEaj93gQ==
+"@splunk/react-ui@^4.15.0", "@splunk/react-ui@^4.16.3":
+  version "4.16.3"
+  resolved "https://registry.yarnpkg.com/@splunk/react-ui/-/react-ui-4.16.3.tgz#3866582ab515122329e393867137f1fb12440372"
+  integrity sha512-/aRq+J0Q/VkQbwqiwq7vmgeU0/47k2pih6BCU3iLL7wPWiVRYpokKbtzQWHZKbRsP4A7iY8ffymiNg3DHw+XGg==
   dependencies:
     "@splunk/react-icons" "3.3.1"
     "@splunk/themes" "^0.15.0"
