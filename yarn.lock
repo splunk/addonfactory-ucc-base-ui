@@ -1950,10 +1950,10 @@
     tinycolor2 "^1.4.1"
     use-typed-event-listener "^3.0.0"
 
-"@splunk/splunk-utils@^2.2.4", "@splunk/splunk-utils@^2.3.0":
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/@splunk/splunk-utils/-/splunk-utils-2.3.1.tgz#10cb4f454ee00e1b4a8c520ccb9635eca7b8d575"
-  integrity sha512-h5+LdZiovSZBSGaYtbORltVKF1GMW5hUU4SgvyB9M1iIr0bCv8BrPtWwTum1asAnFzbvRBw3lzYb6SbKabpaHg==
+"@splunk/splunk-utils@^2.2.4", "@splunk/splunk-utils@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@splunk/splunk-utils/-/splunk-utils-2.3.2.tgz#3d09db0793773b2de1766d08df13f8f8ba8fb318"
+  integrity sha512-aASEzRESGvUvi/vO8Qkvs1JuRc2hdg0Q69ZP246vOkSvWETJqru99lsq8FReqnQfpWw5hFQO/YZ15SaSZOvxxQ==
   dependencies:
     "@splunk/ui-utils" "^1.5.2"
     lodash "^4.17.14"
