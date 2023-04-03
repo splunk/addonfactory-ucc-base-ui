@@ -28,7 +28,7 @@
     "license-webpack-plugin": "^4.0.2",
     "react": "^16.9.38",
     "react-dom": "^16.9.8",
-    "react-router-dom": "^6.7.0",
+    "react-router-dom": "^6.10.0",
     "styled-components": "^5.3.6",
     "uuid": "^9.0.0"
   },
