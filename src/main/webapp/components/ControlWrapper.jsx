@@ -112,6 +112,7 @@ class ControlWrapper extends React.PureComponent {
                     tooltip={tooltip}
                     error={this.props.error}
                     dataName={field}
+                    required={required}
                 >
                     <CustomElement>{rowView}</CustomElement>
                 </ControlGroupWrapper>
