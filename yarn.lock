@@ -1898,14 +1898,14 @@
     lodash "^4.17.14"
     prop-types "^15.6.2"
 
-"@splunk/react-page@^6.0.3":
-  version "6.0.3"
-  resolved "https://registry.yarnpkg.com/@splunk/react-page/-/react-page-6.0.3.tgz#31cb1903610643a15a99b5c3c1af5149f67b97c4"
-  integrity sha512-B77pqPgXWBSEQOaxVJky4Jvd4sqF6VHuCpnQtRTjGOV6FmHWICYzSgC5RDzXLDsVhI8+3jgcdIMB4Ns9rxG8qg==
+"@splunk/react-page@^6.0.4":
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/@splunk/react-page/-/react-page-6.0.4.tgz#9a5907d2e4e5ab5f4e91b61ef08d9f413f52fdb0"
+  integrity sha512-gtcTo+LSEZU2mipIPMZhqe+yJVHxWMhlcdtqEBiOx35nBXwl5DSSwJqU31A+6/eTX5HtuAiO53RmKelfQiYkJw==
   dependencies:
-    "@splunk/react-ui" "^4.15.0"
-    "@splunk/splunk-utils" "^2.2.4"
-    "@splunk/themes" "^0.13.1"
+    "@splunk/react-ui" "^4.16.3"
+    "@splunk/splunk-utils" "^2.3.3"
+    "@splunk/themes" "^0.16.0"
     "@splunk/ui-utils" "^1.5.2"
     prop-types "^15.6.2"
     scriptjs "^2.5.8"
@@ -1923,10 +1923,10 @@
     prop-types "^15.6.2"
     react-flip-move "^3.0.1"
 
-"@splunk/react-ui@^4.15.0", "@splunk/react-ui@^4.16.0":
-  version "4.16.2"
-  resolved "https://registry.yarnpkg.com/@splunk/react-ui/-/react-ui-4.16.2.tgz#077aad01b77557b9dd84c2d0e5c24e4da11e4300"
-  integrity sha512-BTn7J7aEFFGrF0qtk8Upzts68UfKe/vc8C6KEqAwn/5FcBx024zLnjPp0NJrXzT/uzHvqskrBOXJtOZEaj93gQ==
+"@splunk/react-ui@^4.15.0", "@splunk/react-ui@^4.16.0", "@splunk/react-ui@^4.16.3":
+  version "4.16.3"
+  resolved "https://registry.yarnpkg.com/@splunk/react-ui/-/react-ui-4.16.3.tgz#3866582ab515122329e393867137f1fb12440372"
+  integrity sha512-/aRq+J0Q/VkQbwqiwq7vmgeU0/47k2pih6BCU3iLL7wPWiVRYpokKbtzQWHZKbRsP4A7iY8ffymiNg3DHw+XGg==
   dependencies:
     "@splunk/react-icons" "3.3.1"
     "@splunk/themes" "^0.15.0"
@@ -1950,10 +1950,10 @@
     tinycolor2 "^1.4.1"
     use-typed-event-listener "^3.0.0"
 
-"@splunk/splunk-utils@^2.2.4", "@splunk/splunk-utils@^2.3.0":
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/@splunk/splunk-utils/-/splunk-utils-2.3.1.tgz#10cb4f454ee00e1b4a8c520ccb9635eca7b8d575"
-  integrity sha512-h5+LdZiovSZBSGaYtbORltVKF1GMW5hUU4SgvyB9M1iIr0bCv8BrPtWwTum1asAnFzbvRBw3lzYb6SbKabpaHg==
+"@splunk/splunk-utils@^2.3.0", "@splunk/splunk-utils@^2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@splunk/splunk-utils/-/splunk-utils-2.3.3.tgz#c2cee790bd86a69e13e5295e33f9992ca1df6996"
+  integrity sha512-ngv/LCTE1h9wgXJQ36NiaSD4887qWEaqmvrC0BKAh1NlNFZE6ZeFE6+7nyGvEqj07/Lx0vY7eiuwSQIO2dmKHA==
   dependencies:
     "@splunk/ui-utils" "^1.5.2"
     lodash "^4.17.14"
@@ -1990,6 +1990,19 @@
   version "0.15.0"
   resolved "https://registry.yarnpkg.com/@splunk/themes/-/themes-0.15.0.tgz#fc29f8760359a14bcae4e17bf8c11b00e72c8d63"
   integrity sha512-H7SVhgXU+1rJUfC/Ijt12AUIo7hX+tzvknAs9MiCppdAUbUBbKtm+TN4z4YKYiHzpA/mwlY2A35vXGGP5ljH0A==
+  dependencies:
+    "@types/lodash" "^4.14.156"
+    "@types/react" "^16.9.38"
+    "@types/styled-components" "^5.1.0"
+    "@types/tinycolor2" "^1.4.2"
+    color-blend "^2.0.9"
+    lodash "^4.17.14"
+    tinycolor2 "^1.4.1"
+
+"@splunk/themes@^0.16.0":
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/@splunk/themes/-/themes-0.16.0.tgz#b4b1c47181217d6013071e4d6928e9749e057952"
+  integrity sha512-97EV96dDs30I0CJsy1UmT4H1D/d3znfVdP3Pp9Kb7qZH/AtCqvtCIq9lnR1s2ZoCKtnwto01Z+3y3y/Vvg+y3w==
   dependencies:
     "@types/lodash" "^4.14.156"
     "@types/react" "^16.9.38"

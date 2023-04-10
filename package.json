@@ -17,7 +17,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@splunk/react-page": "^6.0.3",
+    "@splunk/react-page": "^6.0.4",
     "@splunk/react-toast-notifications": "^0.11.1",
     "@splunk/react-ui": "^4.16.0",
     "@splunk/splunk-utils": "^2.3.0",
