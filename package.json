@@ -29,7 +29,7 @@
     "react": "^16.9.38",
     "react-dom": "^16.9.8",
     "react-router-dom": "^6.7.0",
-    "styled-components": "^5.3.6",
+    "styled-components": "^5.3.10",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
