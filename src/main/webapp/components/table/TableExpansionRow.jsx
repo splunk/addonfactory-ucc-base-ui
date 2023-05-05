@@ -55,12 +55,12 @@ export function getExpansionRow(colSpan, row, moreInfo) {
                     </>
                 ) : (
                     <>
-                        <Button
-                            to={`/app/search/search?q=search%20index%3D_*%20source%3D*${row.name}*`}
-                            openInNewContext
-                            label="Search internal logs"
-                        />
                         <DL termWidth={250}>{getExpansionRowData(row, moreInfo)}</DL>
+                        <Button
+                            to={`/app/search/search?q=search%20index%3D_internal%20source%3D*${row.name}*`}
+                            openInNewContext
+                            label={`Show ${row.name} input events`}
+                        />
                     </>
                 )}
             </TableCellWrapper>
