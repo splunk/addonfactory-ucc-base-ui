@@ -67,4 +67,3 @@ export function getExpansionRow(colSpan, row, moreInfo) {
         </Table.Row>
     );
 }
-//  <Select.Option key="10" label={_('10 Per Page')} value={10} />
