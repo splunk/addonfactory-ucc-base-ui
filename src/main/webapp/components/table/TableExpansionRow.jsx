@@ -59,7 +59,7 @@ export function getExpansionRow(colSpan, row, moreInfo) {
                         <Button
                             to={`/app/search/search?q=search%20index%3D_internal%20source%3D*${row.name}*`}
                             openInNewContext
-                            label={`Show ${row.name} input events`}
+                            label={_(`Show ${row.name} input events`)}
                         />
                     </>
                 )}
@@ -67,3 +67,4 @@ export function getExpansionRow(colSpan, row, moreInfo) {
         </Table.Row>
     );
 }
+//  <Select.Option key="10" label={_('10 Per Page')} value={10} />
