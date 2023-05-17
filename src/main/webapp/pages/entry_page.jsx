@@ -18,6 +18,7 @@ const InputPage = React.lazy(() => import(/* webpackPrefetch: true */ './Input/I
 const ConfigurationPage = React.lazy(() =>
     import(/* webpackPrefetch: true */ './Configuration/ConfigurationPage')
 );
+const DNTPage = React.lazy(() => import(/* webpackPrefetch: true */ './Configuration/DNTPage'));
 
 // Take in a component as argument WrappedComponent
 function higherOrderComponent(WrappedComponent) {
@@ -55,6 +56,7 @@ function higherOrderComponent(WrappedComponent) {
 // Create a new component
 const InputPageComponent = higherOrderComponent(InputPage);
 const ConfigurationPageComponent = higherOrderComponent(ConfigurationPage);
+const DNTPageComponent = higherOrderComponent(DNTPage);
 
 const url = window.location.pathname;
 const urlParts = url.substring(1).split('/');
@@ -64,4 +66,6 @@ if (page === PAGE_INPUT) {
     layout(<InputPageComponent />, { pageTitle: messageDict[116] });
 } else if (page === PAGE_CONF) {
     layout(<ConfigurationPageComponent />, { pageTitle: messageDict[117] });
+} else {
+    layout(<DNTPageComponent />, { pageTitle: messageDict[117] });
 }

@@ -401,6 +401,28 @@
       "required": ["title", "tabs"],
       "additionalProperties": false
     },
+    "DNTPage": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 60
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "tabs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TabContent"
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["title", "tabs"],
+      "additionalProperties": false
+    },
     "ConfigurationTable": {
       "type": "object",
       "properties": {
@@ -1164,6 +1186,9 @@
         },
         "dashboard": {
           "$ref": "#/definitions/DashboardPage"
+        },
+        "dnt": {
+          "$ref": "#/definitions/DNTPage"
         }
       },
       "additionalProperties": false
