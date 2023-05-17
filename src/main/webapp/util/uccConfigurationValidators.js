@@ -44,24 +44,18 @@ export const parseNumberValidator = (range) => {
     return { error };
 };
 
-export const parseStringValidator = (minLength, maxLength) => {
-    const error = maxLength >= minLength ? undefined : getFormattedMessage(14);
-
-    return { error };
-};
-
 export const parseFunctionRawStr = (rawStr) => {
-    let error;
+    let err;
     let result;
 
     try {
         // eslint-disable-next-line no-eval
         result = eval(`(${rawStr})`);
     } catch (e) {
-        error = getFormattedMessage(11, rawStr);
+        err = getFormattedMessage(11, rawStr);
     }
 
-    return { error, result };
+    return { err, result };
 };
 
 export const checkDupKeyValues = (config, isInput, location) => {
@@ -74,56 +68,26 @@ export const checkDupKeyValues = (config, isInput, location) => {
     if (servicesLikeArr) {
         position = `${location}.${isInput ? 'services' : 'tabs'}`;
 
-        ['name', 'title'].forEach((d) => {
-            error = parseArrForDupKeys(servicesLikeArr, d);
-            appendError(errors, error, position);
-        });
-
         // Forbid dup value/label for items and autoCompleteFields
         const checkEntityDupKeyValues = ({ options }, postion) => {
             if (!options) {
                 return;
             }
+
             const { items } = options;
-            let { autoCompleteFields } = options;
+
             if (items) {
                 ['label', 'value'].forEach((d) => {
                     error = parseArrForDupKeys(items, d);
                     appendError(errors, error, `${postion}.options.items`);
                 });
             }
-
-            if (!autoCompleteFields) {
-                return;
-            }
-
-            const isGroupType = !!autoCompleteFields[0].children;
-
-            // Label checker, allow same label exist in different group,
-            // but forbid same label in any single group
-            const labelStoreList = isGroupType
-                ? autoCompleteFields.map((d) => d.children)
-                : [autoCompleteFields];
-            labelStoreList.forEach((d) => {
-                error = parseArrForDupKeys(d, 'label');
-                appendError(errors, error, `${postion}.options.autoCompleteFields`);
-            });
-
-            if (isGroupType) {
-                autoCompleteFields = _.flatten(_.union(autoCompleteFields.map((d) => d.children)));
-            }
-            error = parseArrForDupKeys(autoCompleteFields, 'value');
-            appendError(errors, error, `${postion}.options.autoCompleteFields`);
         };
 
         // Forbid dup field/label for entity
         servicesLikeArr.forEach((serviceLikeObj, i) => {
             const entityPosition = `${position}[${i}].entity`;
             if (serviceLikeObj.entity) {
-                ['field', 'label'].forEach((d, j) => {
-                    error = parseArrForDupKeys(serviceLikeObj.entity, d);
-                    appendError(errors, error, `${entityPosition}[${j}]`);
-                });
                 serviceLikeObj.entity.forEach((obj, k) => {
                     checkEntityDupKeyValues(obj, `${entityPosition}[${k}]`);
                 });
@@ -135,7 +99,6 @@ export const checkDupKeyValues = (config, isInput, location) => {
 };
 
 const checkConfigDetails = ({ pages: { configuration, inputs } }) => {
-    let error;
     let errors = [];
     const position = 'instantce.pages';
 
@@ -146,58 +109,19 @@ const checkConfigDetails = ({ pages: { configuration, inputs } }) => {
         });
     };
 
-    const checkEntity = (entity, rootName, pos, isCollectionType = true) => {
-        _.values(entity).forEach((item, i) => {
-            const { validators, options } = item;
-
-            _.values(validators).forEach((d, j) => {
-                switch (d.type) {
-                    case 'string':
-                        error = parseStringValidator(d.minLength, d.maxLength).error;
-                        break;
-                    case 'number':
-                        error = parseNumberValidator(d.range).error;
-                        break;
-                    case 'regex':
-                        error = parseRegexRawStr(d.pattern).error;
-                        break;
-                    default:
-                }
-                appendError(errors, error, `${pos}[${i}].validators[${j}]`);
-            });
-
-            // Details check for entity options.
-            _.forEach(['denyList', 'allowList'], (d) => {
-                if (options && options[d]) {
-                    error = parseRegexRawStr(options[d]).error;
-                    appendError(errors, error, `${pos}[${i}].options.${d}`);
-                }
-            });
-        });
-
-        if (isCollectionType) {
-            // Name field should be provided
-            if (_.every(_.values(entity), ({ field }) => field !== 'name')) {
-                appendError(errors, getFormattedMessage(23, rootName));
-            }
-        }
-    };
-
     if (inputs) {
         const { services } = inputs;
         services.forEach((service, i) => {
-            const { entity, options, name } = service;
+            const { options } = service;
             checkBaseOptions(options, `${position}.inputs.services[${i}].options`);
-            checkEntity(entity, name, `${position}.inputs.services[${i}].entity`);
         });
         errors = errors.concat(checkDupKeyValues(inputs, true, `${position}.inputs`));
     }
 
     if (configuration) {
         configuration.tabs.forEach((tab, i) => {
-            const { entity, options, name } = tab;
+            const { options } = tab;
             checkBaseOptions(options, `${position}.configuration.tabs[${i}].options`);
-            checkEntity(entity, name, `${position}.configuration.tabs[${i}].entity`, false);
         });
         errors = errors.concat(
             checkDupKeyValues(configuration, false, `${position}.configuration`)

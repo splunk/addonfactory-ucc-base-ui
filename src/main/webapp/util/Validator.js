@@ -3,7 +3,6 @@ import { getFormattedMessage } from './messageUtil';
 import {
     parseNumberValidator,
     parseRegexRawStr,
-    parseStringValidator,
     parseFunctionRawStr,
 } from './uccConfigurationValidators';
 
@@ -41,10 +40,6 @@ class Validator {
 
     // Validate the string length of field
     StringValidator(field, label, validator, data) {
-        const { error } = parseStringValidator(validator.minLength, validator.maxLength);
-        if (error) {
-            return { errorField: field, errorMsg: error };
-        }
         if (this.checkIsFieldHasInput(data) && data.length > validator.maxLength) {
             return {
                 errorField: field,
