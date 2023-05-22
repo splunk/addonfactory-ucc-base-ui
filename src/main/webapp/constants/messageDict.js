@@ -12,6 +12,7 @@ export default {
     10: 'Field {{args[0]}} should be less than or equal to {{args[1]}}',
     11: '{{args[0]}} is not a function',
     12: '{{args[0]}} is not a valid regular expression',
+    13: '{{args[0]}} is not a valid number range',
     15: 'Field {{args[0]}} does not match regular expression {{args[1]}}',
     16: 'Field {{args[0]}} is not a number',
     17: 'Length of {{args[0]}} should be greater than or equal to {{args[1]}}',
