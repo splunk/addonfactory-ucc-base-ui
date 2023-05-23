@@ -158,7 +158,8 @@
             "placeholder",
             "oauth",
             "helpLink",
-            "file"
+            "file",
+            "checkboxGroups"
           ]
         },
         "help": {
@@ -537,7 +538,8 @@
             "placeholder",
             "oauth",
             "helpLink",
-            "file"
+            "file",
+            "checkboxEntity"
           ]
         },
         "help": {
@@ -714,6 +716,39 @@
             },
             "maxFileSize": {
               "type": "number"
+            }
+          }
+        },
+        "checkboxenitityitems": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string",
+                "maxLength": 60
+              },
+              "field": {
+                "type": "string",
+                "maxLength": 60
+              },
+              "defaultValue": {
+                "oneOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string",
+                    "maxLength": 250
+                  },
+                  {
+                    "type": "boolean"
+                  }
+                ]
+              },
+              "disabled": {
+                "type": "boolean"
+              }
             }
           }
         },

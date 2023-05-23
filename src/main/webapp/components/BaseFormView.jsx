@@ -465,6 +465,10 @@ class BaseFormView extends PureComponent {
                 if (error) {
                     this.setErrorMsg(error.errorMsg);
                 }
+                // error = SaveValidator(this.options.saveValidator, this.datadict);
+                // if (error) {
+                //     this.setErrorMsg(error.errorMsg);
+                // }
             }
 
             if (error) {
