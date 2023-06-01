@@ -494,7 +494,7 @@ class BaseFormView extends PureComponent {
                 let host = encodeURI(
                     `https://${this.datadict.endpoint}${this.oauthConf.authCodeEndpoint}${parameters}`
                 );
-                const redirectURI = host.split('&redirect_uri=')[1].split('&')[0];
+                const redirectURI = new URLSearchParams(host).get('redirect_uri');
                 host = host.replace(redirectURI, encodeURIComponent(redirectURI));
 
                 (async () => {
