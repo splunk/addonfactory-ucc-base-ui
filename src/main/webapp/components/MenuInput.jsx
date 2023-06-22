@@ -123,14 +123,14 @@ function MenuInput({ handleRequestOpen }) {
                     servicesGroup.main_panel.push({
                         name: group.groupName,
                         title: group.groupTitle,
-                        subTitle: services.find((service) => service.name === group.groupName)
-                            .subTitle,
                         hasSubmenu: true,
                     });
                 } else {
                     servicesGroup.main_panel.push({
                         name: group.groupName,
                         title: group.groupTitle,
+                        subTitle: services.find((service) => service.name === group.groupName)
+                            .subTitle,
                         hasSubmenu: false,
                     });
                 }
