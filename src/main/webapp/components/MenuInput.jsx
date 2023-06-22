@@ -117,7 +117,7 @@ function MenuInput({ handleRequestOpen }) {
                             hasSubmenu: false,
                             title: services.find((service) => service.name === serviceName).title,
                             subTitle: services.find((service) => service.name === serviceName)
-                                .subTitle,
+                                ?.subTitle,
                         });
                     });
                     servicesGroup.main_panel.push({
@@ -130,7 +130,7 @@ function MenuInput({ handleRequestOpen }) {
                         name: group.groupName,
                         title: group.groupTitle,
                         subTitle: services.find((service) => service.name === group.groupName)
-                            .subTitle,
+                            ?.subTitle,
                         hasSubmenu: false,
                     });
                 }
