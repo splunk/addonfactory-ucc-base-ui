@@ -1,16 +1,63 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
+import Text from '@splunk/react-ui/Text';
+import { isFalse } from '../util/util';
+import { StyledColumnLayout, StyledSwitch } from './StyledComponent';
 
-function CheckboxGroupsComponent() {
+function CheckboxGroupsComponent(props) {
+    const { field, label, value, checkboxTextFieldValue, handleChange } = props;
+
+    const [disable, setDisable] = useState(!value);
+
+    const handleChangeCheckbox = () => {
+        if (value && !isFalse(value)) {
+            handleChange(field, 0);
+            setDisable(true);
+        } else {
+            handleChange(field, 1);
+            setDisable(false);
+        }
+    };
+
+    const handleChangeTextBox = (event) => {
+        handleChange(field, event.target.value, 'checkboxGroups');
+    };
+
     return (
-        <ColumnLayout>
+        <StyledColumnLayout>
             <ColumnLayout.Row>
-                <ColumnLayout.Column span={1}>C</ColumnLayout.Column>
-                <ColumnLayout.Column span={6}>Span 5</ColumnLayout.Column>
-                <ColumnLayout.Column span={5}>textbox</ColumnLayout.Column>
+                <ColumnLayout.Column span={5}>
+                    <StyledSwitch
+                        key={field}
+                        value={value}
+                        onClick={handleChangeCheckbox}
+                        selected={!(value ? isFalse(value) : true)}
+                        appearance="checkbox"
+                    >
+                        {label}
+                    </StyledSwitch>
+                </ColumnLayout.Column>
+                <ColumnLayout.Column span={2}>
+                    <Text
+                        inline
+                        disabled={disable}
+                        value={checkboxTextFieldValue ? checkboxTextFieldValue.toString() : ''}
+                        onChange={handleChangeTextBox}
+                        type="text"
+                    />
+                </ColumnLayout.Column>
             </ColumnLayout.Row>
-        </ColumnLayout>
+        </StyledColumnLayout>
     );
 }
+
+CheckboxGroupsComponent.propTypes = {
+    value: PropTypes.oneOfType([PropTypes.bool, PropTypes.number, PropTypes.string]),
+    checkboxTextFieldValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.number, PropTypes.string]),
+    handleChange: PropTypes.func.isRequired,
+    label: PropTypes.string,
+    field: PropTypes.string,
+};
 
 export default CheckboxGroupsComponent;

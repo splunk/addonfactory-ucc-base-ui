@@ -1,15 +1,12 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import update from 'immutability-helper';
-import { v4 as uuidv4 } from 'uuid';
-
-import CollapsiblePanel from '@splunk/react-ui/CollapsiblePanel';
 import Message from '@splunk/react-ui/Message';
-import styled from 'styled-components';
+import update from 'immutability-helper';
+import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
 
 import ControlWrapper from './ControlWrapper';
 import Validator, { SaveValidator } from '../util/Validator';
-import { getUnifiedConfigs, generateToast } from '../util/util';
+import { getUnifiedConfigs, generateToast, isTrue } from '../util/util';
 import { MODE_CLONE, MODE_CREATE, MODE_EDIT, MODE_CONFIG } from '../constants/modes';
 import { PAGE_INPUT, PAGE_CONF } from '../constants/pages';
 import { axiosCallWrapper } from '../util/axiosCallWrapper';
@@ -24,30 +21,16 @@ import {
     ERROR_STATE_MISSING_TRY_AGAIN,
 } from '../constants/oAuthErrorMessage';
 import TableContext from '../context/TableContext';
+import {
+    CollapsiblePanelWrapper,
+    CustomGroupLabel,
+    CheckboxLabelContainer,
+    CheckboxGroupPanelWrapper,
+    CustomCheckboxGroupsLabel,
+    CheckboxGroupContainer,
+} from './StyledComponent';
 
-const CollapsiblePanelWrapper = styled(CollapsiblePanel)`
-    span {
-        button {
-            background-color: #f2f4f5;
-            font-size: 16px;
-            margin: 15px 0;
-
-            &:hover:not([disabled]),
-            &:focus:not([disabled]),
-            &:active:not([disabled]) {
-                background-color: #f2f4f5;
-                box-shadow: none;
-            }
-        }
-    }
-`;
-
-const CustomGroupLabel = styled.div`
-    padding: 6px 10px;
-    background-color: #f2f4f5;
-    margin: 0 0 15px 0;
-    font-size: 16px;
-`;
+const CHECKBOX_GROUPS = 'checkboxGroups';
 
 class BaseFormView extends PureComponent {
     static contextType = TableContext;
@@ -61,6 +44,7 @@ class BaseFormView extends PureComponent {
         const globalConfig = getUnifiedConfigs();
         this.appName = globalConfig.meta.name;
         this.groupEntities = [];
+        this.checkboxEntities = [];
         this.endpoint =
             props.mode === MODE_EDIT || props.mode === MODE_CONFIG
                 ? `${this.props.serviceName}/${encodeURIComponent(this.props.stanzaName)}`
@@ -87,18 +71,44 @@ class BaseFormView extends PureComponent {
             globalConfig.pages.inputs.services.forEach((service) => {
                 if (service.name === props.serviceName) {
                     this.groups = service.groups;
+                    this.checkboxGroupsMetadata = service.CheckboxGroupsMetadata;
+                    this.checkboxGroups = service.CheckboxGroupsMetadata?.groups;
                     this.entities = service.entity;
+
+                    // Removing entity based validation
+                    // Validation will be done using main validator from CheckboxGroupsMetadata
+                    this.entities.forEach((e) => {
+                        if (e.type === CHECKBOX_GROUPS) {
+                            delete e.validators;
+                            this.checkboxEntities.push(e);
+                        }
+                    });
+
                     this.updateGroupEntities();
                     this.options = service.options;
                     if (service.hook) {
-                        this.hookDeferred = this.loadHook(
-                            service.hook.src,
-                            service.hook.type,
-                            globalConfig
-                        );
+                        this.hookDeferred = this.loadHook(service.hook.src, service.hook.type, globalConfig);
                     }
                     if (props.mode === MODE_EDIT || props.mode === MODE_CLONE) {
                         this.currentInput = context.rowData[props.serviceName][props.stanzaName];
+
+                        // Convert a comma-separated string of key-value pairs into a dictionary.
+                        // This conversion is performed while reading from the conf file.
+                        // Next time (without refreshing the page), it is expected that the data will already be in dictionary format,
+                        // and this conversion step will not be necessary.
+
+                        const checkboxGroupFieldValue = this.currentInput[this.checkboxGroupsMetadata.field];
+                        if (this.checkboxGroupsMetadata?.field && typeof checkboxGroupFieldValue === 'string') {
+                            const keyValuePairs = checkboxGroupFieldValue.split(',').map((item) => item.trim());
+
+                            const resultDict = {};
+
+                            keyValuePairs.forEach((pair) => {
+                                const [key, value] = pair.split('/');
+                                resultDict[key] = value;
+                            });
+                            this.currentInput[this.checkboxGroupsMetadata.field] = resultDict;
+                        }
                     }
                 }
             });
@@ -111,11 +121,7 @@ class BaseFormView extends PureComponent {
                     this.entities = tab.entity;
                     this.options = tab.options;
                     if (tab.hook) {
-                        this.hookDeferred = this.loadHook(
-                            tab.hook.src,
-                            tab.hook.type,
-                            globalConfig
-                        );
+                        this.hookDeferred = this.loadHook(tab.hook.src, tab.hook.type, globalConfig);
                     }
                     if (tab.table && (props.mode === MODE_EDIT || props.mode === MODE_CLONE)) {
                         this.currentInput = context.rowData[props.serviceName][props.stanzaName];
@@ -141,9 +147,7 @@ class BaseFormView extends PureComponent {
                 if (props.page === PAGE_CONF && props.serviceName === 'account') {
                     const authType = e?.options?.auth_type;
                     this.isoauthState =
-                        typeof e?.options?.oauth_state_enabled !== 'undefined'
-                            ? e?.options?.oauth_state_enabled
-                            : null;
+                        typeof e?.options?.oauth_state_enabled !== 'undefined' ? e?.options?.oauth_state_enabled : null;
 
                     if (authType.length > 1) {
                         this.isAuthVal = true;
@@ -191,17 +195,11 @@ class BaseFormView extends PureComponent {
 
                                 if (props.mode === MODE_CREATE) {
                                     tempEntity.value =
-                                        typeof field?.defaultValue !== 'undefined'
-                                            ? field.defaultValue
-                                            : null;
+                                        typeof field?.defaultValue !== 'undefined' ? field.defaultValue : null;
                                 } else {
                                     const isEncrypted =
-                                        typeof field?.encrypted !== 'undefined'
-                                            ? field?.encrypted
-                                            : false;
-                                    tempEntity.value = isEncrypted
-                                        ? ''
-                                        : this.currentInput[field.field];
+                                        typeof field?.encrypted !== 'undefined' ? field?.encrypted : false;
+                                    tempEntity.value = isEncrypted ? '' : this.currentInput[field.field];
                                 }
                                 tempEntity.display =
                                     typeof temState.auth_type !== 'undefined'
@@ -211,17 +209,13 @@ class BaseFormView extends PureComponent {
                                 tempEntity.disabled = false;
                                 temState[field.field] = tempEntity;
                                 // eslint-disable-next-line no-param-reassign
-                                field.type =
-                                    typeof field?.type !== 'undefined' ? field.type : 'text';
+                                field.type = typeof field?.type !== 'undefined' ? field.type : 'text';
 
                                 // Handled special case for redirect_url
                                 if (field.field === 'redirect_url') {
                                     tempEntity.value = window.location.href
                                         .split('?')[0]
-                                        .replace(
-                                            'configuration',
-                                            `${this.appName.toLowerCase()}_redirect`
-                                        );
+                                        .replace('configuration', `${this.appName.toLowerCase()}_redirect`);
                                     tempEntity.disabled = true;
                                 }
                                 temEntities.push(field);
@@ -233,15 +227,9 @@ class BaseFormView extends PureComponent {
                     if (authType.includes('oauth')) {
                         const oauthConfData = {};
                         // Storing O-Auth Configuration data to class variable to use later
-                        oauthConfData.popupWidth = e.options.oauth_popup_width
-                            ? e.options.oauth_popup_width
-                            : 600;
-                        oauthConfData.popupHeight = e.options.oauth_popup_height
-                            ? e.options.oauth_popup_height
-                            : 600;
-                        oauthConfData.authTimeout = e.options.oauth_timeout
-                            ? e.options.oauth_timeout
-                            : 180;
+                        oauthConfData.popupWidth = e.options.oauth_popup_width ? e.options.oauth_popup_width : 600;
+                        oauthConfData.popupHeight = e.options.oauth_popup_height ? e.options.oauth_popup_height : 600;
+                        oauthConfData.authTimeout = e.options.oauth_timeout ? e.options.oauth_timeout : 180;
                         oauthConfData.authCodeEndpoint = e.options.auth_code_endpoint
                             ? e.options.auth_code_endpoint
                             : null;
@@ -257,21 +245,35 @@ class BaseFormView extends PureComponent {
                 e.encrypted = typeof e.encrypted !== 'undefined' ? e.encrypted : false;
 
                 if (props.mode === MODE_CREATE) {
-                    tempEntity.value =
-                        typeof e.defaultValue !== 'undefined' ? e.defaultValue : null;
-                    tempEntity.display =
-                        typeof e?.options?.display !== 'undefined' ? e.options.display : true;
+                    if (e.type === CHECKBOX_GROUPS) {
+                        // - Set the checkboxTextFieldValue to the provided defaultValue if defined; otherwise, set to null.
+                        //   This value is used to populate the associated Text field.
+                        // - Determine the value for the Checkbox field's enable/disable state:
+                        //   If the 'enable' option is explicitly defined in the options object, use that value;
+                        //   otherwise, default to enabling the Checkbox field (true).
+                        tempEntity.checkboxTextFieldValue =
+                            typeof e.defaultValue !== 'undefined' ? e.defaultValue : null;
+                        tempEntity.value = typeof e?.options?.enable !== 'undefined' ? e.options.enable : true;
+                    } else {
+                        tempEntity.value = typeof e.defaultValue !== 'undefined' ? e.defaultValue : null;
+                    }
+                    tempEntity.display = typeof e?.options?.display !== 'undefined' ? e.options.display : true;
                     tempEntity.error = false;
                     tempEntity.disabled = false;
                     temState[e.field] = tempEntity;
                 } else if (props.mode === MODE_EDIT) {
-                    tempEntity.value =
-                        typeof this.currentInput[e.field] !== 'undefined'
-                            ? this.currentInput[e.field]
-                            : null;
-                    tempEntity.value = e.encrypted ? '' : tempEntity.value;
-                    tempEntity.display =
-                        typeof e?.options?.display !== 'undefined' ? e.options.display : true;
+                    if (e.type === CHECKBOX_GROUPS) {
+                        tempEntity.value =
+                            typeof this.currentInput[this.checkboxGroupsMetadata?.field]?.[e.field] !== 'undefined';
+                        tempEntity.checkboxTextFieldValue = tempEntity.value
+                            ? this.currentInput[this.checkboxGroupsMetadata.field][e.field]
+                            : e.defaultValue;
+                    } else {
+                        tempEntity.value =
+                            typeof this.currentInput[e.field] !== 'undefined' ? this.currentInput[e.field] : null;
+                        tempEntity.value = e.encrypted ? '' : tempEntity.value;
+                    }
+                    tempEntity.display = typeof e?.options?.display !== 'undefined' ? e.options.display : true;
                     tempEntity.error = false;
                     tempEntity.disabled = false;
                     if (e.field === 'name') {
@@ -281,22 +283,25 @@ class BaseFormView extends PureComponent {
                     }
                     temState[e.field] = tempEntity;
                 } else if (props.mode === MODE_CLONE) {
-                    tempEntity.value =
-                        e.field === 'name' || e.encrypted ? '' : this.currentInput[e.field];
-                    tempEntity.display =
-                        typeof e?.options?.display !== 'undefined' ? e.options.display : true;
+                    if (e.type === CHECKBOX_GROUPS) {
+                        tempEntity.value =
+                            typeof this.currentInput[this.checkboxGroupsMetadata?.field]?.[e.field] !== 'undefined';
+                        tempEntity.checkboxTextFieldValue = tempEntity.value
+                            ? this.currentInput[this.checkboxGroupsMetadata.field][e.field]
+                            : e.defaultValue;
+                    } else {
+                        tempEntity.value = e.field === 'name' || e.encrypted ? '' : this.currentInput[e.field];
+                    }
+                    tempEntity.display = typeof e?.options?.display !== 'undefined' ? e.options.display : true;
                     tempEntity.error = false;
                     tempEntity.disabled = false;
                     temState[e.field] = tempEntity;
                 } else if (props.mode === MODE_CONFIG) {
                     e.defaultValue = typeof e.defaultValue !== 'undefined' ? e.defaultValue : null;
                     tempEntity.value =
-                        typeof this.currentInput[e.field] !== 'undefined'
-                            ? this.currentInput[e.field]
-                            : e.defaultValue;
+                        typeof this.currentInput[e.field] !== 'undefined' ? this.currentInput[e.field] : e.defaultValue;
                     tempEntity.value = e.encrypted ? '' : tempEntity.value;
-                    tempEntity.display =
-                        typeof e?.options?.display !== 'undefined' ? e.options.display : true;
+                    tempEntity.display = typeof e?.options?.display !== 'undefined' ? e.options.display : true;
                     tempEntity.error = false;
                     tempEntity.disabled = false;
                     if (e.field === 'name') {
@@ -399,9 +404,39 @@ class BaseFormView extends PureComponent {
 
         this.datadict = {};
 
-        Object.keys(this.state.data).forEach((field) => {
-            this.datadict[field] = this.state.data[field].value;
-        });
+        const updateDataDict = () => {
+            // If checkboxGroupsMetadata is defined, set an empty value in the datadict
+            // using the field name specified in checkboxGroupsMetadata.
+            // This key is used to store the selected values for the checkbox group.
+            if (this.checkboxGroupsMetadata) {
+                this.datadict[this.checkboxGroupsMetadata.field] = '';
+            }
+
+            // Iterate through each field in the state's data object
+            Object.keys(this.state.data).forEach((field) => {
+                const fieldData = this.state.data[field];
+
+                // Check if the field contains 'checkboxTextFieldValue' key, indicating a checkboxGroups component
+                if (fieldData.checkboxTextFieldValue && fieldData.value) {
+                    // For selected checkboxGroups components, append the field-value pair to the datadict
+                    this.datadict[
+                        this.checkboxGroupsMetadata?.field
+                    ] += `${field}/${fieldData.checkboxTextFieldValue},`;
+                } else {
+                    // For non-checkboxGroups components, update datadict with the field's value
+                    this.datadict[field] = fieldData.value;
+                }
+            });
+
+            // If there are checkboxGroups selections in datadict, remove trailing comma
+            if (this.datadict[this.checkboxGroupsMetadata?.field]) {
+                this.datadict[this.checkboxGroupsMetadata?.field] = this.datadict[
+                    this.checkboxGroupsMetadata?.field
+                ].slice(0, -1);
+            }
+        };
+
+        updateDataDict();
 
         if (this.hook && typeof this.hook.onSave === 'function') {
             const validationPass = this.hook.onSave(this.datadict);
@@ -410,10 +445,9 @@ class BaseFormView extends PureComponent {
                 return;
             }
         }
+
         const executeValidationSubmit = () => {
-            Object.keys(this.state.data).forEach((field) => {
-                this.datadict[field] = this.state.data[field].value;
-            });
+            updateDataDict();
 
             // validation for unique name
             if ([MODE_CREATE, MODE_CLONE].includes(this.props.mode)) {
@@ -458,17 +492,23 @@ class BaseFormView extends PureComponent {
             // Validation of form fields on Submit
             const validator = new Validator(temEntities);
             let error = validator.doValidation(this.datadict);
+
+            // - If the error pertains to a checkboxGroups component, display the error message at the top of the form.
+            // - For other validation errors, display the error message and highlight the corresponding field in the form.
+            // If no validation error occurs, and a saveValidator is specified in the options:
+            // - Apply the saveValidator to validate the entire dataset before saving.
+            // - If an error occurs, display the associated error message.
             if (error) {
-                this.setErrorFieldMsg(error.errorField, error.errorMsg);
+                if (error.errorField === this.checkboxGroupsMetadata?.field) {
+                    this.setErrorMsg(error.errorMsg);
+                } else {
+                    this.setErrorFieldMsg(error.errorField, error.errorMsg);
+                }
             } else if (this.options && this.options.saveValidator) {
                 error = SaveValidator(this.options.saveValidator, this.datadict);
                 if (error) {
                     this.setErrorMsg(error.errorMsg);
                 }
-                // error = SaveValidator(this.options.saveValidator, this.datadict);
-                // if (error) {
-                //     this.setErrorMsg(error.errorMsg);
-                // }
             }
 
             if (error) {
@@ -525,20 +565,14 @@ class BaseFormView extends PureComponent {
                     if (!this.isCalled && this.childWin.closed) {
                         // Add error message if the user has close the authentication window without taking any action
                         this.setErrorMsg(ERROR_AUTH_PROCESS_TERMINATED_TRY_AGAIN);
-                        this.props.handleFormSubmit(
-                            /* isSubmitting */ false,
-                            /* closeEntity */ false
-                        );
+                        this.props.handleFormSubmit(/* isSubmitting */ false, /* closeEntity */ false);
                         return false;
                     }
 
                     if (!this.isCalled) {
                         // Add timeout error message
                         this.setErrorMsg(ERROR_REQUEST_TIMEOUT_TRY_AGAIN);
-                        this.props.handleFormSubmit(
-                            /* isSubmitting */ false,
-                            /* closeEntity */ false
-                        );
+                        this.props.handleFormSubmit(/* isSubmitting */ false, /* closeEntity */ false);
                         return false;
                     }
 
@@ -552,10 +586,7 @@ class BaseFormView extends PureComponent {
 
                         // Add timeout error message
                         this.setErrorMsg(ERROR_REQUEST_TIMEOUT_ACCESS_TOKEN_TRY_AGAIN);
-                        this.props.handleFormSubmit(
-                            /* isSubmitting */ false,
-                            /* closeEntity */ false
-                        );
+                        this.props.handleFormSubmit(/* isSubmitting */ false, /* closeEntity */ false);
                         return false;
                     }
                     return true;
@@ -563,21 +594,14 @@ class BaseFormView extends PureComponent {
                     if (!this.isError) {
                         this.saveData();
                     } else {
-                        this.props.handleFormSubmit(
-                            /* isSubmitting */ false,
-                            /* closeEntity */ false
-                        );
+                        this.props.handleFormSubmit(/* isSubmitting */ false, /* closeEntity */ false);
                     }
                 });
             } else {
                 this.saveData();
             }
         };
-        if (
-            this.hook &&
-            typeof this.hook.onSave === 'function' &&
-            typeof this.onSavePromise !== 'undefined'
-        ) {
+        if (this.hook && typeof this.hook.onSave === 'function' && typeof this.onSavePromise !== 'undefined') {
             this.onSavePromise.then(() => {
                 executeValidationSubmit();
             });
@@ -654,10 +678,7 @@ class BaseFormView extends PureComponent {
                 if (this.props.mode === MODE_EDIT) {
                     generateToast(`Updated "${val.name}"`, 'success');
                 } else if (this.props.mode === MODE_CONFIG) {
-                    generateToast(
-                        `Updated "${this.mode_config_title ? this.mode_config_title : val.name}"`,
-                        'success'
-                    );
+                    generateToast(`Updated "${this.mode_config_title ? this.mode_config_title : val.name}"`, 'success');
                 } else {
                     generateToast(`Created "${val.name}"`, 'success');
                 }
@@ -673,7 +694,7 @@ class BaseFormView extends PureComponent {
             });
     };
 
-    handleChange = (field, targetValue) => {
+    handleChange = (field, targetValue, componentType = null) => {
         const changes = {};
         if (field === 'auth_type') {
             Object.keys(this.authMap).forEach((type) => {
@@ -698,8 +719,7 @@ class BaseFormView extends PureComponent {
                 value[loadField].forEach((dependency) => {
                     const required = !!this.entities.find((e) => e.field === dependency).required;
 
-                    const currentValue =
-                        dependency === field ? targetValue : this.state.data[dependency].value;
+                    const currentValue = dependency === field ? targetValue : this.state.data[dependency].value;
                     if (required && !currentValue) {
                         load = false;
                         data[dependency] = null;
@@ -717,7 +737,14 @@ class BaseFormView extends PureComponent {
             });
         }
 
-        changes[field] = { value: { $set: targetValue } };
+        // If the component type is a checkboxGroups component, update the 'checkboxTextFieldValue' field
+        // to reflect the user's typed input, ensuring real-time synchronization with the textbox content.
+        // For other component types, update the 'value' field with the new target value.
+        if (componentType === CHECKBOX_GROUPS) {
+            changes[field] = { checkboxTextFieldValue: { $set: targetValue } };
+        } else {
+            changes[field] = { value: { $set: targetValue } };
+        }
 
         const newFields = update(this.state, { data: changes });
         const tempState = this.clearAllErrorMsg(newFields);
@@ -752,9 +779,7 @@ class BaseFormView extends PureComponent {
     // Set error in perticular field
     // eslint-disable-next-line react/no-unused-class-component-methods
     setErrorField = (field) => {
-        this.setState((previousState) =>
-            update(previousState, { data: { [field]: { error: { $set: true } } } })
-        );
+        this.setState((previousState) => update(previousState, { data: { [field]: { error: { $set: true } } } }));
     };
 
     // Clear error message
@@ -814,34 +839,23 @@ class BaseFormView extends PureComponent {
     loadHook = (module, type, globalConfig) => {
         const myPromise = new Promise((resolve) => {
             if (type === 'external') {
-                import(/* webpackIgnore: true */ `${getBuildDirPath()}/custom/${module}.js`).then(
-                    (external) => {
-                        const Hook = external.default;
-                        this.hook = new Hook(
-                            globalConfig,
-                            this.props.serviceName,
-                            this.state,
-                            this.props.mode,
-                            this.util,
-                            this.props.groupName
-                        );
-                        resolve(Hook);
-                    }
-                );
+                import(/* webpackIgnore: true */ `${getBuildDirPath()}/custom/${module}.js`).then((external) => {
+                    const Hook = external.default;
+                    this.hook = new Hook(
+                        globalConfig,
+                        this.props.serviceName,
+                        this.state,
+                        this.props.mode,
+                        this.util,
+                        this.props.groupName
+                    );
+                    resolve(Hook);
+                });
             } else {
-                __non_webpack_require__(
-                    [`app/${this.appName}/js/build/custom/${module}`],
-                    (Hook) => {
-                        this.hook = new Hook(
-                            globalConfig,
-                            this.props.serviceName,
-                            this.state,
-                            this.props.mode,
-                            this.util
-                        );
-                        resolve(Hook);
-                    }
-                );
+                __non_webpack_require__([`app/${this.appName}/js/build/custom/${module}`], (Hook) => {
+                    this.hook = new Hook(globalConfig, this.props.serviceName, this.state, this.props.mode, this.util);
+                    resolve(Hook);
+                });
             }
         });
         return myPromise;
@@ -973,53 +987,110 @@ class BaseFormView extends PureComponent {
     // eslint-disable-next-line class-methods-use-this
     timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms)); // eslint-disable-line no-promise-executor-return
 
-    renderGroupElements = () => {
+    getCheckedComponentsCount = (fields) => {
+        let count = 0;
+        const entitiesList = this.entities.filter((e) => fields.includes(e.field));
+        entitiesList.forEach((e) => {
+            const temState = this.state.data[e.field];
+            if (isTrue(temState.value)) {
+                count += 1;
+            }
+        });
+        return count;
+    };
+
+    renderCheckboxGroupElements = (group, collpsibleElement) => {
+        const checkboxGroupTitle = (
+            <CheckboxLabelContainer>
+                <span>{group.label}</span>
+                <span>
+                    {this.getCheckedComponentsCount(group.fields)} of {group.fields?.length}
+                </span>
+            </CheckboxLabelContainer>
+        );
+
+        return (
+            <CheckboxGroupPanelWrapper key={group.label} title={checkboxGroupTitle} defaultOpen={group.options?.expand}>
+                <div className="collapsible-element">{collpsibleElement}</div>
+            </CheckboxGroupPanelWrapper>
+        );
+    };
+
+    getControls = (e) => {
+        const temState = this.state.data[e.field];
+        return (
+            <ControlWrapper
+                key={e.field}
+                utilityFuncts={this.utilControlWrapper}
+                checkboxTextFieldValue={temState.checkboxTextFieldValue}
+                value={temState.value}
+                display={temState.display}
+                error={temState.error}
+                entity={e}
+                serviceName={this.props.serviceName}
+                mode={this.props.mode}
+                disabled={temState.disabled}
+                markdownMessage={temState.markdownMessage}
+                dependencyValues={temState.dependencyValues || null}
+            />
+        );
+    };
+
+    renderGroupElements = (isGroupTypeCheckbox) => {
         let el = null;
-        if (this.groups && this.groups.length) {
-            el = this.groups.map((group) => {
+        const groups = isGroupTypeCheckbox ? this.checkboxGroups : this.groups;
+
+        if (groups && groups.length) {
+            el = groups.map((group) => {
                 const collpsibleElement =
                     group.fields?.length &&
                     group.fields.map((fieldName) =>
                         this.entities.map((e) => {
                             if (e.field === fieldName) {
-                                const temState = this.state.data[e.field];
-                                return (
-                                    <ControlWrapper
-                                        key={e.field}
-                                        utilityFuncts={this.utilControlWrapper}
-                                        value={temState.value}
-                                        display={temState.display}
-                                        error={temState.error}
-                                        entity={e}
-                                        serviceName={this.props.serviceName}
-                                        mode={this.props.mode}
-                                        disabled={temState.disabled}
-                                        markdownMessage={temState.markdownMessage}
-                                        dependencyValues={temState.dependencyValues || null}
-                                    />
-                                );
+                                return this.getControls(e);
                             }
                             return null;
                         })
                     );
 
-                return group.options?.isExpandable ? (
-                    <CollapsiblePanelWrapper
-                        title={group.label}
-                        defaultOpen={group.options?.expand}
-                    >
+                if (!group.options?.isExpandable) {
+                    return (
+                        <>
+                            <CustomGroupLabel>{group.label}</CustomGroupLabel>
+                            <div>{collpsibleElement}</div>
+                        </>
+                    );
+                }
+
+                if (isGroupTypeCheckbox) {
+                    return (
+                        <React.Fragment key={`${group.label}_checkbox_groups_expandable`}>
+                            {this.renderCheckboxGroupElements(group, collpsibleElement)}
+                        </React.Fragment>
+                    );
+                }
+
+                return (
+                    <CollapsiblePanelWrapper key={group.label} title={group.label} defaultOpen={group.options?.expand}>
                         <div className="collapsible-element">{collpsibleElement}</div>
                     </CollapsiblePanelWrapper>
-                ) : (
-                    <>
-                        <CustomGroupLabel>{group.label}</CustomGroupLabel>
-                        <div>{collpsibleElement}</div>
-                    </>
                 );
             });
         }
         return el;
     };
+
+    renderNonGroupCheckboxEntities = () => this.checkboxEntities.map((e) => this.getControls(e));
+
+    renderGroups = () => (
+        <CheckboxGroupContainer>
+            {this.checkboxGroupsMetadata && (
+                <CustomCheckboxGroupsLabel>{this.checkboxGroupsMetadata.label}</CustomCheckboxGroupsLabel>
+            )}
+            {this.checkboxGroups ? this.renderGroupElements(true) : this.renderNonGroupCheckboxEntities()}
+            {this.renderGroupElements(false)}
+        </CheckboxGroupContainer>
+    );
 
     render() {
         // onRender method of Hook
@@ -1060,7 +1131,7 @@ class BaseFormView extends PureComponent {
                     {this.generateErrorMessage()}
                     {this.entities.map((e) => {
                         // Return null if we need to show element in a group
-                        if (this.groupEntities.includes(e.field)) {
+                        if (e.type === CHECKBOX_GROUPS || this.groupEntities.includes(e.field)) {
                             return null;
                         }
                         const temState = this.state.data[e.field];
@@ -1103,7 +1174,7 @@ class BaseFormView extends PureComponent {
                             />
                         );
                     })}
-                    {this.renderGroupElements()}
+                    {this.renderGroups()}
                 </form>
             </div>
         );
