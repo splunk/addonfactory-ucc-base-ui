@@ -97,7 +97,7 @@ class BaseFormView extends PureComponent {
                         // Next time (without refreshing the page), it is expected that the data will already be in dictionary format,
                         // and this conversion step will not be necessary.
 
-                        const checkboxGroupFieldValue = this.currentInput[this.checkboxGroupsMetadata.field];
+                        const checkboxGroupFieldValue = this.currentInput[this.checkboxGroupsMetadata?.field];
                         if (this.checkboxGroupsMetadata?.field && typeof checkboxGroupFieldValue === 'string') {
                             const keyValuePairs = checkboxGroupFieldValue.split(',').map((item) => item.trim());
 
@@ -263,11 +263,9 @@ class BaseFormView extends PureComponent {
                     temState[e.field] = tempEntity;
                 } else if (props.mode === MODE_EDIT) {
                     if (e.type === CHECKBOX_GROUPS) {
-                        tempEntity.value =
-                            typeof this.currentInput[this.checkboxGroupsMetadata?.field]?.[e.field] !== 'undefined';
-                        tempEntity.checkboxTextFieldValue = tempEntity.value
-                            ? this.currentInput[this.checkboxGroupsMetadata.field][e.field]
-                            : e.defaultValue;
+                        const checkboxTextFieldValue = this.currentInput[this.checkboxGroupsMetadata?.field]?.[e.field];
+                        tempEntity.value = typeof checkboxTextFieldValue !== 'undefined';
+                        tempEntity.checkboxTextFieldValue = tempEntity.value ? checkboxTextFieldValue : e.defaultValue;
                     } else {
                         tempEntity.value =
                             typeof this.currentInput[e.field] !== 'undefined' ? this.currentInput[e.field] : null;
@@ -284,11 +282,9 @@ class BaseFormView extends PureComponent {
                     temState[e.field] = tempEntity;
                 } else if (props.mode === MODE_CLONE) {
                     if (e.type === CHECKBOX_GROUPS) {
-                        tempEntity.value =
-                            typeof this.currentInput[this.checkboxGroupsMetadata?.field]?.[e.field] !== 'undefined';
-                        tempEntity.checkboxTextFieldValue = tempEntity.value
-                            ? this.currentInput[this.checkboxGroupsMetadata.field][e.field]
-                            : e.defaultValue;
+                        const checkboxTextFieldValue = this.currentInput[this.checkboxGroupsMetadata?.field]?.[e.field];
+                        tempEntity.value = typeof checkboxTextFieldValue !== 'undefined';
+                        tempEntity.checkboxTextFieldValue = tempEntity.value ? checkboxTextFieldValue : e.defaultValue;
                     } else {
                         tempEntity.value = e.field === 'name' || e.encrypted ? '' : this.currentInput[e.field];
                     }
@@ -417,11 +413,13 @@ class BaseFormView extends PureComponent {
                 const fieldData = this.state.data[field];
 
                 // Check if the field contains 'checkboxTextFieldValue' key, indicating a checkboxGroups component
-                if (fieldData.checkboxTextFieldValue && fieldData.value) {
+                if (fieldData.checkboxTextFieldValue) {
                     // For selected checkboxGroups components, append the field-value pair to the datadict
-                    this.datadict[
-                        this.checkboxGroupsMetadata?.field
-                    ] += `${field}/${fieldData.checkboxTextFieldValue},`;
+                    if (fieldData.value) {
+                        this.datadict[
+                            this.checkboxGroupsMetadata?.field
+                        ] += `${field}/${fieldData.checkboxTextFieldValue},`;
+                    }
                 } else {
                     // For non-checkboxGroups components, update datadict with the field's value
                     this.datadict[field] = fieldData.value;
@@ -430,8 +428,8 @@ class BaseFormView extends PureComponent {
 
             // If there are checkboxGroups selections in datadict, remove trailing comma
             if (this.datadict[this.checkboxGroupsMetadata?.field]) {
-                this.datadict[this.checkboxGroupsMetadata?.field] = this.datadict[
-                    this.checkboxGroupsMetadata?.field
+                this.datadict[this.checkboxGroupsMetadata.field] = this.datadict[
+                    this.checkboxGroupsMetadata.field
                 ].slice(0, -1);
             }
         };
@@ -487,6 +485,16 @@ class BaseFormView extends PureComponent {
                 });
             } else {
                 temEntities = this.entities;
+
+                if (this.checkboxmetadata?.validators) {
+                    const checkboxGroupField = {
+                        type: 'text',
+                        field: this.checkboxmetadata.field,
+                        label: this.checkboxmetadata.label,
+                        validators: [this.checkboxmetadata.validators],
+                    };
+                    temEntities.push(checkboxGroupField);
+                }
             }
 
             // Validation of form fields on Submit
@@ -987,7 +995,7 @@ class BaseFormView extends PureComponent {
     // eslint-disable-next-line class-methods-use-this
     timeout = (ms) => new Promise((resolve) => setTimeout(resolve, ms)); // eslint-disable-line no-promise-executor-return
 
-    getCheckedComponentsCount = (fields) => {
+    getCheckedCheckboxCount = (fields) => {
         let count = 0;
         const entitiesList = this.entities.filter((e) => fields.includes(e.field));
         entitiesList.forEach((e) => {
@@ -1004,7 +1012,7 @@ class BaseFormView extends PureComponent {
             <CheckboxLabelContainer>
                 <span>{group.label}</span>
                 <span>
-                    {this.getCheckedComponentsCount(group.fields)} of {group.fields?.length}
+                    {this.getCheckedCheckboxCount(group.fields)} of {group.fields?.length}
                 </span>
             </CheckboxLabelContainer>
         );
