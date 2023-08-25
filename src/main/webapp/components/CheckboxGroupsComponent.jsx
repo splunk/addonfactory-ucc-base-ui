@@ -58,7 +58,11 @@ function CheckboxGroupsComponent(props) {
 
 CheckboxGroupsComponent.propTypes = {
     value: PropTypes.oneOfType([PropTypes.bool, PropTypes.number, PropTypes.string]),
-    checkboxTextFieldValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.number, PropTypes.string]),
+    checkboxTextFieldValue: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.number,
+        PropTypes.string,
+    ]),
     handleChange: PropTypes.func.isRequired,
     label: PropTypes.string,
     field: PropTypes.string,

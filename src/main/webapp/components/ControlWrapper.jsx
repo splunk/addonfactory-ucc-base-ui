@@ -12,15 +12,26 @@ class ControlWrapper extends React.PureComponent {
 
     constructor(props) {
         super(props);
-        this.controlType = ControlWrapper.isString(props.entity.type) ? CONTROL_TYPE_MAP[props.entity.type] : null;
+        this.controlType = ControlWrapper.isString(props.entity.type)
+            ? CONTROL_TYPE_MAP[props.entity.type]
+            : null;
     }
 
     render() {
-        const { field, type, label, tooltip, help, encrypted = false, required } = this.props.entity;
+        const {
+            field,
+            type,
+            label,
+            tooltip,
+            help,
+            encrypted = false,
+            required,
+        } = this.props.entity;
         const { handleChange, addCustomValidator, utilCustomFunctions } = this.props.utilityFuncts;
         // We have to put empty object because markDownMessage prop can be undefined
         // because we are not explicitly setting it but expecting it from custom hooks only.
-        const { text, link, color, markdownType, token, linkText } = this.props.markdownMessage || {};
+        const { text, link, color, markdownType, token, linkText } =
+            this.props.markdownMessage || {};
         let rowView;
         if (this.props.entity.type === 'custom') {
             const data = {

@@ -89,7 +89,11 @@ class BaseFormView extends PureComponent {
                     this.updateGroupEntities();
                     this.options = service.options;
                     if (service.hook) {
-                        this.hookDeferred = this.loadHook(service.hook.src, service.hook.type, globalConfig);
+                        this.hookDeferred = this.loadHook(
+                            service.hook.src,
+                            service.hook.type,
+                            globalConfig
+                        );
                     }
                     if (props.mode === MODE_EDIT || props.mode === MODE_CLONE) {
                         this.currentInput = context.rowData[props.serviceName][props.stanzaName];
@@ -98,10 +102,15 @@ class BaseFormView extends PureComponent {
                         // This conversion is performed while reading from the conf file.
                         // Next time (without refreshing the page), it is expected that the data will already be in dictionary format,
                         // and this conversion step will not be necessary.
-
-                        const checkboxGroupFieldValue = this.currentInput[this.checkboxGroupsMetadata?.field];
-                        if (this.checkboxGroupsMetadata?.field && typeof checkboxGroupFieldValue === 'string') {
-                            const keyValuePairs = checkboxGroupFieldValue.split(',').map((item) => item.trim());
+                        const checkboxGroupFieldValue =
+                            this.currentInput[this.checkboxGroupsMetadata?.field];
+                        if (
+                            this.checkboxGroupsMetadata?.field &&
+                            typeof checkboxGroupFieldValue === 'string'
+                        ) {
+                            const keyValuePairs = checkboxGroupFieldValue
+                                .split(',')
+                                .map((item) => item.trim());
 
                             const resultDict = {};
 
@@ -123,7 +132,11 @@ class BaseFormView extends PureComponent {
                     this.entities = tab.entity;
                     this.options = tab.options;
                     if (tab.hook) {
-                        this.hookDeferred = this.loadHook(tab.hook.src, tab.hook.type, globalConfig);
+                        this.hookDeferred = this.loadHook(
+                            tab.hook.src,
+                            tab.hook.type,
+                            globalConfig
+                        );
                     }
                     if (tab.table && (props.mode === MODE_EDIT || props.mode === MODE_CLONE)) {
                         this.currentInput = context.rowData[props.serviceName][props.stanzaName];
@@ -149,7 +162,9 @@ class BaseFormView extends PureComponent {
                 if (props.page === PAGE_CONF && props.serviceName === 'account') {
                     const authType = e?.options?.auth_type;
                     this.isoauthState =
-                        typeof e?.options?.oauth_state_enabled !== 'undefined' ? e?.options?.oauth_state_enabled : null;
+                        typeof e?.options?.oauth_state_enabled !== 'undefined'
+                            ? e?.options?.oauth_state_enabled
+                            : null;
 
                     if (authType.length > 1) {
                         this.isAuthVal = true;
@@ -197,11 +212,17 @@ class BaseFormView extends PureComponent {
 
                                 if (props.mode === MODE_CREATE) {
                                     tempEntity.value =
-                                        typeof field?.defaultValue !== 'undefined' ? field.defaultValue : null;
+                                        typeof field?.defaultValue !== 'undefined'
+                                            ? field.defaultValue
+                                            : null;
                                 } else {
                                     const isEncrypted =
-                                        typeof field?.encrypted !== 'undefined' ? field?.encrypted : false;
-                                    tempEntity.value = isEncrypted ? '' : this.currentInput[field.field];
+                                        typeof field?.encrypted !== 'undefined'
+                                            ? field?.encrypted
+                                            : false;
+                                    tempEntity.value = isEncrypted
+                                        ? ''
+                                        : this.currentInput[field.field];
                                 }
                                 tempEntity.display =
                                     typeof temState.auth_type !== 'undefined'
@@ -211,13 +232,17 @@ class BaseFormView extends PureComponent {
                                 tempEntity.disabled = false;
                                 temState[field.field] = tempEntity;
                                 // eslint-disable-next-line no-param-reassign
-                                field.type = typeof field?.type !== 'undefined' ? field.type : 'text';
+                                field.type =
+                                    typeof field?.type !== 'undefined' ? field.type : 'text';
 
                                 // Handled special case for redirect_url
                                 if (field.field === 'redirect_url') {
                                     tempEntity.value = window.location.href
                                         .split('?')[0]
-                                        .replace('configuration', `${this.appName.toLowerCase()}_redirect`);
+                                        .replace(
+                                            'configuration',
+                                            `${this.appName.toLowerCase()}_redirect`
+                                        );
                                     tempEntity.disabled = true;
                                 }
                                 temEntities.push(field);
@@ -229,9 +254,15 @@ class BaseFormView extends PureComponent {
                     if (authType.includes('oauth')) {
                         const oauthConfData = {};
                         // Storing O-Auth Configuration data to class variable to use later
-                        oauthConfData.popupWidth = e.options.oauth_popup_width ? e.options.oauth_popup_width : 600;
-                        oauthConfData.popupHeight = e.options.oauth_popup_height ? e.options.oauth_popup_height : 600;
-                        oauthConfData.authTimeout = e.options.oauth_timeout ? e.options.oauth_timeout : 180;
+                        oauthConfData.popupWidth = e.options.oauth_popup_width
+                            ? e.options.oauth_popup_width
+                            : 600;
+                        oauthConfData.popupHeight = e.options.oauth_popup_height
+                            ? e.options.oauth_popup_height
+                            : 600;
+                        oauthConfData.authTimeout = e.options.oauth_timeout
+                            ? e.options.oauth_timeout
+                            : 180;
                         oauthConfData.authCodeEndpoint = e.options.auth_code_endpoint
                             ? e.options.auth_code_endpoint
                             : null;
@@ -255,25 +286,34 @@ class BaseFormView extends PureComponent {
                         //   otherwise, default to enabling the Checkbox field (true).
                         tempEntity.checkboxTextFieldValue =
                             typeof e.defaultValue !== 'undefined' ? e.defaultValue : null;
-                        tempEntity.value = typeof e?.options?.enable !== 'undefined' ? e.options.enable : true;
+                        tempEntity.value =
+                            typeof e?.options?.enable !== 'undefined' ? e.options.enable : true;
                     } else {
-                        tempEntity.value = typeof e.defaultValue !== 'undefined' ? e.defaultValue : null;
+                        tempEntity.value =
+                            typeof e.defaultValue !== 'undefined' ? e.defaultValue : null;
                     }
-                    tempEntity.display = typeof e?.options?.display !== 'undefined' ? e.options.display : true;
+                    tempEntity.display =
+                        typeof e?.options?.display !== 'undefined' ? e.options.display : true;
                     tempEntity.error = false;
                     tempEntity.disabled = false;
                     temState[e.field] = tempEntity;
                 } else if (props.mode === MODE_EDIT) {
                     if (e.type === CHECKBOX_GROUPS) {
-                        const checkboxTextFieldValue = this.currentInput[this.checkboxGroupsMetadata?.field]?.[e.field];
+                        const checkboxTextFieldValue =
+                            this.currentInput[this.checkboxGroupsMetadata?.field]?.[e.field];
                         tempEntity.value = typeof checkboxTextFieldValue !== 'undefined';
-                        tempEntity.checkboxTextFieldValue = tempEntity.value ? checkboxTextFieldValue : e.defaultValue;
+                        tempEntity.checkboxTextFieldValue = tempEntity.value
+                            ? checkboxTextFieldValue
+                            : e.defaultValue;
                     } else {
                         tempEntity.value =
-                            typeof this.currentInput[e.field] !== 'undefined' ? this.currentInput[e.field] : null;
+                            typeof this.currentInput[e.field] !== 'undefined'
+                                ? this.currentInput[e.field]
+                                : null;
                         tempEntity.value = e.encrypted ? '' : tempEntity.value;
                     }
-                    tempEntity.display = typeof e?.options?.display !== 'undefined' ? e.options.display : true;
+                    tempEntity.display =
+                        typeof e?.options?.display !== 'undefined' ? e.options.display : true;
                     tempEntity.error = false;
                     tempEntity.disabled = false;
                     if (e.field === 'name') {
@@ -284,22 +324,30 @@ class BaseFormView extends PureComponent {
                     temState[e.field] = tempEntity;
                 } else if (props.mode === MODE_CLONE) {
                     if (e.type === CHECKBOX_GROUPS) {
-                        const checkboxTextFieldValue = this.currentInput[this.checkboxGroupsMetadata?.field]?.[e.field];
+                        const checkboxTextFieldValue =
+                            this.currentInput[this.checkboxGroupsMetadata?.field]?.[e.field];
                         tempEntity.value = typeof checkboxTextFieldValue !== 'undefined';
-                        tempEntity.checkboxTextFieldValue = tempEntity.value ? checkboxTextFieldValue : e.defaultValue;
+                        tempEntity.checkboxTextFieldValue = tempEntity.value
+                            ? checkboxTextFieldValue
+                            : e.defaultValue;
                     } else {
-                        tempEntity.value = e.field === 'name' || e.encrypted ? '' : this.currentInput[e.field];
+                        tempEntity.value =
+                            e.field === 'name' || e.encrypted ? '' : this.currentInput[e.field];
                     }
-                    tempEntity.display = typeof e?.options?.display !== 'undefined' ? e.options.display : true;
+                    tempEntity.display =
+                        typeof e?.options?.display !== 'undefined' ? e.options.display : true;
                     tempEntity.error = false;
                     tempEntity.disabled = false;
                     temState[e.field] = tempEntity;
                 } else if (props.mode === MODE_CONFIG) {
                     e.defaultValue = typeof e.defaultValue !== 'undefined' ? e.defaultValue : null;
                     tempEntity.value =
-                        typeof this.currentInput[e.field] !== 'undefined' ? this.currentInput[e.field] : e.defaultValue;
+                        typeof this.currentInput[e.field] !== 'undefined'
+                            ? this.currentInput[e.field]
+                            : e.defaultValue;
                     tempEntity.value = e.encrypted ? '' : tempEntity.value;
-                    tempEntity.display = typeof e?.options?.display !== 'undefined' ? e.options.display : true;
+                    tempEntity.display =
+                        typeof e?.options?.display !== 'undefined' ? e.options.display : true;
                     tempEntity.error = false;
                     tempEntity.disabled = false;
                     if (e.field === 'name') {
@@ -575,14 +623,20 @@ class BaseFormView extends PureComponent {
                     if (!this.isCalled && this.childWin.closed) {
                         // Add error message if the user has close the authentication window without taking any action
                         this.setErrorMsg(ERROR_AUTH_PROCESS_TERMINATED_TRY_AGAIN);
-                        this.props.handleFormSubmit(/* isSubmitting */ false, /* closeEntity */ false);
+                        this.props.handleFormSubmit(
+                            /* isSubmitting */ false,
+                            /* closeEntity */ false
+                        );
                         return false;
                     }
 
                     if (!this.isCalled) {
                         // Add timeout error message
                         this.setErrorMsg(ERROR_REQUEST_TIMEOUT_TRY_AGAIN);
-                        this.props.handleFormSubmit(/* isSubmitting */ false, /* closeEntity */ false);
+                        this.props.handleFormSubmit(
+                            /* isSubmitting */ false,
+                            /* closeEntity */ false
+                        );
                         return false;
                     }
 
@@ -596,7 +650,10 @@ class BaseFormView extends PureComponent {
 
                         // Add timeout error message
                         this.setErrorMsg(ERROR_REQUEST_TIMEOUT_ACCESS_TOKEN_TRY_AGAIN);
-                        this.props.handleFormSubmit(/* isSubmitting */ false, /* closeEntity */ false);
+                        this.props.handleFormSubmit(
+                            /* isSubmitting */ false,
+                            /* closeEntity */ false
+                        );
                         return false;
                     }
                     return true;
@@ -604,14 +661,21 @@ class BaseFormView extends PureComponent {
                     if (!this.isError) {
                         this.saveData();
                     } else {
-                        this.props.handleFormSubmit(/* isSubmitting */ false, /* closeEntity */ false);
+                        this.props.handleFormSubmit(
+                            /* isSubmitting */ false,
+                            /* closeEntity */ false
+                        );
                     }
                 });
             } else {
                 this.saveData();
             }
         };
-        if (this.hook && typeof this.hook.onSave === 'function' && typeof this.onSavePromise !== 'undefined') {
+        if (
+            this.hook &&
+            typeof this.hook.onSave === 'function' &&
+            typeof this.onSavePromise !== 'undefined'
+        ) {
             this.onSavePromise.then(() => {
                 executeValidationSubmit();
             });
@@ -688,7 +752,10 @@ class BaseFormView extends PureComponent {
                 if (this.props.mode === MODE_EDIT) {
                     generateToast(`Updated "${val.name}"`, 'success');
                 } else if (this.props.mode === MODE_CONFIG) {
-                    generateToast(`Updated "${this.mode_config_title ? this.mode_config_title : val.name}"`, 'success');
+                    generateToast(
+                        `Updated "${this.mode_config_title ? this.mode_config_title : val.name}"`,
+                        'success'
+                    );
                 } else {
                     generateToast(`Created "${val.name}"`, 'success');
                 }
@@ -729,7 +796,8 @@ class BaseFormView extends PureComponent {
                 value[loadField].forEach((dependency) => {
                     const required = !!this.entities.find((e) => e.field === dependency).required;
 
-                    const currentValue = dependency === field ? targetValue : this.state.data[dependency].value;
+                    const currentValue =
+                        dependency === field ? targetValue : this.state.data[dependency].value;
                     if (required && !currentValue) {
                         load = false;
                         data[dependency] = null;
@@ -805,7 +873,9 @@ class BaseFormView extends PureComponent {
     // Set error in perticular field
     // eslint-disable-next-line react/no-unused-class-component-methods
     setErrorField = (field) => {
-        this.setState((previousState) => update(previousState, { data: { [field]: { error: { $set: true } } } }));
+        this.setState((previousState) =>
+            update(previousState, { data: { [field]: { error: { $set: true } } } })
+        );
     };
 
     // Clear error message
@@ -865,23 +935,34 @@ class BaseFormView extends PureComponent {
     loadHook = (module, type, globalConfig) => {
         const myPromise = new Promise((resolve) => {
             if (type === 'external') {
-                import(/* webpackIgnore: true */ `${getBuildDirPath()}/custom/${module}.js`).then((external) => {
-                    const Hook = external.default;
-                    this.hook = new Hook(
-                        globalConfig,
-                        this.props.serviceName,
-                        this.state,
-                        this.props.mode,
-                        this.util,
-                        this.props.groupName
-                    );
-                    resolve(Hook);
-                });
+                import(/* webpackIgnore: true */ `${getBuildDirPath()}/custom/${module}.js`).then(
+                    (external) => {
+                        const Hook = external.default;
+                        this.hook = new Hook(
+                            globalConfig,
+                            this.props.serviceName,
+                            this.state,
+                            this.props.mode,
+                            this.util,
+                            this.props.groupName
+                        );
+                        resolve(Hook);
+                    }
+                );
             } else {
-                __non_webpack_require__([`app/${this.appName}/js/build/custom/${module}`], (Hook) => {
-                    this.hook = new Hook(globalConfig, this.props.serviceName, this.state, this.props.mode, this.util);
-                    resolve(Hook);
-                });
+                __non_webpack_require__(
+                    [`app/${this.appName}/js/build/custom/${module}`],
+                    (Hook) => {
+                        this.hook = new Hook(
+                            globalConfig,
+                            this.props.serviceName,
+                            this.state,
+                            this.props.mode,
+                            this.util
+                        );
+                        resolve(Hook);
+                    }
+                );
             }
         });
         return myPromise;
@@ -1036,7 +1117,11 @@ class BaseFormView extends PureComponent {
         );
 
         return (
-            <CheckboxGroupPanelWrapper key={group.label} title={checkboxGroupTitle} defaultOpen={group.options?.expand}>
+            <CheckboxGroupPanelWrapper
+                key={group.label}
+                title={checkboxGroupTitle}
+                defaultOpen={group.options?.expand}
+            >
                 <div className="collapsible-element">{collpsibleElement}</div>
             </CheckboxGroupPanelWrapper>
         );
@@ -1097,7 +1182,11 @@ class BaseFormView extends PureComponent {
                 }
 
                 return (
-                    <CollapsiblePanelWrapper key={group.label} title={group.label} defaultOpen={group.options?.expand}>
+                    <CollapsiblePanelWrapper
+                        key={group.label}
+                        title={group.label}
+                        defaultOpen={group.options?.expand}
+                    >
                         <div className="collapsible-element">{collpsibleElement}</div>
                     </CollapsiblePanelWrapper>
                 );
@@ -1112,15 +1201,23 @@ class BaseFormView extends PureComponent {
         <>
             <CheckboxGroupContainer>
                 {this.checkboxGroupsMetadata && (
-                    <CustomCheckboxGroupsLabel>{this.checkboxGroupsMetadata.label}</CustomCheckboxGroupsLabel>
+                    <CustomCheckboxGroupsLabel>
+                        {this.checkboxGroupsMetadata.label}
+                    </CustomCheckboxGroupsLabel>
                 )}
-                {this.checkboxGroups ? this.renderGroupElements(true) : this.renderNonGroupCheckboxEntities()}
+                {this.checkboxGroups
+                    ? this.renderGroupElements(true)
+                    : this.renderNonGroupCheckboxEntities()}
                 {this.checkboxGroupsMetadata && (
                     <CheckboxGroupsToggleButtonWrapper>
                         <Link to="" onClick={() => this.handleCheckboxToggleAll(true)}>
                             Select All
                         </Link>
-                        <Link style={{ marginLeft: '10px' }} to="" onClick={() => this.handleCheckboxToggleAll(0)}>
+                        <Link
+                            style={{ marginLeft: '10px' }}
+                            to=""
+                            onClick={() => this.handleCheckboxToggleAll(0)}
+                        >
                             Clear All
                         </Link>
                     </CheckboxGroupsToggleButtonWrapper>
