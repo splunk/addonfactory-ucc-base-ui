@@ -1920,6 +1920,19 @@
     lodash "^4.17.14"
     prop-types "^15.6.2"
 
+"@splunk/react-icons@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@splunk/react-icons/-/react-icons-4.0.1.tgz#ccf103a7f6717c2ebfd1feea3831e47eeeb9e756"
+  integrity sha512-WJ7DgL9AoDQL5mQ28D3KtKjhdFpvKMsvxk2Olg6HVn3nP1ePfDb1QtIOjLIN6+AvKyDKQPrnlFkLy38sw2ErJA==
+  dependencies:
+    "@splunk/ui-utils" "^1.6.0"
+    "@types/lodash" "^4.14.156"
+    "@types/react" "^16.9.38"
+    "@types/react-dom" "^16.9.8"
+    "@types/styled-components" "^5.1.0"
+    lodash "^4.17.14"
+    prop-types "^15.6.2"
+
 "@splunk/react-page@^6.0.3":
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/@splunk/react-page/-/react-page-6.0.3.tgz#31cb1903610643a15a99b5c3c1af5149f67b97c4"
@@ -2025,6 +2038,14 @@
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@splunk/ui-utils/-/ui-utils-1.5.2.tgz#2108fd8d4e0937bc9ed9f81d6ac92821f57391e0"
   integrity sha512-kOUM13GxMybYxZkiibT8MhtIYfAA4ub0MxyC50rJSSADGv7aq+QRNh7N/zHF9ov8Ir7EpNUDlKxxOtuAkCKTtw==
+  dependencies:
+    keycode "^2.1.9"
+    lodash "^4.17.21"
+
+"@splunk/ui-utils@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@splunk/ui-utils/-/ui-utils-1.6.0.tgz#66576bdf80830fb0ec8b0f9e48031ce61eb54e7c"
+  integrity sha512-6uMStGhXno5LluvKZtO34K1LO50T6m9hgoC2FvQ5KEtFLz1MID8XkW3vLjh4zcxU/7ntgQBAlteBLRqi38AF7A==
   dependencies:
     keycode "^2.1.9"
     lodash "^4.17.21"
