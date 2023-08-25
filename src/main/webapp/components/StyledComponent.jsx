@@ -115,6 +115,12 @@ const ControlGroupWrapper = styled(ControlGroup).attrs((props) => ({
     }
 `;
 
+const CheckboxGroupsToggleButtonWrapper = styled.div`
+    position: relative;
+    margin-left: 270px;
+    margin-top: 10px;
+`;
+
 export {
     CollapsiblePanelWrapper,
     CustomGroupLabel,
@@ -127,4 +133,5 @@ export {
     CustomElement,
     CheckboxElement,
     ControlGroupWrapper,
+    CheckboxGroupsToggleButtonWrapper,
 };

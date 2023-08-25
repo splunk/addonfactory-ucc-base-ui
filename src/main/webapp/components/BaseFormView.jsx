@@ -3,6 +3,7 @@ import Message from '@splunk/react-ui/Message';
 import update from 'immutability-helper';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
+import Link from '@splunk/react-ui/Link';
 
 import ControlWrapper from './ControlWrapper';
 import Validator, { SaveValidator } from '../util/Validator';
@@ -28,6 +29,7 @@ import {
     CheckboxGroupPanelWrapper,
     CustomCheckboxGroupsLabel,
     CheckboxGroupContainer,
+    CheckboxGroupsToggleButtonWrapper,
 } from './StyledComponent';
 
 const CHECKBOX_GROUPS = 'checkboxGroups';
@@ -486,12 +488,12 @@ class BaseFormView extends PureComponent {
             } else {
                 temEntities = this.entities;
 
-                if (this.checkboxmetadata?.validators) {
+                if (this.checkboxGroupsMetadata?.validators) {
                     const checkboxGroupField = {
                         type: 'text',
-                        field: this.checkboxmetadata.field,
-                        label: this.checkboxmetadata.label,
-                        validators: [this.checkboxmetadata.validators],
+                        field: this.checkboxGroupsMetadata.field,
+                        label: this.checkboxGroupsMetadata.label,
+                        validators: this.checkboxGroupsMetadata.validators,
                     };
                     temEntities.push(checkboxGroupField);
                 }
@@ -765,6 +767,22 @@ class BaseFormView extends PureComponent {
                 }
             });
         }
+    };
+
+    handleCheckboxToggleAll = (selectAll) => {
+        const allFields = [];
+        const changes = {};
+
+        this.checkboxGroups.forEach((item) => {
+            allFields.push(...item.fields);
+        });
+
+        allFields.forEach((field) => {
+            changes[field] = { value: { $set: selectAll } };
+        });
+
+        const newFields = update(this.state, { data: changes });
+        this.setState(newFields);
     };
 
     addCustomValidator = (field, validatorFunc) => {
@@ -1091,13 +1109,25 @@ class BaseFormView extends PureComponent {
     renderNonGroupCheckboxEntities = () => this.checkboxEntities.map((e) => this.getControls(e));
 
     renderGroups = () => (
-        <CheckboxGroupContainer>
-            {this.checkboxGroupsMetadata && (
-                <CustomCheckboxGroupsLabel>{this.checkboxGroupsMetadata.label}</CustomCheckboxGroupsLabel>
-            )}
-            {this.checkboxGroups ? this.renderGroupElements(true) : this.renderNonGroupCheckboxEntities()}
+        <>
+            <CheckboxGroupContainer>
+                {this.checkboxGroupsMetadata && (
+                    <CustomCheckboxGroupsLabel>{this.checkboxGroupsMetadata.label}</CustomCheckboxGroupsLabel>
+                )}
+                {this.checkboxGroups ? this.renderGroupElements(true) : this.renderNonGroupCheckboxEntities()}
+                {this.checkboxGroupsMetadata && (
+                    <CheckboxGroupsToggleButtonWrapper>
+                        <Link to="" onClick={() => this.handleCheckboxToggleAll(true)}>
+                            Select All
+                        </Link>
+                        <Link style={{ marginLeft: '10px' }} to="" onClick={() => this.handleCheckboxToggleAll(0)}>
+                            Clear All
+                        </Link>
+                    </CheckboxGroupsToggleButtonWrapper>
+                )}
+            </CheckboxGroupContainer>
             {this.renderGroupElements(false)}
-        </CheckboxGroupContainer>
+        </>
     );
 
     render() {
@@ -1143,6 +1173,8 @@ class BaseFormView extends PureComponent {
                             return null;
                         }
                         const temState = this.state.data[e.field];
+
+                        if (!temState) return null;
 
                         if (temState.placeholder) {
                             // eslint-disable-next-line no-param-reassign

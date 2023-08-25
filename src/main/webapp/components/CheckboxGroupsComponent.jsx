@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 import Text from '@splunk/react-ui/Text';
@@ -8,15 +8,19 @@ import { StyledColumnLayout, StyledSwitch } from './StyledComponent';
 function CheckboxGroupsComponent(props) {
     const { field, label, value, checkboxTextFieldValue, handleChange } = props;
 
-    const [disable, setDisable] = useState(!value);
+    const [isDisabled, setIsDisabled] = useState(!value);
+
+    useEffect(() => {
+        setIsDisabled(!value);
+    }, [value]);
 
     const handleChangeCheckbox = () => {
         if (value && !isFalse(value)) {
             handleChange(field, 0);
-            setDisable(true);
+            setIsDisabled(true);
         } else {
             handleChange(field, 1);
-            setDisable(false);
+            setIsDisabled(false);
         }
     };
 
@@ -41,7 +45,7 @@ function CheckboxGroupsComponent(props) {
                 <ColumnLayout.Column span={2}>
                     <Text
                         inline
-                        disabled={disable}
+                        disabled={isDisabled}
                         value={checkboxTextFieldValue ? checkboxTextFieldValue.toString() : ''}
                         onChange={handleChangeTextBox}
                         type="text"
