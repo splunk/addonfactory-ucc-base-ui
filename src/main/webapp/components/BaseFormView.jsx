@@ -30,6 +30,7 @@ import {
     CustomCheckboxGroupsLabel,
     CheckboxGroupContainer,
     CheckboxGroupsToggleButtonWrapper,
+    StyledPadding4,
 } from './StyledComponent';
 
 const CHECKBOX_GROUPS = 'checkboxGroups';
@@ -1122,7 +1123,7 @@ class BaseFormView extends PureComponent {
                 title={checkboxGroupTitle}
                 defaultOpen={group.options?.expand}
             >
-                <div className="collapsible-element">{collpsibleElement}</div>
+                <StyledPadding4>{collpsibleElement}</StyledPadding4>
             </CheckboxGroupPanelWrapper>
         );
     };
@@ -1187,7 +1188,7 @@ class BaseFormView extends PureComponent {
                         title={group.label}
                         defaultOpen={group.options?.expand}
                     >
-                        <div className="collapsible-element">{collpsibleElement}</div>
+                        <StyledPadding4>{collpsibleElement}</StyledPadding4>
                     </CollapsiblePanelWrapper>
                 );
             });
