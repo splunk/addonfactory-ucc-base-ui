@@ -842,8 +842,8 @@ class BaseFormView extends PureComponent {
         const allFields = [];
         const changes = {};
 
-        this.checkboxGroups.forEach((item) => {
-            allFields.push(...item.fields);
+        this.checkboxEntities.forEach((item) => {
+            allFields.push(item.field);
         });
 
         allFields.forEach((field) => {
