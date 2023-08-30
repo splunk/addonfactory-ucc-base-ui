@@ -266,10 +266,8 @@ describe('multiple services', () => {
             expect(loadingEl).toBeInTheDocument();
             await waitFor(() => expect(loadingEl).not.toHaveTextContent('Loading...'));
 
-            // that's weird
             expect(mockCustomMenuInstance.render).toHaveBeenCalled();
             const createNewInputBtn = screen.queryByRole('button', { name: 'Create New Input' });
-            // that's also weird
             expect(createNewInputBtn).not.toBeInTheDocument();
         });
     });
