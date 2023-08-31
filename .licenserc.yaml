@@ -40,4 +40,5 @@ header:
     - "src/main/webapp/schema/schema.json"
     - ".husky/pre-commit"
     - "renovate.json"
+    - "tsconfig.json"
   comment: on-failure
