@@ -5,9 +5,9 @@
   "private": true,
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --bail",
-    "format": "prettier \"src/main/webapp/**/*.(js|jsx|css)\" --write",
-    "format:verify": "prettier \"src/main/webapp/**/*.(js|jsx|css)\" --list-different",
-    "eslint": "eslint src --ext \".js,.jsx\"",
+    "format": "prettier \"src/main/webapp/**/*.(js|jsx|ts|tsx|css)\" --write",
+    "format:verify": "prettier \"src/main/webapp/**/*.(js|jsx|ts|tsx|css)\" --list-different",
+    "eslint": "eslint src --ext \".js,.jsx,.ts,.tsx\"",
     "eslint:fix": "yarn run eslint --fix",
     "lint": "yarn run eslint && yarn run format:verify",
     "test": "jest --coverage",

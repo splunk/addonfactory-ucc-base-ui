@@ -34,6 +34,8 @@ header:
     - "*.po"
     - "**/*.js"
     - "**/*.jsx"
+    - "**/*.ts"
+    - "**/*.tsx"
     - "package.json"
     - "src/main/webapp/schema/schema.json"
     - ".husky/pre-commit"
