@@ -3,22 +3,45 @@ import * as React from 'react';
 import userEvent from '@testing-library/user-event';
 import { AnimationToggleProvider } from '@splunk/react-ui/AnimationToggle';
 import MenuInput from './MenuInput';
-import { mockCustomMenu } from '../tests/helpers';
+import { mockCustomMenu, MockCustomRenderable } from '../tests/helpers';
 import { getUnifiedConfigs } from '../util/util';
 
 jest.mock('../util/util');
 
 // for further TS support
-// const getUnifiedConfigsMock = getUnifiedConfigs as jest.Mock;
-let mockCustomMenuInstance;
+const getUnifiedConfigsMock = getUnifiedConfigs as jest.Mock;
+let mockCustomMenuInstance: MockCustomRenderable;
 
 beforeEach(() => {
     mockCustomMenuInstance = mockCustomMenu().mockCustomMenuInstance;
 });
 
-function setup(inputs) {
+interface UnifiedConfig {
+    pages: {
+        inputs: {
+            services: {
+                name: string;
+                title: string;
+                subTitle?: string;
+                hasSubmenu?: boolean;
+            }[];
+            groupsMenu?: {
+                groupName: string;
+                groupTitle: string;
+                groupServices?: string[];
+            }[];
+            menu?: {
+                src: string;
+                type?: 'external' | 'internal';
+            };
+        };
+    };
+    meta: object;
+}
+
+function setup(inputs: UnifiedConfig['pages']['inputs']) {
     const mockHandleRequestOpen = jest.fn();
-    getUnifiedConfigs.mockImplementation(() => ({
+    getUnifiedConfigsMock.mockImplementation(() => ({
         pages: {
             inputs,
         },
