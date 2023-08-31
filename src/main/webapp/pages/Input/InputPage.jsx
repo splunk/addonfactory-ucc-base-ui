@@ -118,7 +118,11 @@ function InputPage() {
             // set query and push to navigate
             query.set('service', serviceName);
             query.set('action', MODE_CREATE);
-            query.set('input', input);
+            if (input) {
+                query.set('input', input);
+            } else {
+                query.delete('input');
+            }
             navigate({ search: query.toString() });
         }
     };
