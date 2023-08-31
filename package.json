@@ -10,6 +10,7 @@
     "eslint": "eslint src --ext \".js,.jsx\"",
     "eslint:ci": "yarn run eslint -f junit -o test-reports/lint-results.xml",
     "eslint:fix": "eslint src --ext \".js, .jsx\" --fix",
+    "lint": "yarn run eslint:ci && yarn run format:verify",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "start": "webpack --watch",
