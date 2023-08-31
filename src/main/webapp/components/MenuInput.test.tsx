@@ -5,6 +5,7 @@ import { AnimationToggleProvider } from '@splunk/react-ui/AnimationToggle';
 import MenuInput from './MenuInput';
 import { mockCustomMenu, MockCustomRenderable } from '../tests/helpers';
 import { getUnifiedConfigs } from '../util/util';
+import { UnifiedConfig } from '../types/config';
 
 jest.mock('../util/util');
 
@@ -15,29 +16,6 @@ let mockCustomMenuInstance: MockCustomRenderable;
 beforeEach(() => {
     mockCustomMenuInstance = mockCustomMenu().mockCustomMenuInstance;
 });
-
-interface UnifiedConfig {
-    pages: {
-        inputs: {
-            services: {
-                name: string;
-                title: string;
-                subTitle?: string;
-                hasSubmenu?: boolean;
-            }[];
-            groupsMenu?: {
-                groupName: string;
-                groupTitle: string;
-                groupServices?: string[];
-            }[];
-            menu?: {
-                src: string;
-                type?: 'external' | 'internal';
-            };
-        };
-    };
-    meta: object;
-}
 
 function setup(inputs: UnifiedConfig['pages']['inputs']) {
     const mockHandleRequestOpen = jest.fn();

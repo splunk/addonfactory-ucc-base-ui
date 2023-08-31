@@ -22,6 +22,7 @@ module.exports = {
         'prettier/prettier': 2,
         indent: 'off',
         'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
+        'no-console': 'error',
     },
     root: true,
 };
