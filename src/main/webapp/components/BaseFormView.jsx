@@ -49,6 +49,14 @@ const CustomGroupLabel = styled.div`
     font-size: 16px;
 `;
 
+function onCustomHookError(params) {
+    const docURL = `https://splunk.github.io/addonfactory-ucc-generator/custom_ui_extensions/custom_hook/`;
+    // eslint-disable-next-line no-console
+    console.error(
+        `[Custom Hook] Something went wrong while calling ${params.methodName}. Please refer to docs or file an issue. ${docURL}`
+    );
+}
+
 class BaseFormView extends PureComponent {
     static contextType = TableContext;
 
@@ -376,8 +384,7 @@ class BaseFormView extends PureComponent {
                     try {
                         this.hook.onCreate();
                     } catch (err) {
-                        // eslint-disable-next-line no-console
-                        console.error(err);
+                        onCustomHookError({ methodName: 'onCreate' });
                     }
                 }
             });
@@ -1026,8 +1033,7 @@ class BaseFormView extends PureComponent {
                         try {
                             this.hook.onRender();
                         } catch (err) {
-                            // eslint-disable-next-line no-console
-                            console.error(err);
+                            onCustomHookError({ methodName: 'onRender' });
                         }
                     }
                 });
@@ -1040,8 +1046,7 @@ class BaseFormView extends PureComponent {
                             try {
                                 this.hook.onEditLoad();
                             } catch (err) {
-                                // eslint-disable-next-line no-console
-                                console.error(err);
+                                onCustomHookError({ methodName: 'onEditLoad' });
                             }
                         }
                     });

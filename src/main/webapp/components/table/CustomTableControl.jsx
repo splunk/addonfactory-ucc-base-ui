@@ -5,6 +5,14 @@ import { _ } from '@splunk/ui-utils/i18n';
 import { getUnifiedConfigs } from '../../util/util';
 import { getBuildDirPath } from '../../util/script';
 
+function onCustomControlError(params) {
+    const docURL = `https://splunk.github.io/addonfactory-ucc-generator/custom_ui_extensions/custom_hook/`;
+    // eslint-disable-next-line no-console
+    console.error(
+        `[Custom Control] Something went wrong while calling ${params.methodName}. Please refer to docs or file an issue. ${docURL}`
+    );
+}
+
 class CustomTableControl extends Component {
     constructor(props) {
         super(props);
@@ -66,8 +74,7 @@ class CustomTableControl extends Component {
             try {
                 this.customControl.render(this.props.row, this.props.field);
             } catch (err) {
-                // eslint-disable-next-line no-console
-                console.error(err);
+                onCustomControlError({ methodName: 'render' });
             }
         }
         return (
