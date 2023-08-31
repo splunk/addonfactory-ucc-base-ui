@@ -31,6 +31,7 @@ export function setUnifiedConfig(unifiedConfig) {
 }
 
 export function getUnifiedConfigs() {
+    console.log('real file');
     return unifiedConfigs;
 }
 

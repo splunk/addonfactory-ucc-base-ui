@@ -5,9 +5,9 @@ module.exports = {
     extends: [
         '@splunk/eslint-config/browser',
         'prettier',
-        'plugin:jest/recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:import/typescript', // resolves import TS files from JS code
+        'plugin:jest/recommended',
     ],
     plugins: ['@typescript-eslint', 'prettier', 'jest'],
     env: {
