@@ -166,7 +166,8 @@ jobs:
         with:
           name: splunk-ucc-ui
       - run: |
-          tar -zxf /tmp/splunk-ucc-ui.tgz -C splunk_add_on_ucc_framework/
+          ls -al
+          tar -zxf tmp/splunk-ucc-ui.tgz -C splunk_add_on_ucc_framework/
           poetry build
       - run: poetry run ucc-gen build --source tests/testdata/test_addons/package_global_config_everything/package
       - run: |
