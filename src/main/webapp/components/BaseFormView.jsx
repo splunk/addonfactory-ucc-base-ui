@@ -7,7 +7,7 @@ import Link from '@splunk/react-ui/Link';
 
 import ControlWrapper from './ControlWrapper';
 import Validator, { SaveValidator } from '../util/Validator';
-import { getUnifiedConfigs, generateToast, isTrue } from '../util/util';
+import { getUnifiedConfigs, generateToast, isTrue, populateKeyValueDict } from '../util/util';
 import { MODE_CLONE, MODE_CREATE, MODE_EDIT, MODE_CONFIG } from '../constants/modes';
 import { PAGE_INPUT, PAGE_CONF } from '../constants/pages';
 import { axiosCallWrapper } from '../util/axiosCallWrapper';
@@ -99,27 +99,18 @@ class BaseFormView extends PureComponent {
                     if (props.mode === MODE_EDIT || props.mode === MODE_CLONE) {
                         this.currentInput = context.rowData[props.serviceName][props.stanzaName];
 
-                        // Convert a comma-separated string of key-value pairs into a dictionary.
+                        const checkboxGroupFieldValue =
+                            this.currentInput[this.checkboxGroupsMetadata?.field];
+
                         // This conversion is performed while reading from the conf file.
                         // Next time (without refreshing the page), it is expected that the data will already be in dictionary format,
                         // and this conversion step will not be necessary.
-                        const checkboxGroupFieldValue =
-                            this.currentInput[this.checkboxGroupsMetadata?.field];
                         if (
                             this.checkboxGroupsMetadata?.field &&
                             typeof checkboxGroupFieldValue === 'string'
                         ) {
-                            const keyValuePairs = checkboxGroupFieldValue
-                                .split(',')
-                                .map((item) => item.trim());
-
-                            const resultDict = {};
-
-                            keyValuePairs.forEach((pair) => {
-                                const [key, value] = pair.split('/');
-                                resultDict[key] = value;
-                            });
-                            this.currentInput[this.checkboxGroupsMetadata.field] = resultDict;
+                            this.currentInput[this.checkboxGroupsMetadata.field] =
+                                populateKeyValueDict(checkboxGroupFieldValue);
                         }
                     }
                 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 import Text from '@splunk/react-ui/Text';
-import { isFalse } from '../util/util';
+import { isFalse, isTrue } from '../util/util';
 import { StyledColumnLayout, StyledSwitch } from './StyledComponent';
 
 function CheckboxGroupsComponent(props) {
@@ -15,7 +15,7 @@ function CheckboxGroupsComponent(props) {
     }, [value]);
 
     const handleChangeCheckbox = () => {
-        if (value && !isFalse(value)) {
+        if (value && isTrue(value)) {
             handleChange(field, 0);
             setIsDisabled(true);
         } else {
