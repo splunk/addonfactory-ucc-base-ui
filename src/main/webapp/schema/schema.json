@@ -944,15 +944,9 @@
         "required": {
           "type": "boolean"
         },
-        "options": {
-          "type": "object",
-          "properties": {
-            "placeholder": {
-              "type": "string",
-              "maxLength": 250
-            }
-          },
-          "additionalProperties": false
+        "placeholder": {
+          "type": "string",
+          "maxLength": 250
         }
       },
       "additionalProperties": false
