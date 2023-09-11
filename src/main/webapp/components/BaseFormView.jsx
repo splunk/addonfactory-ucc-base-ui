@@ -50,10 +50,9 @@ const CustomGroupLabel = styled.div`
 `;
 
 function onCustomHookError(params) {
-    const docURL = `https://splunk.github.io/addonfactory-ucc-generator/custom_ui_extensions/custom_hook/`;
     // eslint-disable-next-line no-console
     console.error(
-        `[Custom Hook] Something went wrong while calling ${params.methodName}. Please refer to docs or file an issue. ${docURL}`
+        `[Custom Hook] Something went wrong while calling ${params.methodName}. Error: ${params.error?.name} ${params.error?.message}`
     );
 }
 
@@ -383,8 +382,8 @@ class BaseFormView extends PureComponent {
                 if (typeof this.hook.onCreate === 'function') {
                     try {
                         this.hook.onCreate();
-                    } catch (err) {
-                        onCustomHookError({ methodName: 'onCreate' });
+                    } catch (error) {
+                        onCustomHookError({ methodName: 'onCreate', error });
                     }
                 }
             });
@@ -1032,8 +1031,8 @@ class BaseFormView extends PureComponent {
                     if (typeof this.hook.onRender === 'function') {
                         try {
                             this.hook.onRender();
-                        } catch (err) {
-                            onCustomHookError({ methodName: 'onRender' });
+                        } catch (error) {
+                            onCustomHookError({ methodName: 'onRender', error });
                         }
                     }
                 });
@@ -1045,8 +1044,8 @@ class BaseFormView extends PureComponent {
                         if (typeof this.hook.onEditLoad === 'function') {
                             try {
                                 this.hook.onEditLoad();
-                            } catch (err) {
-                                onCustomHookError({ methodName: 'onEditLoad' });
+                            } catch (error) {
+                                onCustomHookError({ methodName: 'onEditLoad', error });
                             }
                         }
                     });

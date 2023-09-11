@@ -6,10 +6,9 @@ import { getUnifiedConfigs } from '../../util/util';
 import { getBuildDirPath } from '../../util/script';
 
 function onCustomControlError(params) {
-    const docURL = `https://splunk.github.io/addonfactory-ucc-generator/custom_ui_extensions/custom_hook/`;
     // eslint-disable-next-line no-console
     console.error(
-        `[Custom Control] Something went wrong while calling ${params.methodName}. Please refer to docs or file an issue. ${docURL}`
+        `[Custom Control] Something went wrong while calling ${params.methodName}. Error: ${params.error?.name} ${params.error?.message}`
     );
 }
 
@@ -73,8 +72,8 @@ class CustomTableControl extends Component {
         if (!this.state.loading) {
             try {
                 this.customControl.render(this.props.row, this.props.field);
-            } catch (err) {
-                onCustomControlError({ methodName: 'render' });
+            } catch (error) {
+                onCustomControlError({ methodName: 'render', error });
             }
         }
         return (
