@@ -113,5 +113,8 @@
   },
   "engines": {
     "node": ">=14.21.2"
+  },
+  "msw": {
+    "workerDirectory": "src/main/webapp/public"
   }
 }
