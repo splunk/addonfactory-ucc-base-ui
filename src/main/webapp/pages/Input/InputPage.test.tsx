@@ -19,7 +19,7 @@ beforeEach(() => {
     mockCustomMenuInstance = mockCustomMenu().mockCustomMenuInstance;
 });
 
-it('should redirect user on menu click', async () => {
+it('custom menu should redirect user on menu click', async () => {
     render(<InputPage />, { wrapper: BrowserRouter });
 
     await waitForElementToBeRemoved(() => screen.queryByTestId('wait-spinner'));
@@ -40,6 +40,6 @@ it('should redirect user on menu click', async () => {
 
     // check that InputPage redirects to correct URL according to callback
     expect(mockNavigateFn).toHaveBeenCalledWith({
-        search: `service=${service}&action=${action}&input=${input}`,
+        search: `service=${service}&action=${action}`,
     });
 });

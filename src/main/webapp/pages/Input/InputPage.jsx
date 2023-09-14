@@ -12,7 +12,7 @@ import { TableContextProvider } from '../../context/TableContext';
 import { MODE_CREATE, MODE_CLONE, MODE_EDIT } from '../../constants/modes';
 import { PAGE_INPUT } from '../../constants/pages';
 import { STYLE_PAGE } from '../../constants/dialogStyles';
-import MenuInput from '../../components/MenuInput';
+import MenuInput, { ROOT_GROUP_NAME } from '../../components/MenuInput';
 import TableWrapper from '../../components/table/TableWrapper';
 import EntityModal from '../../components/EntityModal';
 import ErrorBoundary from '../../components/ErrorBoundary';
@@ -100,7 +100,7 @@ function InputPage() {
     };
 
     // handle modal/page open request on create/add entity button
-    const handleRequestOpen = ({ serviceName, groupName, input }) => {
+    const handleRequestOpen = ({ serviceName, groupName }) => {
         const service = services.find((x) => x.name === serviceName);
         const serviceTitle = service.title;
         const isInputPageStyle = service.style === STYLE_PAGE;
@@ -118,10 +118,10 @@ function InputPage() {
             // set query and push to navigate
             query.set('service', serviceName);
             query.set('action', MODE_CREATE);
-            if (input) {
-                query.set('input', input);
+            if (groupName && groupName !== ROOT_GROUP_NAME) {
+                query.set('group', groupName);
             } else {
-                query.delete('input');
+                query.delete('group');
             }
             navigate({ search: query.toString() });
         }
@@ -252,7 +252,7 @@ function InputPage() {
                                         page={PAGE_INPUT}
                                         serviceName={service.name}
                                         handleRequestModalOpen={() =>
-                                            handleRequestOpen(service.name)
+                                            handleRequestOpen({ serviceName: service.name })
                                         }
                                         handleOpenPageStyleDialog={handleOpenPageStyleDialog}
                                     />
