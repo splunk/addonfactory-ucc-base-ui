@@ -45,7 +45,7 @@ it('custom menu should redirect user on menu click', async () => {
     });
 });
 
-it('menu should redirect user on menu click', async () => {
+it('click on menu item inside group should add input query to URL', async () => {
     render(<InputPage />, { wrapper: BrowserRouter });
 
     await waitForElementToBeRemoved(() => screen.queryByTestId('wait-spinner'));
@@ -60,5 +60,20 @@ it('menu should redirect user on menu click', async () => {
 
     expect(mockNavigateFn).toHaveBeenCalledWith({
         search: `service=aws_billing_cur&action=create&input=aws_billing_menu`,
+    });
+});
+
+it('click on root menu item should not add input query to URL', async () => {
+    render(<InputPage />, { wrapper: BrowserRouter });
+
+    await waitForElementToBeRemoved(() => screen.queryByTestId('wait-spinner'));
+
+    await userEvent.click(screen.getByRole('button', { name: 'Create New Input' }));
+    expect(mockNavigateFn).not.toHaveBeenCalled();
+
+    await userEvent.click(screen.getByRole('menuitem', { name: 'CloudWatch' }));
+
+    expect(mockNavigateFn).toHaveBeenCalledWith({
+        search: `service=aws_cloudwatch&action=create`,
     });
 });
