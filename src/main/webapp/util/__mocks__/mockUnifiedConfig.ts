@@ -31,6 +31,17 @@ export const mockUnifiedConfig = {
                 },
                 actions: ['edit', 'delete', 'clone'],
             },
+            groupsMenu: [
+                {
+                    groupName: 'aws_billing_menu',
+                    groupTitle: 'Billing',
+                    groupServices: ['aws_billing_cur', 'aws_billing'],
+                },
+                {
+                    groupName: 'aws_cloudwatch',
+                    groupTitle: 'CloudWatch',
+                },
+            ],
             menu: {
                 src: 'CustomMenu',
                 type: 'external',
@@ -39,6 +50,7 @@ export const mockUnifiedConfig = {
                 {
                     name: 'aws_billing_cur',
                     title: 'Billing (Cost and Usage Report)',
+                    subTitle: '(Recommended)',
                     style: 'page',
                     hook: {
                         src: 'Hook',
@@ -86,9 +98,6 @@ export const mockUnifiedConfig = {
                             label: 'Name',
                             type: 'text',
                             required: true,
-                            options: {
-                                placeholder: 'Required',
-                            },
                             validators: [
                                 {
                                     type: 'regex',
@@ -157,9 +166,6 @@ export const mockUnifiedConfig = {
                             label: 'Name',
                             type: 'text',
                             required: true,
-                            options: {
-                                placeholder: 'Required',
-                            },
                             validators: [
                                 {
                                     type: 'regex',
