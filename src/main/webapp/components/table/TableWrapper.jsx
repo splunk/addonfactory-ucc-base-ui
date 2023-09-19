@@ -3,7 +3,7 @@ import update from 'immutability-helper';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
-import { WaitSpinnerWrapper } from './CustomTableStyle';
+import { WaitSpinnerWrapper, DisableAllStatusDiv } from './CustomTableStyle';
 import { axiosCallWrapper } from '../../util/axiosCallWrapper';
 import { getUnifiedConfigs, generateToast, isTrue } from '../../util/util';
 import CustomTable from './CustomTable';
@@ -158,6 +158,16 @@ function TableWrapper({
         });
     };
 
+    const handleDisableAllRowsStatus = (allDataRows) => {
+        Object.values(allDataRows).forEach((data) =>
+            Object.values(data).forEach((row) => {
+                if (!row.disabled) {
+                    changeToggleStatus({ ...row, disabled: false });
+                }
+            })
+        );
+    };
+
     const handleSort = (e, val) => {
         const prevSortKey = sortKey;
         const prevSortDir = prevSortKey === val.sortKey ? sortDir : 'none';
@@ -279,6 +289,15 @@ function TableWrapper({
                 tableConfig={tableConfig}
                 services={services}
             />
+            {displayBtnDisableAllRows && totalElement > 1 ? ( // TODO: find a correct place and design for that element
+                <DisableAllStatusDiv
+                    data-testid="disableAllBtn"
+                    onClick={() => handleDisableAllRowsStatus(rowData)}
+                    role="button"
+                >
+                    Dissable all
+                </DisableAllStatusDiv>
+            ) : null}
         </>
     );
 }

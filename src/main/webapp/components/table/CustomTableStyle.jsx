@@ -29,3 +29,7 @@ export const NoRecordsDiv = styled.div`
     font-size: ${variables.fontSize};
     text-align: center;
 `;
+
+export const DisableAllStatusDiv = styled.div`
+    font-size: ${variables.fontSize};
+`;
