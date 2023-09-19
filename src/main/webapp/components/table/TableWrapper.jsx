@@ -3,7 +3,7 @@ import update from 'immutability-helper';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
-import { WaitSpinnerWrapper } from './CustomTableStyle';
+import { WaitSpinnerWrapper, DisableAllStatusDiv } from './CustomTableStyle';
 import { axiosCallWrapper } from '../../util/axiosCallWrapper';
 import { getUnifiedConfigs, generateToast, isTrue } from '../../util/util';
 import CustomTable from './CustomTable';
@@ -11,7 +11,13 @@ import TableHeader from './TableHeader';
 import TableContext from '../../context/TableContext';
 import { PAGE_INPUT } from '../../constants/pages';
 
-function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPageStyleDialog }) {
+function TableWrapper({
+    page,
+    serviceName,
+    handleRequestModalOpen,
+    handleOpenPageStyleDialog,
+    displayBtnDisableAllRows,
+}) {
     const [sortKey, setSortKey] = useState('name');
     const [sortDir, setSortDir] = useState('asc');
     const [loading, setLoading] = useState(true);
@@ -152,6 +158,16 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
         });
     };
 
+    const handleDisableAllRowsStatus = (allDataRows) => {
+        Object.values(allDataRows).forEach((data) =>
+            Object.values(data).forEach((row) => {
+                if (!row.disabled) {
+                    changeToggleStatus({ ...row, disabled: false });
+                }
+            })
+        );
+    };
+
     const handleSort = (e, val) => {
         const prevSortKey = sortKey;
         const prevSortDir = prevSortKey === val.sortKey ? sortDir : 'none';
@@ -270,6 +286,15 @@ function TableWrapper({ page, serviceName, handleRequestModalOpen, handleOpenPag
                 tableConfig={tableConfig}
                 services={services}
             />
+            {displayBtnDisableAllRows && totalElement > 1 ? ( // TODO: find a correct place and design for that element
+                <DisableAllStatusDiv
+                    data-testid="disableAllBtn"
+                    onClick={() => handleDisableAllRowsStatus(rowData)}
+                    role="button"
+                >
+                    Dissable all
+                </DisableAllStatusDiv>
+            ) : null}
         </>
     );
 }
@@ -279,6 +304,7 @@ TableWrapper.propTypes = {
     serviceName: PropTypes.string,
     handleRequestModalOpen: PropTypes.func,
     handleOpenPageStyleDialog: PropTypes.func,
+    displayBtnDisableAllRows: PropTypes.bool,
 };
 
 export default memo(TableWrapper);
