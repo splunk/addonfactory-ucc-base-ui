@@ -63,7 +63,7 @@ it('click on menu item inside group should add input query to URL', async () => 
     });
 });
 
-it('click on root menu item should not add input query to URL', async () => {
+it('click on root menu item should add input query to URL', async () => {
     render(<InputPage />, { wrapper: BrowserRouter });
 
     await waitForElementToBeRemoved(() => screen.queryByTestId('wait-spinner'));
@@ -74,6 +74,6 @@ it('click on root menu item should not add input query to URL', async () => {
     await userEvent.click(screen.getByRole('menuitem', { name: 'CloudWatch' }));
 
     expect(mockNavigateFn).toHaveBeenCalledWith({
-        search: `service=aws_cloudwatch&action=create`,
+        search: `service=aws_cloudwatch&action=create&input=aws_cloudwatch`,
     });
 });

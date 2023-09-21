@@ -119,7 +119,7 @@ function InputPage() {
             query.set('service', serviceName);
             query.set('action', MODE_CREATE);
             const selectedGroup = groupName && groupName !== ROOT_GROUP_NAME ? groupName : null;
-            const inputQueryValue = input || selectedGroup;
+            const inputQueryValue = input || selectedGroup || serviceName;
             if (inputQueryValue) {
                 query.set('input', inputQueryValue);
             } else {
