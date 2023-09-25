@@ -3,12 +3,13 @@ import update from 'immutability-helper';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
-import { WaitSpinnerWrapper, DisableAllStatusDiv } from './CustomTableStyle';
+import { WaitSpinnerWrapper, DisableAllStatusButton } from './CustomTableStyle';
 import { axiosCallWrapper } from '../../util/axiosCallWrapper';
 import { getUnifiedConfigs, generateToast, isTrue } from '../../util/util';
 import CustomTable from './CustomTable';
 import TableHeader from './TableHeader';
 import TableContext from '../../context/TableContext';
+import AcceptModal from '../AcceptModal';
 import { PAGE_INPUT } from '../../constants/pages';
 
 function TableWrapper({
@@ -22,6 +23,7 @@ function TableWrapper({
     const [sortDir, setSortDir] = useState('asc');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [tryDisable, setTryDisable] = useState(false);
 
     const { rowData, setRowData, pageSize, currentPage, searchText, searchType } =
         useContext(TableContext);
@@ -287,13 +289,31 @@ function TableWrapper({
                 services={services}
             />
             {displayBtnDisableAllRows && totalElement > 1 ? ( // TODO: find a correct place and design for that element
-                <DisableAllStatusDiv
-                    data-testid="disableAllBtn"
-                    onClick={() => handleDisableAllRowsStatus(rowData)}
-                    role="button"
-                >
-                    Dissable all
-                </DisableAllStatusDiv>
+                <>
+                    <DisableAllStatusButton
+                        data-testid="disableAllBtn"
+                        onClick={() => setTryDisable(true)}
+                        role="button"
+                        disabled={false}
+                    >
+                        Dissable all
+                    </DisableAllStatusButton>
+                    {tryDisable && (
+                        <AcceptModal
+                            message="Do you want to disable all?"
+                            open={tryDisable}
+                            handleRequestClose={(e) => {
+                                setTryDisable(false);
+                                if (e) {
+                                    handleDisableAllRowsStatus(rowData);
+                                }
+                            }}
+                            title="Disable all"
+                            declineBtnLabel="No"
+                            acceptBtnLabel="Yes"
+                        />
+                    )}
+                </>
             ) : null}
         </>
     );

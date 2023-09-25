@@ -30,6 +30,7 @@ export const NoRecordsDiv = styled.div`
     text-align: center;
 `;
 
-export const DisableAllStatusDiv = styled.div`
+export const DisableAllStatusButton = styled(Button)`
+    margin: 50px 30px;
     font-size: ${variables.fontSize};
 `;
