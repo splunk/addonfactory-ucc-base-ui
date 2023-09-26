@@ -65,6 +65,12 @@ export const checkboxGroupConfig = {
                                         value: {
                                             defaultValue: 1200,
                                             required: false,
+                                            validators: [
+                                                {
+                                                    type: 'number',
+                                                    range: [1, 1200],
+                                                },
+                                            ],
                                         },
                                     },
                                     {

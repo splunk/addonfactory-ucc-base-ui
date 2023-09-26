@@ -2,6 +2,7 @@ type Field = string;
 type Value = {
     checkbox: boolean;
     text: string;
+    error?: string;
 };
 
 export type ValueByField = Map<Field, Value>;
@@ -53,7 +54,6 @@ export interface Row {
     checkbox: {
         label: string;
         value?: boolean;
-        defaultValue?: number; // why not boolean?
         options?: {
             enable?: boolean;
         };
@@ -76,6 +76,10 @@ export interface CheckboxGroupProps {
         groups?: Group[];
         rows: Row[];
     };
+    addCustomValidator?: (
+        field: string,
+        validator: (submittedField: string, submittedValue: string) => void
+    ) => void;
     handleChange: (field: string, value: string, componentType?: 'checkboxGroup') => void;
 }
 
@@ -107,4 +111,43 @@ export function getFlattenRowsWithGroups({ groups, rows }: CheckboxGroupProps['c
     });
 
     return flattenRowsMixedWithGroups;
+}
+
+export function getNewCheckboxValues(
+    values: ValueByField,
+    newValue: {
+        field: string;
+        checkbox: boolean;
+        text?: string;
+    }
+) {
+    const newValues = new Map(values);
+    newValues.set(newValue.field, {
+        checkbox: newValue.checkbox,
+        text: newValue.text || '',
+    });
+
+    return newValues;
+}
+
+export function validateCheckboxGroup(
+    field: string,
+    packedValue: string,
+    options: CheckboxGroupProps['controlOptions']
+) {
+    const errorMessages: string[] = [];
+    const parsedValue = parseValue(packedValue);
+    options.rows.forEach((row) => {
+        const rowSubmittedValue = parsedValue.get(row.field);
+        if (rowSubmittedValue) {
+            if (row.value.required && !rowSubmittedValue?.text) {
+                parsedValue.set(row.field, {
+                    ...rowSubmittedValue,
+                    error: 'Required',
+                });
+                errorMessages.push(`${field} > ${row.checkbox.label} has required field`);
+            }
+        }
+    });
+    return errorMessages.join('\n');
 }

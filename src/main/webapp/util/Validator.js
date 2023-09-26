@@ -57,13 +57,13 @@ class Validator {
     }
 
     // eslint-disable-next-line class-methods-use-this
-    checkIsFieldHasInput = (attrValue) =>
+    static checkIsFieldHasInput = (attrValue) =>
         attrValue !== undefined &&
         attrValue !== null &&
         (typeof attrValue === 'string' ? attrValue.trim() !== '' : true);
 
     // Validate the required field has value
-    RequiredValidator(field, label, data) {
+    static RequiredValidator(field, label, data) {
         if (!this.checkIsFieldHasInput(data)) {
             return { errorField: field, errorMsg: getFormattedMessage(6, [label]) };
         }
@@ -71,7 +71,7 @@ class Validator {
     }
 
     // Validate the string length of field
-    StringValidator(field, label, validator, data) {
+    static StringValidator(field, label, validator, data) {
         if (this.checkIsFieldHasInput(data) && data.length > validator.maxLength) {
             return {
                 errorField: field,
@@ -92,7 +92,7 @@ class Validator {
     }
 
     // Validate the field should match the provided Regex
-    RegexValidator(field, label, validator, data) {
+    static RegexValidator(field, label, validator, data) {
         const { error, result: regex } = parseRegexRawStr(validator.pattern);
         if (error) {
             return { errorField: field, errorMsg: error };
@@ -118,7 +118,7 @@ class Validator {
     }
 
     // Validate the field should match predefined Regexes
-    PreDefinedRegexValidator(field, label, validator, data, pattern, inputValueType) {
+    static PreDefinedRegexValidator(field, label, validator, data, pattern, inputValueType) {
         const { error, result: regex } = parseRegexRawStr(pattern);
         if (error) {
             return { errorField: field, errorMsg: error };
@@ -135,7 +135,7 @@ class Validator {
     }
 
     // Validate the range of numeric field
-    NumberValidator(field, label, validator, data) {
+    static NumberValidator(field, label, validator, data) {
         const { error } = parseNumberValidator(validator.range);
         if (error) {
             return { errorField: field, errorMsg: error };
@@ -228,7 +228,7 @@ class Validator {
                 for (j = 0; j < this.entities[i].validators.length; j += 1) {
                     switch (this.entities[i].validators[j].type) {
                         case 'string':
-                            ret = this.StringValidator(
+                            ret = Validator.StringValidator(
                                 this.entities[i].field,
                                 this.entities[i].label,
                                 this.entities[i].validators[j],
@@ -239,7 +239,7 @@ class Validator {
                             }
                             break;
                         case 'regex':
-                            ret = this.RegexValidator(
+                            ret = Validator.RegexValidator(
                                 this.entities[i].field,
                                 this.entities[i].label,
                                 this.entities[i].validators[j],
@@ -250,7 +250,7 @@ class Validator {
                             }
                             break;
                         case 'number':
-                            ret = this.NumberValidator(
+                            ret = Validator.NumberValidator(
                                 this.entities[i].field,
                                 this.entities[i].label,
                                 this.entities[i].validators[j],
@@ -261,7 +261,7 @@ class Validator {
                             }
                             break;
                         case 'url':
-                            ret = this.PreDefinedRegexValidator(
+                            ret = Validator.PreDefinedRegexValidator(
                                 this.entities[i].field,
                                 this.entities[i].label,
                                 this.entities[i].validators[j],
@@ -274,7 +274,7 @@ class Validator {
                             }
                             break;
                         case 'date':
-                            ret = this.PreDefinedRegexValidator(
+                            ret = Validator.PreDefinedRegexValidator(
                                 this.entities[i].field,
                                 this.entities[i].label,
                                 this.entities[i].validators[j],
@@ -287,7 +287,7 @@ class Validator {
                             }
                             break;
                         case 'email':
-                            ret = this.PreDefinedRegexValidator(
+                            ret = Validator.PreDefinedRegexValidator(
                                 this.entities[i].field,
                                 this.entities[i].label,
                                 this.entities[i].validators[j],
@@ -300,7 +300,7 @@ class Validator {
                             }
                             break;
                         case 'ipv4':
-                            ret = this.PreDefinedRegexValidator(
+                            ret = Validator.PreDefinedRegexValidator(
                                 this.entities[i].field,
                                 this.entities[i].label,
                                 this.entities[i].validators[j],

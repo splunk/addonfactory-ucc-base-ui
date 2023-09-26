@@ -1,40 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 import { StyledColumnLayout } from '../StyledComponent';
 import {
     CheckboxGroupProps,
     getFlattenRowsWithGroups,
+    getNewCheckboxValues,
     isGroupWithRows,
     packValue,
     parseValue,
-    ValueByField,
+    validateCheckboxGroup,
 } from './checkboxGroup.utils';
 import CheckboxSubGroup from './CheckboxSubGroup';
 import CheckboxRowWrapper from './CheckboxRowWrapper';
 
-function getNewCheckboxValues(
-    values: ValueByField,
-    newValue: {
-        field: string;
-        checkbox: boolean;
-        text?: string;
-    }
-) {
-    const newValues = new Map(values);
-    newValues.set(newValue.field, {
-        checkbox: newValue.checkbox,
-        text: newValue.text || '',
-    });
-
-    return newValues;
-}
-
 function CheckboxGroup(props: CheckboxGroupProps) {
-    const { field, value, handleChange, controlOptions } = props;
+    const { field, value, handleChange, controlOptions, addCustomValidator } = props;
 
     const flattenedRowsWithGroups = getFlattenRowsWithGroups(controlOptions);
 
     const [values, setValues] = useState(parseValue(value));
+
+    useEffect(() => {
+        addCustomValidator?.(field, (submittedField, submittedValue) =>
+            validateCheckboxGroup(submittedField, submittedValue, controlOptions)
+        );
+    }, [field, addCustomValidator, controlOptions]);
 
     const handleRowChange = (newValue: { field: string; checkbox: boolean; text?: string }) => {
         const newValues = getNewCheckboxValues(values, newValue);

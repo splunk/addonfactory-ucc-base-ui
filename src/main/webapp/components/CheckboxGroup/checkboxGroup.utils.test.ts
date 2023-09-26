@@ -1,10 +1,12 @@
 import {
     getFlattenRowsWithGroups,
+    getNewCheckboxValues,
     Group,
     GroupWithRows,
     packValue,
     parseValue,
     Row,
+    ValueByField,
 } from './checkboxGroup.utils';
 
 describe('parseValue', () => {
@@ -13,9 +15,10 @@ describe('parseValue', () => {
         const resultMap = parseValue(collection);
 
         expect(resultMap.size).toBe(3);
-        expect(resultMap.get('collect_collaboration')).toBe('1200');
-        expect(resultMap.get('collect_file')).toBe('1');
-        expect(resultMap.get('collect_task')).toBe('1');
+        expect(resultMap.get('collect_collaboration')?.text).toBe('1200');
+        expect(resultMap.get('collect_collaboration')?.checkbox).toBeTruthy();
+        expect(resultMap.get('collect_file')?.text).toBe('1');
+        expect(resultMap.get('collect_task')?.text).toBe('1');
     });
     it('should return an empty Map for undefined collection', () => {
         const resultMap = parseValue();
@@ -29,14 +32,30 @@ describe('parseValue', () => {
 });
 
 describe('packValue', () => {
-    it('should correctly pack a Map into a collection string', () => {
-        const valueMap = new Map<string, string>();
-        valueMap.set('collect_collaboration', '1200');
-        valueMap.set('collect_file', '1');
-        valueMap.set('collect_task', '1');
-        const resultString = packValue(valueMap);
+    it('should return a comma-separated string of field/text pairs where checkbox is true', () => {
+        const testMap = new Map();
+        testMap.set('collect_collaboration', { checkbox: true, text: '1200' });
+        testMap.set('collect_file', { checkbox: true, text: '1' });
+        testMap.set('collect_task', { checkbox: true, text: '1' });
+        testMap.set('field4', { checkbox: false, text: '1' });
 
-        expect(resultString).toBe('collect_collaboration/1200,collect_file/1,collect_task/1');
+        const result = packValue(testMap);
+        expect(result).toBe('collect_collaboration/1200,collect_file/1,collect_task/1');
+    });
+
+    it('should return an empty string if no entries have checkbox set to true', () => {
+        const testMap = new Map();
+        testMap.set('field1', { checkbox: false, text: 'text1' });
+        testMap.set('field2', { checkbox: false, text: 'text2' });
+
+        const result = packValue(testMap);
+        expect(result).toBe('');
+    });
+
+    it('should return an empty string if the map is empty', () => {
+        const testMap = new Map();
+        const result = packValue(testMap);
+        expect(result).toBe('');
     });
 
     it('parsed value should be the same as packed value', () => {
@@ -134,5 +153,33 @@ describe('getFlattenRowsWithGroups', () => {
         expect(group2.label).toBe('Group2');
         expect(group2.rows.length).toBe(1);
         expect(group2.rows[0].field).toBe('field4');
+    });
+});
+
+describe('getNewCheckboxValues function', () => {
+    it('should update the checkbox value for an existing field', () => {
+        const initialValues: ValueByField = new Map([
+            ['field1', { checkbox: true, text: 'text1' }],
+        ]);
+        const newValue = { field: 'field1', checkbox: false, text: 'newText1' };
+
+        const result = getNewCheckboxValues(initialValues, newValue);
+        expect(result.get('field1')).toEqual({ checkbox: false, text: 'newText1' });
+    });
+
+    it('should add a new field with checkbox and text values', () => {
+        const initialValues: ValueByField = new Map();
+        const newValue = { field: 'field2', checkbox: true, text: 'text2' };
+
+        const result = getNewCheckboxValues(initialValues, newValue);
+        expect(result.get('field2')).toEqual({ checkbox: true, text: 'text2' });
+    });
+
+    it('should set text to an empty string if not provided', () => {
+        const initialValues: ValueByField = new Map();
+        const newValue = { field: 'field3', checkbox: true };
+
+        const result = getNewCheckboxValues(initialValues, newValue);
+        expect(result.get('field3')).toEqual({ checkbox: true, text: '' });
     });
 });
