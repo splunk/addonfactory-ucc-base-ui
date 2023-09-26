@@ -9,12 +9,6 @@ import { StyledColumnLayout } from '../StyledComponent';
 const StyledSwitch = styled(Switch)`
     padding-left: 3px;
 
-    //> * {
-    //    &:nth-child(2) {
-    //        margin-left: 8px;
-    //    }
-    //}
-
     span {
         color: red;
         font-weight: bold;
@@ -61,6 +55,7 @@ function CheckboxRow(props: CheckboxRowProps) {
                         selected={checkbox}
                         onClick={handleChangeCheckbox}
                         appearance="checkbox"
+                        disabled={disabled}
                     >
                         {label}
                     </StyledSwitch>
@@ -72,6 +67,7 @@ function CheckboxRow(props: CheckboxRowProps) {
                         value={text || ''}
                         onChange={handleChangeTextBox}
                         type="text"
+                        required
                     />
                 </ColumnLayout.Column>
             </ColumnLayout.Row>

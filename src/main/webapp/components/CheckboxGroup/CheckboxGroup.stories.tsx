@@ -20,7 +20,6 @@ export const Base: Story = {
                     field: 'collect_collaboration',
                     checkbox: {
                         label: 'Collect folder collaboration',
-                        defaultValue: 0,
                         options: {
                             enable: true,
                         },
@@ -34,7 +33,6 @@ export const Base: Story = {
                     field: 'collect_file',
                     checkbox: {
                         label: 'Collect file metadata',
-                        defaultValue: 0,
                         options: {
                             enable: true,
                         },
@@ -48,7 +46,6 @@ export const Base: Story = {
                     field: 'collect_task',
                     checkbox: {
                         label: 'Collect tasks and comments',
-                        defaultValue: 0,
                         options: {
                             enable: true,
                         },
@@ -59,12 +56,11 @@ export const Base: Story = {
                     },
                 },
                 {
-                    field: 'collectFolderMetadata',
+                    field: 'disabledField',
                     checkbox: {
-                        label: 'Collect folder metadata',
-                        defaultValue: 0,
+                        label: 'Disabled',
                         options: {
-                            enable: true,
+                            enable: false,
                         },
                     },
                     value: {
@@ -93,7 +89,6 @@ export const WithSingleGroup: Story = {
                     field: 'collect_collaboration',
                     checkbox: {
                         label: 'Collect folder collaboration',
-                        defaultValue: 0,
                         options: {
                             enable: true,
                         },
@@ -107,7 +102,6 @@ export const WithSingleGroup: Story = {
                     field: 'collect_file',
                     checkbox: {
                         label: 'Collect file metadata',
-                        defaultValue: 0,
                         options: {
                             enable: true,
                         },
@@ -144,7 +138,6 @@ export const MixedWithGroups: Story = {
                     field: 'collect_collaboration',
                     checkbox: {
                         label: 'Collect folder collaboration',
-                        defaultValue: 0,
                         options: {
                             enable: true,
                         },
@@ -158,7 +151,6 @@ export const MixedWithGroups: Story = {
                     field: 'collect_file',
                     checkbox: {
                         label: 'Collect file metadata',
-                        defaultValue: 0,
                         options: {
                             enable: true,
                         },
@@ -172,7 +164,6 @@ export const MixedWithGroups: Story = {
                     field: 'collect_task',
                     checkbox: {
                         label: 'Collect tasks and comments',
-                        defaultValue: 0,
                         options: {
                             enable: true,
                         },
@@ -186,7 +177,6 @@ export const MixedWithGroups: Story = {
                     field: 'collect_folder_metadata',
                     checkbox: {
                         label: 'Collect folder metadata',
-                        defaultValue: 0,
                         options: {
                             enable: true,
                         },
