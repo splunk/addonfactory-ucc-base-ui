@@ -299,7 +299,7 @@ function TableWrapper({
                         role="button"
                         disabled={false}
                     >
-                        Dissable all
+                        Disable all
                     </DisableAllStatusButton>
                     {tryDisable && (
                         <AcceptModal
