@@ -1,11 +1,7 @@
 import React from 'react';
 
 import { render, screen } from '@testing-library/react';
-import { TextDecoder } from 'node:util'; // (ESM style imports)
 import AcceptModal from './AcceptModal';
-
-// eslint-disable-next-line no-undef
-global.TextDecoder = TextDecoder;
 
 describe('AcceptModal', () => {
     let wasAccepted = false;
