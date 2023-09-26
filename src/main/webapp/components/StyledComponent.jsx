@@ -81,11 +81,6 @@ const CheckboxGroupsToggleButtonWrapper = styled.div`
     margin-top: 10px;
 `;
 
-const StyledPadding4 = styled.div`
-    padding-top: 4px;
-    padding-bottom: 4px;
-`;
-
 export {
     CheckboxLabelContainer,
     CheckboxGroupPanelWrapper,
@@ -96,5 +91,4 @@ export {
     CheckboxElement,
     ControlGroupWrapper,
     CheckboxGroupsToggleButtonWrapper,
-    StyledPadding4,
 };

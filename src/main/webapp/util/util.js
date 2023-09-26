@@ -15,11 +15,19 @@ export function getMetaInfo() {
 }
 
 export function isFalse(value) {
-    return ['0', 'FALSE', 'F', 'N', 'NO', 'NONE', ''].includes(value.toString().toUpperCase());
+    return (
+        value === null ||
+        value === undefined ||
+        ['0', 'FALSE', 'F', 'N', 'NO', 'NONE', ''].includes(value.toString().toUpperCase())
+    );
 }
 
 export function isTrue(value) {
-    return ['1', 'TRUE', 'T', 'Y', 'YES'].includes(value.toString().toUpperCase());
+    return (
+        value !== null &&
+        value !== undefined &&
+        ['1', 'TRUE', 'T', 'Y', 'YES'].includes(value.toString().toUpperCase())
+    );
 }
 
 export function generateEndPointUrl(name) {
@@ -85,17 +93,4 @@ export function filterResponse(items, labelField, allowList, denyList) {
     }
 
     return newItems;
-}
-
-// Convert a comma-separated string of key-value pairs into a dictionary.
-export function populateKeyValueDict(items) {
-    const keyValuePairs = items.split(',').map((item) => item.trim());
-
-    const resultDict = {};
-
-    keyValuePairs.forEach((pair) => {
-        const [key, value] = pair.split('/');
-        resultDict[key] = value;
-    });
-    return resultDict;
 }

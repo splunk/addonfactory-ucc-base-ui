@@ -8,11 +8,11 @@ import RadioComponent from '../components/RadioComponent';
 import PlaceholderComponent from '../components/PlaceholderComponent';
 import CustomControl from '../components/CustomControl';
 import FileInputComponent from '../components/FileInputComponent';
-import CheckboxGroupComponent from '../components/CheckboxGroupComponent/CheckboxGroupComponent';
+import CheckboxGroup from '../components/CheckboxGroup/CheckboxGroup';
 
 export default {
     checkbox: CheckBoxComponent,
-    checkboxGroup: CheckboxGroupComponent,
+    checkboxGroup: CheckboxGroup,
     custom: CustomControl,
     file: FileInputComponent,
     helpLink: HelpLinkComponent,

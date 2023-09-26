@@ -7,13 +7,13 @@ import Switch from '@splunk/react-ui/Switch';
 import { StyledColumnLayout } from '../StyledComponent';
 
 const StyledSwitch = styled(Switch)`
-    padding-left: 10px !important;
+    padding-left: 3px;
 
-    > * {
-        &:nth-child(2) {
-            margin-left: 8px;
-        }
-    }
+    //> * {
+    //    &:nth-child(2) {
+    //        margin-left: 8px;
+    //    }
+    //}
 
     span {
         color: red;
@@ -22,7 +22,7 @@ const StyledSwitch = styled(Switch)`
     }
 `;
 
-interface CheckboxRowComponent {
+interface CheckboxRowProps {
     field: string;
     label: string;
     checkbox: boolean;
@@ -31,7 +31,7 @@ interface CheckboxRowComponent {
     handleChange: (value: { field: string; checkbox: boolean; text?: string }) => void;
 }
 
-function CheckboxRowComponent(props: CheckboxRowComponent) {
+function CheckboxRow(props: CheckboxRowProps) {
     const { field, label, checkbox, text, disabled, handleChange } = props;
 
     const [isTextDisabled, setIsTextDisabled] = useState(!checkbox || disabled);
@@ -78,4 +78,4 @@ function CheckboxRowComponent(props: CheckboxRowComponent) {
         </StyledColumnLayout>
     );
 }
-export default CheckboxRowComponent;
+export default CheckboxRow;

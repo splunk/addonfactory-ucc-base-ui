@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import BaseFormView from '../BaseFormView';
-import CheckboxGroupComponent from './CheckboxGroupComponent';
+import CheckboxGroup from './CheckboxGroup';
 
 const meta = {
-    component: CheckboxGroupComponent,
-    title: 'Components/CheckboxGroupComponent',
+    component: CheckboxGroup,
+    title: 'Components/CheckboxGroup',
 } satisfies Meta<typeof BaseFormView>;
 
 export default meta;
@@ -79,6 +79,7 @@ export const Base: Story = {
 export const WithSingleGroup: Story = {
     args: {
         ...Base.args,
+        value: undefined,
         controlOptions: {
             groups: [
                 {
@@ -123,16 +124,17 @@ export const WithSingleGroup: Story = {
 export const MixedWithGroups: Story = {
     args: {
         ...Base.args,
+        value: undefined,
         controlOptions: {
             groups: [
                 {
-                    label: 'Group 1',
+                    label: 'Expandable group',
                     fields: ['collect_collaboration', 'collect_file'],
-                    options: { isExpandable: false },
+                    options: { isExpandable: true, defaultOpen: true },
                 },
 
                 {
-                    label: 'Group 2',
+                    label: 'Non expandable group',
                     fields: ['collect_folder_metadata'],
                     options: { isExpandable: false },
                 },

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
+import { within, userEvent } from '@storybook/testing-library';
 import BaseFormView from '../BaseFormView';
 import { setUnifiedConfig } from '../../util/util';
 import { checkboxGroupConfig, serverHandlers } from './checkboxGroupMocks';
@@ -7,7 +8,7 @@ import InputPage from '../../pages/Input/InputPage';
 
 const meta = {
     component: InputPage,
-    title: 'InputPage/CheckboxGroupComponent',
+    title: 'InputPage/CheckboxGroup',
     render: (args) => {
         setUnifiedConfig(args.globalConfig);
         return <InputPage />;
@@ -19,6 +20,12 @@ const meta = {
         msw: {
             handlers: serverHandlers,
         },
+    },
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement);
+
+        const newInputBtn = canvas.getByRole('button', { name: 'Create New Input' });
+        await userEvent.click(newInputBtn);
     },
 } satisfies Meta<typeof BaseFormView>;
 

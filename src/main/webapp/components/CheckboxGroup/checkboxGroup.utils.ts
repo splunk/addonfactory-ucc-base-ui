@@ -1,13 +1,16 @@
 type Field = string;
-type Text = string;
+type Value = {
+    checkbox: boolean;
+    text: string;
+};
 
-export type ValueByField = Map<Field, Text>;
+export type ValueByField = Map<Field, Value>;
 /**
  *
  * @param collection string like collect_collaboration/1200,collect_file/1,collect_task/1
  */
 export function parseValue(collection?: string): ValueByField {
-    const resultMap = new Map<Field, Text>();
+    const resultMap = new Map<Field, Value>();
 
     if (!collection) {
         return resultMap;
@@ -20,15 +23,19 @@ export function parseValue(collection?: string): ValueByField {
             throw new Error(`Value is not parsable: ${collection}`);
         }
 
-        resultMap.set(field, text || '');
+        resultMap.set(field, {
+            checkbox: true,
+            text: text || '',
+        });
     });
 
     return resultMap;
 }
 
-export function packValue(value: ValueByField) {
-    return Array.from(value.entries())
-        .map(([field, text]) => `${field}/${text}`)
+export function packValue(map: ValueByField) {
+    return Array.from(map.entries())
+        .filter(([, value]) => value.checkbox)
+        .map(([field, value]) => `${field}/${value.text}`)
         .join(',');
 }
 
@@ -36,7 +43,8 @@ export interface Group {
     label: string;
     fields: string[];
     options?: {
-        isExpandable: boolean;
+        isExpandable?: boolean;
+        defaultOpen?: boolean;
     };
 }
 

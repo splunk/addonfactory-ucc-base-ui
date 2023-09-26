@@ -25,17 +25,19 @@ export const checkboxGroupConfig = {
             services: [
                 {
                     name: 'example_input_four',
+                    title: 'Title example',
                     entity: [
                         {
                             type: 'checkboxGroup',
-                            label: 'APIs/Interval (in seconds)',
-                            field: 'api',
+                            label: 'Two groups',
+                            field: 'api1',
                             options: {
                                 groups: [
                                     {
                                         label: 'Collect',
                                         options: {
                                             isExpandable: true,
+                                            defaultOpen: true,
                                         },
                                         fields: [
                                             'collectFolderCollaboration',
@@ -56,8 +58,6 @@ export const checkboxGroupConfig = {
                                         field: 'collectFolderCollaboration',
                                         checkbox: {
                                             label: 'Collect folder collaboration',
-                                            tooltip: 'Tooltip',
-                                            defaultValue: 0,
                                             options: {
                                                 enable: true,
                                             },
@@ -71,7 +71,6 @@ export const checkboxGroupConfig = {
                                         field: 'collectFileMetadata',
                                         checkbox: {
                                             label: 'Collect file metadata',
-                                            defaultValue: 0,
                                             options: {
                                                 enable: true,
                                             },
@@ -85,7 +84,6 @@ export const checkboxGroupConfig = {
                                         field: 'collectTasksAndComments',
                                         checkbox: {
                                             label: 'Collect tasks and comments',
-                                            defaultValue: 0,
                                             options: {
                                                 enable: true,
                                             },
@@ -114,14 +112,14 @@ export const checkboxGroupConfig = {
                         },
                         {
                             type: 'checkboxGroup',
-                            label: 'APIs/Interval (in seconds)',
+                            label: 'No groups',
+                            field: 'api2',
                             options: {
                                 rows: [
                                     {
                                         field: 'collectFolderMetadata',
                                         checkbox: {
                                             label: 'Collect folder metadata',
-                                            defaultValue: 0,
                                             options: {
                                                 enable: true,
                                             },
@@ -135,8 +133,6 @@ export const checkboxGroupConfig = {
                                         field: 'collectFolderCollaboration',
                                         checkbox: {
                                             label: 'Collect folder collaboration',
-                                            tooltip: 'Tooltip',
-                                            defaultValue: 1,
                                         },
                                         value: {
                                             defaultValue: 1200,
@@ -153,7 +149,6 @@ export const checkboxGroupConfig = {
                                         field: 'collectFileMetadata',
                                         checkbox: {
                                             label: 'Collect file metadata',
-                                            defaultValue: 1,
                                         },
                                         value: {
                                             defaultValue: 1,
@@ -164,10 +159,88 @@ export const checkboxGroupConfig = {
                                         field: 'collectTasksAndComments',
                                         checkbox: {
                                             label: 'Collect tasks and comments',
-                                            defaultValue: 1,
                                         },
                                         value: {
                                             defaultValue: 1,
+                                            required: true,
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                        {
+                            type: 'checkboxGroup',
+                            label: 'Mixed',
+                            field: 'api3',
+                            options: {
+                                groups: [
+                                    {
+                                        label: 'Group 1',
+                                        options: {
+                                            isExpandable: true,
+                                            defaultOpen: true,
+                                        },
+                                        fields: ['collectFolderCollaboration'],
+                                    },
+                                    {
+                                        label: 'Group 3',
+                                        options: {
+                                            isExpandable: true,
+                                            defaultOpen: true,
+                                        },
+                                        fields: ['collectFolderMetadata'],
+                                    },
+                                ],
+                                rows: [
+                                    {
+                                        field: 'collectFolderCollaboration',
+                                        checkbox: {
+                                            label: 'Collect folder collaboration',
+                                            options: {
+                                                enable: true,
+                                            },
+                                        },
+                                        value: {
+                                            defaultValue: 1200,
+                                            required: false,
+                                        },
+                                    },
+                                    {
+                                        field: 'collectFileMetadata',
+                                        checkbox: {
+                                            label: 'Collect file metadata',
+                                            options: {
+                                                enable: true,
+                                            },
+                                        },
+                                        value: {
+                                            defaultValue: 1,
+                                            required: true,
+                                        },
+                                    },
+                                    {
+                                        field: 'collectTasksAndComments',
+                                        checkbox: {
+                                            label: 'Collect tasks and comments',
+                                            options: {
+                                                enable: true,
+                                            },
+                                        },
+                                        value: {
+                                            defaultValue: 1,
+                                            required: true,
+                                        },
+                                    },
+                                    {
+                                        field: 'collectFolderMetadata',
+                                        checkbox: {
+                                            label: 'Collect folder metadata',
+                                            options: {
+                                                enable: true,
+                                            },
+                                        },
+                                        value: {
+                                            defaultValue: 3600,
                                             required: true,
                                         },
                                     },

@@ -22,7 +22,7 @@ import {
     ERROR_STATE_MISSING_TRY_AGAIN,
 } from '../constants/oAuthErrorMessage';
 import TableContext from '../context/TableContext';
-import GroupComponent from './GroupComponent';
+import Group from './Group';
 
 function onCustomHookError(params) {
     // eslint-disable-next-line no-console
@@ -981,13 +981,13 @@ class BaseFormView extends PureComponent {
                     );
 
                 return (
-                    <GroupComponent
+                    <Group
                         isExpandable={group.options?.isExpandable}
                         defaultOpen={group.options?.expand}
                         title={group.label}
                     >
                         {collapsibleElement}
-                    </GroupComponent>
+                    </Group>
                 );
             });
         }
