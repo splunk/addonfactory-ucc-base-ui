@@ -92,7 +92,6 @@ describe('getFlattenRowsWithGroups', () => {
                 field: 'field1',
                 checkbox: {
                     label: 'Checkbox1',
-                    defaultValue: 1,
                 },
                 value: {
                     defaultValue: 'value1',
@@ -103,7 +102,6 @@ describe('getFlattenRowsWithGroups', () => {
                 field: 'field2',
                 checkbox: {
                     label: 'Checkbox2',
-                    defaultValue: 0,
                 },
                 value: {
                     defaultValue: 'value2',
@@ -114,7 +112,6 @@ describe('getFlattenRowsWithGroups', () => {
                 field: 'field3',
                 checkbox: {
                     label: 'Checkbox3',
-                    defaultValue: 1,
                 },
                 value: {
                     defaultValue: 'value3',
@@ -125,7 +122,6 @@ describe('getFlattenRowsWithGroups', () => {
                 field: 'field4',
                 checkbox: {
                     label: 'Checkbox4',
-                    defaultValue: 0,
                 },
                 value: {
                     defaultValue: 'value4',
