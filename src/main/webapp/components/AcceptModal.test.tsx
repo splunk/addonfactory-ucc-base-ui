@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import AcceptModal from './AcceptModal';
 
 describe('AcceptModal', () => {
-    let wasAccepted = false;
+    const handleClose = jest.fn();
 
     beforeEach(() => {
         render(
@@ -12,9 +12,7 @@ describe('AcceptModal', () => {
                 title="test Title"
                 message="test message"
                 open
-                handleRequestClose={(isAccepted) => {
-                    wasAccepted = isAccepted;
-                }}
+                handleRequestClose={handleClose}
                 declineBtnLabel="No"
                 acceptBtnLabel="Yes"
             />
@@ -25,41 +23,32 @@ describe('AcceptModal', () => {
         const modal = await screen.findByTestId('modal');
         expect(modal).toBeInTheDocument();
 
-        wasAccepted = false;
-
         const acceptButton = screen.getByText('Yes');
         expect(acceptButton).toBeInTheDocument();
 
-        expect(wasAccepted).toBe(false);
-
         acceptButton.click();
-
-        expect(wasAccepted).toBe(true);
+        expect(handleClose).toHaveBeenCalledWith(true);
     });
 
     it('Return false on decline btn click', async () => {
         const modal = await screen.findByTestId('modal');
         expect(modal).toBeInTheDocument();
 
-        wasAccepted = true;
-
         const declineButton = screen.getByText('No');
         expect(declineButton).toBeInTheDocument();
 
         declineButton.click();
-        expect(wasAccepted).toBe(false);
+        expect(handleClose).toHaveBeenCalledWith(false);
     });
 
     it('Return false on closing modal by X btn', async () => {
         const modal = await screen.findByTestId('modal');
         expect(modal).toBeInTheDocument();
 
-        wasAccepted = true;
-
         const closeXBtn = screen.getByTestId('close');
         expect(closeXBtn).toBeInTheDocument();
 
         closeXBtn.click();
-        expect(wasAccepted).toBe(false);
+        expect(handleClose).toHaveBeenCalledWith(false);
     });
 });

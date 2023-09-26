@@ -3,14 +3,14 @@ import update from 'immutability-helper';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
-import { WaitSpinnerWrapper, DisableAllStatusButton } from './CustomTableStyle';
+import { WaitSpinnerWrapper } from './CustomTableStyle';
 import { axiosCallWrapper } from '../../util/axiosCallWrapper';
 import { getUnifiedConfigs, generateToast, isTrue } from '../../util/util';
 import CustomTable from './CustomTable';
 import TableHeader from './TableHeader';
 import TableContext from '../../context/TableContext';
-import AcceptModal from '../AcceptModal';
 import { PAGE_INPUT } from '../../constants/pages';
+import { DisableAllStatusButton } from '../DisableAllStatusButton';
 
 function TableWrapper({
     page,
@@ -23,7 +23,6 @@ function TableWrapper({
     const [sortDir, setSortDir] = useState('asc');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [tryDisable, setTryDisable] = useState(false);
 
     const { rowData, setRowData, pageSize, currentPage, searchText, searchType } =
         useContext(TableContext);
@@ -160,16 +159,6 @@ function TableWrapper({
         });
     };
 
-    const handleDisableAllRowsStatus = (allDataRows) => {
-        Object.values(allDataRows).forEach((data) =>
-            Object.values(data).forEach((row) => {
-                if (!row.disabled) {
-                    changeToggleStatus({ ...row, disabled: false });
-                }
-            })
-        );
-    };
-
     const handleSort = (e, val) => {
         const prevSortKey = sortKey;
         const prevSortDir = prevSortKey === val.sortKey ? sortDir : 'none';
@@ -288,33 +277,12 @@ function TableWrapper({
                 tableConfig={tableConfig}
                 services={services}
             />
-            {displayBtnDisableAllRows && totalElement > 1 ? ( // TODO: find a correct place and design for that element
-                <>
-                    <DisableAllStatusButton
-                        data-testid="disableAllBtn"
-                        onClick={() => setTryDisable(true)}
-                        role="button"
-                        disabled={false}
-                    >
-                        Disable all
-                    </DisableAllStatusButton>
-                    {tryDisable && (
-                        <AcceptModal
-                            message="Do you want to disable all?"
-                            open={tryDisable}
-                            handleRequestClose={(e) => {
-                                setTryDisable(false);
-                                if (e) {
-                                    handleDisableAllRowsStatus(rowData);
-                                }
-                            }}
-                            title="Disable all"
-                            declineBtnLabel="No"
-                            acceptBtnLabel="Yes"
-                        />
-                    )}
-                </>
-            ) : null}
+            <DisableAllStatusButton
+                displayBtnDisableAllRows={displayBtnDisableAllRows}
+                totalElement={totalElement}
+                allDataRows={rowData}
+                changeToggleStatus={changeToggleStatus}
+            />
         </>
     );
 }
