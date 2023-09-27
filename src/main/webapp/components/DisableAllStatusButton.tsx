@@ -31,7 +31,7 @@ interface DisableAllStatusButtonProps {
 }
 
 const DisableAllActionButton = styled(Button)`
-    margin: 50px 30px;
+    max-width: fit-content;
     font-size: ${variables.fontSize};
 `;
 
