@@ -10,7 +10,6 @@ import CustomTable from './CustomTable';
 import TableHeader from './TableHeader';
 import TableContext from '../../context/TableContext';
 import { PAGE_INPUT } from '../../constants/pages';
-import { DisableAllStatusButton } from '../DisableAllStatusButton';
 
 function TableWrapper({
     page,
@@ -263,7 +262,10 @@ function TableWrapper({
                 services={services}
                 totalElement={totalElement}
                 handleRequestModalOpen={handleRequestModalOpen}
+                changeToggleStatus={changeToggleStatus}
                 isTabs={isTabs}
+                rowData={rowData}
+                displayBtnDisableAllRows={displayBtnDisableAllRows}
             />
             <CustomTable
                 page={page}
@@ -276,12 +278,6 @@ function TableWrapper({
                 handleOpenPageStyleDialog={handleOpenPageStyleDialog}
                 tableConfig={tableConfig}
                 services={services}
-            />
-            <DisableAllStatusButton
-                displayBtnDisableAllRows={displayBtnDisableAllRows}
-                totalElement={totalElement}
-                allDataRows={rowData}
-                changeToggleStatus={changeToggleStatus}
             />
         </>
     );
