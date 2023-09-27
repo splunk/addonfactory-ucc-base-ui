@@ -279,6 +279,14 @@ class BaseFormView extends PureComponent {
                         typeof e?.options?.display !== 'undefined' ? e.options.display : true;
                     tempEntity.error = false;
                     tempEntity.disabled = false;
+                    if (e.type === 'file') {
+                        /* 
+                         adding example name as we want the possibility to remove this file
+                         not forcing value addition as if value is encrypted it is shared as
+                         string ie. ***** and it is considered a valid default value
+                        */
+                        tempEntity.fileNameToDisplay = 'Previous File';
+                    }
                     temState[e.field] = tempEntity;
                 } else if (props.mode === MODE_CONFIG) {
                     e.defaultValue = typeof e.defaultValue !== 'undefined' ? e.defaultValue : null;
