@@ -30,17 +30,23 @@ function isValidFile(fileType, fileSize, supportedFileTypes, maxFileSize) {
 }
 
 function FileInputComponent(props) {
-    const { field, disabled, controlOptions, handleChange } = props;
+    const { field, disabled, controlOptions, handleChange, fileNameToDisplay } = props;
     const {
         fileSupportMessage,
         supportedFileTypes,
         maxFileSize = FileConstants.FILE_MAX_SIZE,
     } = controlOptions;
-
     const fileReader = new FileReader();
     const textDecoder = new TextDecoder(); // default utf-8
 
-    const [fileName, setFileName] = useState('');
+    /*
+     use fileNameToDisplay during editing to get
+     the possibility of removal previously added file
+
+     if encrypted, can only delete this file
+     if decrypted, can push it with other changes or delete
+    */
+    const [fileName, setFileName] = useState(fileNameToDisplay || '');
     const [errorMsg, setErrorMsg] = useState('');
 
     const handleAddFiles = (files) => {
@@ -106,6 +112,7 @@ FileInputComponent.propTypes = {
     controlOptions: PropTypes.object,
     disabled: PropTypes.bool,
     handleChange: PropTypes.func,
+    fileNameToDisplay: PropTypes.string,
 };
 
 export default FileInputComponent;
