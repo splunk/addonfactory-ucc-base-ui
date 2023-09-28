@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
-import { StyledColumnLayout } from '../StyledComponent';
+import Button from '@splunk/react-ui/Button';
+import { StyledColumnLayout } from './StyledComponent';
 import {
     CheckboxGroupProps,
     getFlattenRowsWithGroups,
@@ -41,6 +42,23 @@ function CheckboxGroup(props: CheckboxGroupProps) {
         handleChange(field, packValue(newValues), 'checkboxGroup');
     };
 
+    function handleCheckboxToggleAll(newCheckboxValue: boolean) {
+        const newValues = new Map(values);
+
+        controlOptions.rows.forEach((row) => {
+            const oldValue = values.get(row.field);
+            if (!!oldValue?.checkbox === newCheckboxValue) {
+                return;
+            }
+            newValues.set(row.field, {
+                checkbox: newCheckboxValue,
+                text: oldValue?.text || row.value.defaultValue?.toString() || '',
+            });
+        });
+        setValues(newValues);
+        handleChange(field, packValue(newValues), 'checkboxGroup');
+    }
+
     return (
         <StyledColumnLayout gutter={5}>
             {flattenedRowsWithGroups.map((row) => {
@@ -66,6 +84,20 @@ function CheckboxGroup(props: CheckboxGroupProps) {
                     </ColumnLayout.Row>
                 );
             })}
+            <ColumnLayout.Row>
+                <div>
+                    <Button
+                        label="Select All"
+                        appearance="pill"
+                        onClick={() => handleCheckboxToggleAll(true)}
+                    />
+                    <Button
+                        label="Clear All"
+                        appearance="pill"
+                        onClick={() => handleCheckboxToggleAll(false)}
+                    />
+                </div>
+            </ColumnLayout.Row>
         </StyledColumnLayout>
     );
 }

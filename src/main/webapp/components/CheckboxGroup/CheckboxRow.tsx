@@ -4,16 +4,13 @@ import Text from '@splunk/react-ui/Text';
 import { TextChangeHandler } from '@splunk/react-ui/types/src/Text/Text';
 import styled from 'styled-components';
 import Switch from '@splunk/react-ui/Switch';
-import { StyledColumnLayout } from '../StyledComponent';
+import { StyledColumnLayout } from './StyledComponent';
 
 const StyledSwitch = styled(Switch)`
     padding-left: 3px;
-
-    span {
-        color: red;
-        font-weight: bold;
-        margin-left: 5px;
-    }
+`;
+const StyledText = styled(Text)`
+    padding-right: 3px;
 `;
 
 interface CheckboxRowProps {
@@ -61,7 +58,7 @@ function CheckboxRow(props: CheckboxRowProps) {
                     </StyledSwitch>
                 </ColumnLayout.Column>
                 <ColumnLayout.Column span={2}>
-                    <Text
+                    <StyledText
                         inline
                         disabled={isTextDisabled}
                         value={text || ''}

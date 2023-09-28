@@ -89,7 +89,7 @@ export const checkboxGroupConfig = {
                                     {
                                         field: 'collectTasksAndComments',
                                         checkbox: {
-                                            label: 'Collect tasks and comments',
+                                            label: 'This is a very very very very very very very very very long line',
                                             options: {
                                                 enable: true,
                                             },

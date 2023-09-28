@@ -9,6 +9,7 @@ const StyledCheckboxRowWrapper = styled.div`
         margin-top: 10px;
     }
 `;
+
 interface CheckboxSubGroupProps {
     group: GroupWithRows;
     values: ValueByField;
