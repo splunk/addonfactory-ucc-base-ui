@@ -1,7 +1,6 @@
 import React from 'react';
 import CheckboxRow from './CheckboxRow';
 import { Row, ValueByField } from './checkboxGroup.utils';
-import { isTrue } from '../../util/util';
 
 function CheckboxRowWrapper({
     row,
@@ -17,9 +16,9 @@ function CheckboxRowWrapper({
         <CheckboxRow
             field={row.field}
             label={row.checkbox.label}
-            checkbox={valueForField ? valueForField.checkbox : isTrue(row.checkbox.defaultValue)}
+            checkbox={!!valueForField?.checkbox}
             disabled={row.checkbox.options?.enable === false}
-            text={valueForField ? valueForField.text : row.value?.defaultValue.toString()}
+            text={valueForField ? valueForField.text : row.value?.defaultValue?.toString()}
             handleChange={handleRowChange}
         />
     );

@@ -2,6 +2,21 @@ import * as _ from 'lodash';
 import { PREDEFINED_VALIDATORS_DICT } from '../constants/preDefinedRegex';
 import { getFormattedMessage } from './messageUtil';
 
+/**
+ * @typedef Error
+ * @type {object}
+ * @property {string} errorMsg
+ * @property {string} errorField
+ */
+
+/**
+ * @typedef ValidatorBase
+ * @type {object}
+ * @property {string} type
+ * @property {string} [errorField]
+ * @property {string} [errorMsg]
+ */
+
 const parseFunctionRawStr = (rawStr) => {
     let err;
     let result;
@@ -62,7 +77,13 @@ class Validator {
         attrValue !== null &&
         (typeof attrValue === 'string' ? attrValue.trim() !== '' : true);
 
-    // Validate the required field has value
+    /**
+     * Validate the required field has value
+     * @param {string} field
+     * @param {string|number} label
+     * @param {string|number} data
+     * @returns {Error|false}
+     */
     static RequiredValidator(field, label, data) {
         if (!this.checkIsFieldHasInput(data)) {
             return { errorField: field, errorMsg: getFormattedMessage(6, [label]) };
@@ -70,7 +91,20 @@ class Validator {
         return false;
     }
 
-    // Validate the string length of field
+    /**
+     * @typedef {ValidatorBase} StringValidatorOptions
+     * @property {number} minLength
+     * @property {number} maxLength
+     */
+
+    /**
+     * Validate the string length of field
+     * @param {string} field
+     * @param {string|number} label
+     * @param {StringValidatorOptions} validator
+     * @param {string} data
+     * @returns {Error|false}
+     */
     static StringValidator(field, label, validator, data) {
         if (this.checkIsFieldHasInput(data) && data.length > validator.maxLength) {
             return {
@@ -91,7 +125,19 @@ class Validator {
         return false;
     }
 
-    // Validate the field should match the provided Regex
+    /**
+     * @typedef {ValidatorBase} RegexValidatorOptions
+     * @property {string} pattern
+     */
+
+    /**
+     * Validate the field should match the provided Regex
+     * @param {string} field
+     * @param {string|number} label
+     * @param {RegexValidatorOptions} validator
+     * @param {string} data
+     * @returns {Error|false}
+     */
     static RegexValidator(field, label, validator, data) {
         const { error, result: regex } = parseRegexRawStr(validator.pattern);
         if (error) {
@@ -134,6 +180,19 @@ class Validator {
         return false;
     }
 
+    /**
+     * @typedef {ValidatorBase} NumberValidatorOptions
+     * @property {[number, number]} range
+     */
+
+    /**
+     * Validate the field should match the provided Regex
+     * @param {string} field
+     * @param {string|number} label
+     * @param {NumberValidatorOptions} validator
+     * @param {string} data
+     * @returns {Error|false}
+     */
     // Validate the range of numeric field
     static NumberValidator(field, label, validator, data) {
         const { error } = parseNumberValidator(validator.range);

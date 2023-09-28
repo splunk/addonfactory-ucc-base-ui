@@ -21,9 +21,17 @@ function CheckboxGroup(props: CheckboxGroupProps) {
     const [values, setValues] = useState(parseValue(value));
 
     useEffect(() => {
-        addCustomValidator?.(field, (submittedField, submittedValue) =>
-            validateCheckboxGroup(submittedField, submittedValue, controlOptions)
-        );
+        addCustomValidator?.(field, (submittedField, submittedValue) => {
+            const validationResult = validateCheckboxGroup(
+                submittedField,
+                submittedValue,
+                controlOptions
+            );
+            if (validationResult !== false) {
+                return validationResult.errorMsg;
+            }
+            return validationResult;
+        });
     }, [field, addCustomValidator, controlOptions]);
 
     const handleRowChange = (newValue: { field: string; checkbox: boolean; text?: string }) => {

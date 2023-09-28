@@ -250,6 +250,50 @@ export const checkboxGroupConfig = {
                                             required: true,
                                         },
                                     },
+                                    {
+                                        field: 'field223',
+                                        checkbox: {
+                                            label: 'Required field',
+                                            options: {
+                                                enable: true,
+                                            },
+                                        },
+                                        value: {
+                                            required: true,
+                                        },
+                                    },
+                                    {
+                                        field: 'field23',
+                                        checkbox: {
+                                            label: 'No more 2 characters',
+                                            options: {
+                                                enable: true,
+                                            },
+                                        },
+                                        value: {
+                                            validators: [
+                                                {
+                                                    type: 'string',
+                                                    maxLength: 2,
+                                                },
+                                            ],
+                                            defaultValue: 'aa',
+                                        },
+                                    },
+                                    {
+                                        field: '160validation',
+                                        checkbox: {
+                                            label: 'from 1 to 60 validation',
+                                        },
+                                        value: {
+                                            validators: [
+                                                {
+                                                    type: 'number',
+                                                    range: [1, 60],
+                                                },
+                                            ],
+                                        },
+                                    },
                                 ],
                             },
                         },

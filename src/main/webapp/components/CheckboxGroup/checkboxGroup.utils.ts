@@ -1,3 +1,6 @@
+import Validator from '../../util/Validator';
+import { NumberValidator, RegexValidator, StringValidator } from '../../types/ValidatorsTypes';
+
 type Field = string;
 type Value = {
     checkbox: boolean;
@@ -59,8 +62,9 @@ export interface Row {
         };
     };
     value: {
-        defaultValue: number | string; // only number?
-        required: boolean;
+        defaultValue?: number | string;
+        validators?: (StringValidator | RegexValidator | NumberValidator)[];
+        required?: boolean;
     };
 }
 
@@ -130,24 +134,74 @@ export function getNewCheckboxValues(
     return newValues;
 }
 
+type MaybeError =
+    | {
+          errorField: string;
+          errorMsg: string;
+      }
+    | false;
+
 export function validateCheckboxGroup(
     field: string,
     packedValue: string,
     options: CheckboxGroupProps['controlOptions']
-) {
-    const errorMessages: string[] = [];
+): MaybeError {
+    let errorMessage: MaybeError = false;
     const parsedValue = parseValue(packedValue);
-    options.rows.forEach((row) => {
+    options.rows.some((row) => {
         const rowSubmittedValue = parsedValue.get(row.field);
         if (rowSubmittedValue) {
-            if (row.value.required && !rowSubmittedValue?.text) {
-                parsedValue.set(row.field, {
-                    ...rowSubmittedValue,
-                    error: 'Required',
+            if (row.value.required) {
+                errorMessage = Validator.RequiredValidator(
+                    field,
+                    row.checkbox.label,
+                    rowSubmittedValue?.text
+                );
+                // break loop
+                return true;
+            }
+
+            const { validators } = row.value;
+            if (validators?.length) {
+                return validators.some((validator) => {
+                    const { type } = validator;
+                    switch (type) {
+                        case 'regex':
+                            errorMessage = Validator.RegexValidator(
+                                field,
+                                row.checkbox.label,
+                                validator,
+                                rowSubmittedValue?.text
+                            );
+                            return true;
+                        case 'string':
+                            errorMessage = Validator.StringValidator(
+                                field,
+                                row.checkbox.label,
+                                validator,
+                                rowSubmittedValue?.text
+                            );
+                            return true;
+
+                        case 'number':
+                            errorMessage = Validator.NumberValidator(
+                                field,
+                                row.checkbox.label,
+                                validator,
+                                rowSubmittedValue?.text
+                            );
+
+                            return true;
+
+                        default:
+                            throw new Error(
+                                `[CheckboxGroup] Unsupported validator ${type} for field ${field}`
+                            );
+                    }
                 });
-                errorMessages.push(`${field} > ${row.checkbox.label} has required field`);
             }
         }
+        return false;
     });
-    return errorMessages.join('\n');
+    return errorMessage;
 }

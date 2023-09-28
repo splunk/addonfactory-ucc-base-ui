@@ -6,8 +6,12 @@ import {
     packValue,
     parseValue,
     Row,
+    validateCheckboxGroup,
     ValueByField,
 } from './checkboxGroup.utils';
+import Validator from '../../util/Validator';
+
+jest.mock('../../util/Validator');
 
 describe('parseValue', () => {
     it('should correctly parse a collection string into a Map', () => {
@@ -177,5 +181,124 @@ describe('getNewCheckboxValues function', () => {
 
         const result = getNewCheckboxValues(initialValues, newValue);
         expect(result.get('field3')).toEqual({ checkbox: true, text: '' });
+    });
+});
+
+describe('validateCheckboxGroup', () => {
+    it('should handle required validation', () => {
+        const mockRequiredValidator = jest.fn().mockReturnValue(false);
+        Validator.RequiredValidator = mockRequiredValidator;
+
+        const result = validateCheckboxGroup('field1', 'field1/123', {
+            rows: [
+                {
+                    field: 'field1',
+                    value: { required: true },
+                    checkbox: { label: 'Label 1' },
+                },
+            ],
+        });
+
+        expect(mockRequiredValidator).toHaveBeenCalled();
+        expect(result).toBe(false);
+    });
+
+    it('should handle regex validation', () => {
+        const mockRegexValidator = jest.fn().mockReturnValue(false);
+        Validator.RegexValidator = mockRegexValidator;
+
+        const result = validateCheckboxGroup('field1', 'field1/123', {
+            rows: [
+                {
+                    field: 'field1',
+                    value: { validators: [{ type: 'regex', pattern: '' }] },
+                    checkbox: { label: 'Label 1' },
+                },
+            ],
+        });
+
+        expect(mockRegexValidator).toHaveBeenCalled();
+        expect(result).toBe(false);
+    });
+
+    it('should handle string validation', () => {
+        const mockStringValidator = jest.fn().mockReturnValue(false);
+        Validator.StringValidator = mockStringValidator;
+
+        const result = validateCheckboxGroup('field1', 'field1/123', {
+            rows: [
+                {
+                    field: 'field1',
+                    value: { validators: [{ type: 'string' }] },
+                    checkbox: { label: 'Label 1' },
+                },
+            ],
+        });
+
+        expect(mockStringValidator).toHaveBeenCalled();
+        expect(result).toBe(false);
+    });
+
+    it('should handle number validation', () => {
+        const mockNumberValidator = jest.fn().mockReturnValue(false);
+        Validator.NumberValidator = mockNumberValidator;
+
+        const result = validateCheckboxGroup('field1', 'field1/123', {
+            rows: [
+                {
+                    field: 'field1',
+                    value: { validators: [{ type: 'number', range: [1, 2] }] },
+                    checkbox: { label: 'Label 1' },
+                },
+            ],
+        });
+
+        expect(mockNumberValidator).toHaveBeenCalled();
+        expect(result).toBe(false);
+    });
+
+    it('should throw an error for unsupported validator', () => {
+        expect(() => {
+            validateCheckboxGroup('field1', 'field1/123', {
+                rows: [
+                    {
+                        field: 'field1',
+                        // @ts-expect-error tests
+                        value: { validators: [{ type: 'unsupported' }] },
+                        checkbox: { label: 'Label 1' },
+                    },
+                ],
+            });
+        }).toThrow('[CheckboxGroup] Unsupported validator unsupported for field field1');
+    });
+
+    it('should return false if no validation is required', () => {
+        const result = validateCheckboxGroup('field1', 'field1/123', {
+            rows: [
+                {
+                    field: 'field1',
+                    value: {},
+                    checkbox: { label: 'Label 1' },
+                },
+            ],
+        });
+
+        expect(result).toBe(false);
+    });
+
+    it('should skip validation if no value provided', () => {
+        const mockNumberValidator = jest.fn().mockReturnValue(false);
+        Validator.NumberValidator = mockNumberValidator;
+        const result = validateCheckboxGroup('field1', '', {
+            rows: [
+                {
+                    field: 'field1',
+                    value: { validators: [{ type: 'number', range: [1, 2] }] },
+                    checkbox: { label: 'Label 1' },
+                },
+            ],
+        });
+        expect(mockNumberValidator).not.toHaveBeenCalled();
+        expect(result).toBe(false);
     });
 });
