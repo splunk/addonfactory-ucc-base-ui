@@ -158,7 +158,7 @@ export function validateCheckboxGroup(
                     rowSubmittedValue?.text
                 );
                 // break loop
-                return true;
+                return errorMessage;
             }
 
             const { validators } = row.value;
@@ -173,7 +173,7 @@ export function validateCheckboxGroup(
                                 validator,
                                 rowSubmittedValue?.text
                             );
-                            return true;
+                            return errorMessage;
                         case 'string':
                             errorMessage = Validator.StringValidator(
                                 field,
@@ -181,7 +181,7 @@ export function validateCheckboxGroup(
                                 validator,
                                 rowSubmittedValue?.text
                             );
-                            return true;
+                            return errorMessage;
 
                         case 'number':
                             errorMessage = Validator.NumberValidator(
@@ -191,7 +191,7 @@ export function validateCheckboxGroup(
                                 rowSubmittedValue?.text
                             );
 
-                            return true;
+                            return errorMessage;
 
                         default:
                             throw new Error(

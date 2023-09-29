@@ -16,10 +16,23 @@ interface CheckboxSubGroupProps {
     handleRowChange: (newValue: { field: string; checkbox: boolean; text?: string }) => void;
 }
 
+function getCheckedCheckboxesCount(group: GroupWithRows, values: ValueByField) {
+    let checkedCheckboxesCount = 0;
+    group.rows.forEach((row) => {
+        if (values.get(row.field)?.checkbox) {
+            checkedCheckboxesCount += 1;
+        }
+    });
+    return checkedCheckboxesCount;
+}
+
 function CheckboxSubGroup({ group, values, handleRowChange }: CheckboxSubGroupProps) {
+    const checkedCheckboxesCount = getCheckedCheckboxesCount(group, values);
+
     return (
         <Group
             title={group.label}
+            description={`${checkedCheckboxesCount} of ${group.fields.length}`}
             isExpandable={group.options?.isExpandable}
             defaultOpen={group.options?.defaultOpen}
         >

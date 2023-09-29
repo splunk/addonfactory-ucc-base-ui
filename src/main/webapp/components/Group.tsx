@@ -40,17 +40,22 @@ const CustomGroupLabel = styled.div`
 `;
 
 interface GroupProps {
-    title: string;
+    title: ReactNode;
+    description: string;
     children: ReactNode;
     isExpandable?: boolean;
     defaultOpen?: boolean;
 }
 
-function Group({ isExpandable, defaultOpen, children, title }: GroupProps) {
+function Group({ isExpandable, defaultOpen, children, title, description }: GroupProps) {
     return (
         <GroupWrapper>
             {isExpandable ? (
-                <CollapsiblePanelWrapper title={title} defaultOpen={defaultOpen}>
+                <CollapsiblePanelWrapper
+                    title={title}
+                    defaultOpen={defaultOpen}
+                    description={description}
+                >
                     <StyledPadding4>{children}</StyledPadding4>
                 </CollapsiblePanelWrapper>
             ) : (
