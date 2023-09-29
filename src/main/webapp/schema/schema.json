@@ -902,9 +902,11 @@
                   }
                 },
                 "required": ["field", "checkbox"]
-              }
+              },
+              "minItems": 1
             }
-          }
+          },
+          "required": ["rows"]
         },
         "validators": {
           "type": "array",
@@ -917,7 +919,7 @@
           }
         }
       },
-      "required": ["field", "label", "type"],
+      "required": ["field", "label", "type", "options"],
       "additionalProperties": false
     },
     "AnyOfEntity": {
