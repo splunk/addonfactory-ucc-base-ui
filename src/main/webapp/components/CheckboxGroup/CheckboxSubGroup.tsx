@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Group from '../Group';
-import { GroupWithRows, ValueByField } from './checkboxGroup.utils';
+import { getCheckedCheckboxesCount, GroupWithRows, ValueByField } from './checkboxGroup.utils';
 import CheckboxRowWrapper from './CheckboxRowWrapper';
 
 const StyledCheckboxRowWrapper = styled.div`
@@ -16,19 +16,8 @@ interface CheckboxSubGroupProps {
     handleRowChange: (newValue: { field: string; checkbox: boolean; text?: string }) => void;
 }
 
-function getCheckedCheckboxesCount(group: GroupWithRows, values: ValueByField) {
-    let checkedCheckboxesCount = 0;
-    group.rows.forEach((row) => {
-        if (values.get(row.field)?.checkbox) {
-            checkedCheckboxesCount += 1;
-        }
-    });
-    return checkedCheckboxesCount;
-}
-
 function CheckboxSubGroup({ group, values, handleRowChange }: CheckboxSubGroupProps) {
     const checkedCheckboxesCount = getCheckedCheckboxesCount(group, values);
-
     return (
         <Group
             title={group.label}

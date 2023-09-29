@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ColumnLayout from '@splunk/react-ui/ColumnLayout';
 import Button from '@splunk/react-ui/Button';
 import { StyledColumnLayout } from './StyledComponent';
@@ -9,10 +9,10 @@ import {
     isGroupWithRows,
     packValue,
     parseValue,
-    validateCheckboxGroup,
 } from './checkboxGroup.utils';
 import CheckboxSubGroup from './CheckboxSubGroup';
 import CheckboxRowWrapper from './CheckboxRowWrapper';
+import { useValidation } from './checkboxGroupValidation';
 
 function CheckboxGroup(props: CheckboxGroupProps) {
     const { field, value, handleChange, controlOptions, addCustomValidator } = props;
@@ -20,20 +20,7 @@ function CheckboxGroup(props: CheckboxGroupProps) {
     const flattenedRowsWithGroups = getFlattenRowsWithGroups(controlOptions);
 
     const [values, setValues] = useState(parseValue(value));
-
-    useEffect(() => {
-        addCustomValidator?.(field, (submittedField, submittedValue) => {
-            const validationResult = validateCheckboxGroup(
-                submittedField,
-                submittedValue,
-                controlOptions
-            );
-            if (validationResult !== false) {
-                return validationResult.errorMsg;
-            }
-            return validationResult;
-        });
-    }, [field, addCustomValidator, controlOptions]);
+    useValidation(addCustomValidator, field, controlOptions);
 
     const handleRowChange = (newValue: { field: string; checkbox: boolean; text?: string }) => {
         const newValues = getNewCheckboxValues(values, newValue);
@@ -42,7 +29,7 @@ function CheckboxGroup(props: CheckboxGroupProps) {
         handleChange(field, packValue(newValues), 'checkboxGroup');
     };
 
-    function handleCheckboxToggleAll(newCheckboxValue: boolean) {
+    const handleCheckboxToggleAll = (newCheckboxValue: boolean) => {
         const newValues = new Map(values);
 
         controlOptions.rows.forEach((row) => {
@@ -57,7 +44,7 @@ function CheckboxGroup(props: CheckboxGroupProps) {
         });
         setValues(newValues);
         handleChange(field, packValue(newValues), 'checkboxGroup');
-    }
+    };
 
     return (
         <StyledColumnLayout gutter={5}>

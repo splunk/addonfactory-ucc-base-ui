@@ -9,12 +9,10 @@ const GroupWrapper = styled.div`
 `;
 
 const CollapsiblePanelWrapper = styled(CollapsiblePanel)`
-    flex: 1;
     span {
         button {
             background-color: #f2f4f5;
             font-size: 16px;
-            //margin: 15px 0;
 
             &:hover:not([disabled]),
             &:focus:not([disabled]),
@@ -32,16 +30,22 @@ const StyledPadding4 = styled.div`
 `;
 
 const CustomGroupLabel = styled.div`
-    flex: 1;
+    display: flex;
+    justify-content: space-between;
     padding: 6px 10px;
     background-color: #f2f4f5;
-    //margin: 0 0 15px 0;
     font-size: 16px;
+`;
+
+const Description = styled.span`
+    padding-right: 20px;
+    margin-left: 10px;
+    font-size: 12px;
 `;
 
 interface GroupProps {
     title: ReactNode;
-    description: string;
+    description?: string;
     children: ReactNode;
     isExpandable?: boolean;
     defaultOpen?: boolean;
@@ -60,7 +64,10 @@ function Group({ isExpandable, defaultOpen, children, title, description }: Grou
                 </CollapsiblePanelWrapper>
             ) : (
                 <>
-                    <CustomGroupLabel>{title}</CustomGroupLabel>
+                    <CustomGroupLabel>
+                        <span>{title}</span>
+                        <Description>{description}</Description>
+                    </CustomGroupLabel>
                     <div>{children}</div>
                 </>
             )}

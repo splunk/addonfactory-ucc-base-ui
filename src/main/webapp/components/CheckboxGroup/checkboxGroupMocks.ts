@@ -36,7 +36,6 @@ export const checkboxGroupConfig = {
                                     {
                                         label: 'Collect',
                                         options: {
-                                            isExpandable: true,
                                             defaultOpen: true,
                                         },
                                         fields: [
