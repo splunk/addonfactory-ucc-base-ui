@@ -18,7 +18,7 @@ function CheckboxRowWrapper({
             label={row.checkbox.label}
             checkbox={!!valueForField?.checkbox}
             disabled={row.checkbox.options?.enable === false}
-            text={valueForField ? valueForField.text : row.value?.defaultValue?.toString()}
+            text={valueForField ? valueForField.text : row.text?.defaultValue?.toString()}
             handleChange={handleRowChange}
         />
     );

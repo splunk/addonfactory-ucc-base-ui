@@ -97,7 +97,7 @@ describe('getFlattenRowsWithGroups', () => {
                 checkbox: {
                     label: 'Checkbox1',
                 },
-                value: {
+                text: {
                     defaultValue: 'value1',
                     required: true,
                 },
@@ -107,7 +107,7 @@ describe('getFlattenRowsWithGroups', () => {
                 checkbox: {
                     label: 'Checkbox2',
                 },
-                value: {
+                text: {
                     defaultValue: 'value2',
                     required: false,
                 },
@@ -117,7 +117,7 @@ describe('getFlattenRowsWithGroups', () => {
                 checkbox: {
                     label: 'Checkbox3',
                 },
-                value: {
+                text: {
                     defaultValue: 'value3',
                     required: true,
                 },
@@ -127,7 +127,7 @@ describe('getFlattenRowsWithGroups', () => {
                 checkbox: {
                     label: 'Checkbox4',
                 },
-                value: {
+                text: {
                     defaultValue: 'value4',
                     required: false,
                 },
@@ -193,7 +193,7 @@ describe('validateCheckboxGroup', () => {
             rows: [
                 {
                     field: 'field1',
-                    value: { required: true },
+                    text: { required: true },
                     checkbox: { label: 'Label 1' },
                 },
             ],
@@ -211,7 +211,7 @@ describe('validateCheckboxGroup', () => {
             rows: [
                 {
                     field: 'field1',
-                    value: { validators: [{ type: 'regex', pattern: '' }] },
+                    text: { validators: [{ type: 'regex', pattern: '' }] },
                     checkbox: { label: 'Label 1' },
                 },
             ],
@@ -229,7 +229,7 @@ describe('validateCheckboxGroup', () => {
             rows: [
                 {
                     field: 'field1',
-                    value: { validators: [{ type: 'string' }] },
+                    text: { validators: [{ type: 'string', minLength: 0, maxLength: 2 }] },
                     checkbox: { label: 'Label 1' },
                 },
             ],
@@ -247,7 +247,7 @@ describe('validateCheckboxGroup', () => {
             rows: [
                 {
                     field: 'field1',
-                    value: { validators: [{ type: 'number', range: [1, 2] }] },
+                    text: { validators: [{ type: 'number', range: [1, 2] }] },
                     checkbox: { label: 'Label 1' },
                 },
             ],
@@ -264,7 +264,7 @@ describe('validateCheckboxGroup', () => {
                     {
                         field: 'field1',
                         // @ts-expect-error tests
-                        value: { validators: [{ type: 'unsupported' }] },
+                        text: { validators: [{ type: 'unsupported' }] },
                         checkbox: { label: 'Label 1' },
                     },
                 ],
@@ -277,7 +277,7 @@ describe('validateCheckboxGroup', () => {
             rows: [
                 {
                     field: 'field1',
-                    value: {},
+                    text: {},
                     checkbox: { label: 'Label 1' },
                 },
             ],
@@ -293,7 +293,7 @@ describe('validateCheckboxGroup', () => {
             rows: [
                 {
                     field: 'field1',
-                    value: { validators: [{ type: 'number', range: [1, 2] }] },
+                    text: { validators: [{ type: 'number', range: [1, 2] }] },
                     checkbox: { label: 'Label 1' },
                 },
             ],

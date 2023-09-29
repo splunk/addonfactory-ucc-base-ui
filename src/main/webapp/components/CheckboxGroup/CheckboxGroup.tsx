@@ -52,7 +52,7 @@ function CheckboxGroup(props: CheckboxGroupProps) {
             }
             newValues.set(row.field, {
                 checkbox: newCheckboxValue,
-                text: oldValue?.text || row.value.defaultValue?.toString() || '',
+                text: oldValue?.text || row.text.defaultValue?.toString() || '',
             });
         });
         setValues(newValues);

@@ -62,7 +62,7 @@ export const checkboxGroupConfig = {
                                                 enable: true,
                                             },
                                         },
-                                        value: {
+                                        text: {
                                             defaultValue: 1200,
                                             required: false,
                                             validators: [
@@ -81,7 +81,7 @@ export const checkboxGroupConfig = {
                                                 enable: true,
                                             },
                                         },
-                                        value: {
+                                        text: {
                                             defaultValue: 1,
                                             required: true,
                                         },
@@ -94,7 +94,7 @@ export const checkboxGroupConfig = {
                                                 enable: true,
                                             },
                                         },
-                                        value: {
+                                        text: {
                                             defaultValue: 1,
                                             required: true,
                                         },
@@ -108,7 +108,7 @@ export const checkboxGroupConfig = {
                                                 enable: true,
                                             },
                                         },
-                                        value: {
+                                        text: {
                                             defaultValue: 3600,
                                             required: true,
                                         },
@@ -130,7 +130,7 @@ export const checkboxGroupConfig = {
                                                 enable: true,
                                             },
                                         },
-                                        value: {
+                                        text: {
                                             defaultValue: 3600,
                                             required: true,
                                         },
@@ -140,7 +140,7 @@ export const checkboxGroupConfig = {
                                         checkbox: {
                                             label: 'Collect folder collaboration',
                                         },
-                                        value: {
+                                        text: {
                                             defaultValue: 1200,
                                             required: false,
                                             validators: [
@@ -156,7 +156,7 @@ export const checkboxGroupConfig = {
                                         checkbox: {
                                             label: 'Collect file metadata',
                                         },
-                                        value: {
+                                        text: {
                                             defaultValue: 1,
                                             required: true,
                                         },
@@ -166,7 +166,7 @@ export const checkboxGroupConfig = {
                                         checkbox: {
                                             label: 'Collect tasks and comments',
                                         },
-                                        value: {
+                                        text: {
                                             defaultValue: 1,
                                             required: true,
                                         },
@@ -206,7 +206,7 @@ export const checkboxGroupConfig = {
                                                 enable: true,
                                             },
                                         },
-                                        value: {
+                                        text: {
                                             defaultValue: 1200,
                                             required: false,
                                         },
@@ -219,7 +219,7 @@ export const checkboxGroupConfig = {
                                                 enable: true,
                                             },
                                         },
-                                        value: {
+                                        text: {
                                             defaultValue: 1,
                                             required: true,
                                         },
@@ -232,7 +232,7 @@ export const checkboxGroupConfig = {
                                                 enable: true,
                                             },
                                         },
-                                        value: {
+                                        text: {
                                             defaultValue: 1,
                                             required: true,
                                         },
@@ -245,7 +245,7 @@ export const checkboxGroupConfig = {
                                                 enable: true,
                                             },
                                         },
-                                        value: {
+                                        text: {
                                             defaultValue: 3600,
                                             required: true,
                                         },
@@ -258,7 +258,7 @@ export const checkboxGroupConfig = {
                                                 enable: true,
                                             },
                                         },
-                                        value: {
+                                        text: {
                                             required: true,
                                         },
                                     },
@@ -270,7 +270,7 @@ export const checkboxGroupConfig = {
                                                 enable: true,
                                             },
                                         },
-                                        value: {
+                                        text: {
                                             validators: [
                                                 {
                                                     type: 'string',
@@ -285,7 +285,7 @@ export const checkboxGroupConfig = {
                                         checkbox: {
                                             label: 'from 1 to 60 validation',
                                         },
-                                        value: {
+                                        text: {
                                             validators: [
                                                 {
                                                     type: 'number',

@@ -24,7 +24,7 @@ export const Base: Story = {
                             enable: true,
                         },
                     },
-                    value: {
+                    text: {
                         defaultValue: 1200,
                         required: false,
                     },
@@ -37,7 +37,7 @@ export const Base: Story = {
                             enable: true,
                         },
                     },
-                    value: {
+                    text: {
                         defaultValue: 1,
                         required: true,
                     },
@@ -50,7 +50,7 @@ export const Base: Story = {
                             enable: true,
                         },
                     },
-                    value: {
+                    text: {
                         defaultValue: 1,
                         required: true,
                     },
@@ -63,7 +63,7 @@ export const Base: Story = {
                             enable: false,
                         },
                     },
-                    value: {
+                    text: {
                         defaultValue: 3600,
                         required: true,
                     },
@@ -93,7 +93,7 @@ export const WithSingleGroup: Story = {
                             enable: true,
                         },
                     },
-                    value: {
+                    text: {
                         defaultValue: 1200,
                         required: false,
                     },
@@ -106,7 +106,7 @@ export const WithSingleGroup: Story = {
                             enable: true,
                         },
                     },
-                    value: {
+                    text: {
                         defaultValue: 1,
                         required: true,
                     },
@@ -142,7 +142,7 @@ export const MixedWithGroups: Story = {
                             enable: true,
                         },
                     },
-                    value: {
+                    text: {
                         defaultValue: 1200,
                         required: false,
                     },
@@ -155,7 +155,7 @@ export const MixedWithGroups: Story = {
                             enable: true,
                         },
                     },
-                    value: {
+                    text: {
                         defaultValue: 1,
                         required: true,
                     },
@@ -168,7 +168,7 @@ export const MixedWithGroups: Story = {
                             enable: true,
                         },
                     },
-                    value: {
+                    text: {
                         defaultValue: 1,
                         required: true,
                     },
@@ -181,7 +181,7 @@ export const MixedWithGroups: Story = {
                             enable: true,
                         },
                     },
-                    value: {
+                    text: {
                         defaultValue: 3600,
                         required: true,
                     },

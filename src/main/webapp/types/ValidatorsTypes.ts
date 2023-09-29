@@ -5,8 +5,8 @@ export interface ValidatorBase {
 
 export interface StringValidator extends ValidatorBase {
     type: 'string';
-    minLength?: number;
-    maxLength?: number;
+    minLength: number;
+    maxLength: number;
 }
 
 export interface RegexValidator extends ValidatorBase {

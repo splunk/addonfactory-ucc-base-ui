@@ -158,8 +158,7 @@
             "placeholder",
             "oauth",
             "helpLink",
-            "file",
-            "checkboxGroup"
+            "file"
           ]
         },
         "help": {
@@ -546,7 +545,7 @@
         "additionalProperties": false
       }
     },
-    "InputsEntity": {
+    "GenericInputsEntity": {
       "type": "object",
       "properties": {
         "field": {
@@ -570,10 +569,7 @@
             "placeholder",
             "oauth",
             "helpLink",
-            "file",
-            "checkboxGroup",
-            "checkboxGroupCheckbox",
-            "checkboxGroupText"
+            "file"
           ]
         },
         "help": {
@@ -791,6 +787,19 @@
       "required": ["field", "label", "type"],
       "additionalProperties": false
     },
+    "AnyOfEntity": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/definitions/CheckboxGroupEntity"
+          },
+          {
+            "$ref": "#/definitions/GenericInputsEntity"
+          }
+        ]
+      }
+    },
     "InputsPage": {
       "oneOf": [
         {
@@ -855,19 +864,13 @@
                     "maxLength": 50
                   },
                   "entity": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/definitions/InputsEntity"
-                    }
+                    "$ref": "#/definitions/AnyOfEntity"
                   },
                   "options": {
                     "$ref": "#/definitions/Hooks"
                   },
                   "groups": {
                     "$ref": "#/definitions/Groups"
-                  },
-                  "CheckboxGroupsMetadata": {
-                    "$ref": "#/definitions/CheckboxGroupsMetadata"
                   },
                   "style": {
                     "type": "string",
@@ -936,19 +939,13 @@
                     "$ref": "#/definitions/InputsTable"
                   },
                   "entity": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/definitions/InputsEntity"
-                    }
+                    "$ref": "#/definitions/AnyOfEntity"
                   },
                   "options": {
                     "$ref": "#/definitions/Hooks"
                   },
                   "groups": {
                     "$ref": "#/definitions/Groups"
-                  },
-                  "CheckboxGroupsMetadata": {
-                    "$ref": "#/definitions/CheckboxGroupsMetadata"
                   },
                   "style": {
                     "type": "string",
@@ -1066,7 +1063,7 @@
         },
         "name": {
           "type": "string",
-          "pattern": "^[^<>\\:\"\\/\\\\|\\?\\*]+$"
+          "pattern": "^[^<>:\"\\/\\\\|\\?\\*]+$"
         },
         "restRoot": {
           "type": "string",

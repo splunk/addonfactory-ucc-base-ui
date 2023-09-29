@@ -61,7 +61,7 @@ export interface Row {
             enable?: boolean;
         };
     };
-    value: {
+    text: {
         defaultValue?: number | string;
         validators?: (StringValidator | RegexValidator | NumberValidator)[];
         required?: boolean;
@@ -151,7 +151,7 @@ export function validateCheckboxGroup(
     options.rows.some((row) => {
         const rowSubmittedValue = parsedValue.get(row.field);
         if (rowSubmittedValue) {
-            if (row.value.required) {
+            if (row.text.required) {
                 errorMessage = Validator.RequiredValidator(
                     field,
                     row.checkbox.label,
@@ -161,7 +161,7 @@ export function validateCheckboxGroup(
                 return errorMessage;
             }
 
-            const { validators } = row.value;
+            const { validators } = row.text;
             if (validators?.length) {
                 return validators.some((validator) => {
                     const { type } = validator;
