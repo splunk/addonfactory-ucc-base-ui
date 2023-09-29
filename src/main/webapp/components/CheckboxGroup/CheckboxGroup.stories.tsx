@@ -124,7 +124,7 @@ export const MixedWithGroups: Story = {
                 {
                     label: 'Expandable group',
                     fields: ['collect_collaboration', 'collect_file'],
-                    options: { isExpandable: true, defaultOpen: true },
+                    options: { isExpandable: true, expand: true },
                 },
 
                 {

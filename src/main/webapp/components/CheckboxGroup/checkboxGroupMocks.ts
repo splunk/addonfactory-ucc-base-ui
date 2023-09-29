@@ -180,7 +180,7 @@ export const checkboxGroupConfig = {
                                         label: 'Group 1',
                                         options: {
                                             isExpandable: true,
-                                            defaultOpen: true,
+                                            expand: true,
                                         },
                                         fields: ['collectFolderCollaboration'],
                                     },
@@ -188,7 +188,7 @@ export const checkboxGroupConfig = {
                                         label: 'Group 3',
                                         options: {
                                             isExpandable: true,
-                                            defaultOpen: true,
+                                            expand: true,
                                         },
                                         fields: ['collectFolderMetadata'],
                                     },

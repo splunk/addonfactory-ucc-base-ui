@@ -47,7 +47,7 @@ export interface Group {
     fields: string[];
     options?: {
         isExpandable?: boolean;
-        defaultOpen?: boolean;
+        expand?: boolean;
     };
 }
 

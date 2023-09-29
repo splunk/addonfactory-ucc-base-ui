@@ -23,7 +23,7 @@ function CheckboxSubGroup({ group, values, handleRowChange }: CheckboxSubGroupPr
             title={group.label}
             description={`${checkedCheckboxesCount} of ${group.fields.length}`}
             isExpandable={group.options?.isExpandable}
-            defaultOpen={group.options?.defaultOpen}
+            defaultOpen={group.options?.expand}
         >
             <StyledCheckboxRowWrapper>
                 {group.rows.map((rowInsideGroup) => (

@@ -820,7 +820,7 @@
                         "type": "boolean",
                         "default": false
                       },
-                      "defaultOpen": {
+                      "expand": {
                         "type": "boolean",
                         "default": false
                       }
