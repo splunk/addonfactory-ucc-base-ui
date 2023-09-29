@@ -47,45 +47,46 @@ function CheckboxGroup(props: CheckboxGroupProps) {
     };
 
     return (
-        <StyledColumnLayout gutter={5}>
-            {flattenedRowsWithGroups.map((row) => {
-                if (isGroupWithRows(row)) {
-                    // labels are unique across groups
+        <>
+            <StyledColumnLayout gutter={5}>
+                {flattenedRowsWithGroups.map((row) => {
+                    if (isGroupWithRows(row)) {
+                        // labels are unique across groups
+                        return (
+                            <ColumnLayout.Row key={`group_${row.label}`}>
+                                <CheckboxSubGroup
+                                    group={row}
+                                    values={values}
+                                    handleRowChange={handleRowChange}
+                                />
+                            </ColumnLayout.Row>
+                        );
+                    }
                     return (
-                        <ColumnLayout.Row key={`group_${row.label}`}>
-                            <CheckboxSubGroup
-                                group={row}
+                        <ColumnLayout.Row key={`row_${row.field}`}>
+                            <CheckboxRowWrapper
+                                row={row}
                                 values={values}
                                 handleRowChange={handleRowChange}
                             />
                         </ColumnLayout.Row>
                     );
-                }
-                return (
-                    <ColumnLayout.Row key={`row_${row.field}`}>
-                        <CheckboxRowWrapper
-                            row={row}
-                            values={values}
-                            handleRowChange={handleRowChange}
-                        />
-                    </ColumnLayout.Row>
-                );
-            })}
-            <ColumnLayout.Row>
-                <div>
-                    <Button
-                        label="Select All"
-                        appearance="pill"
-                        onClick={() => handleCheckboxToggleAll(true)}
-                    />
-                    <Button
-                        label="Clear All"
-                        appearance="pill"
-                        onClick={() => handleCheckboxToggleAll(false)}
-                    />
-                </div>
-            </ColumnLayout.Row>
-        </StyledColumnLayout>
+                })}
+                <ColumnLayout.Row />
+            </StyledColumnLayout>
+            <div>
+                <Button
+                    label="Select All"
+                    appearance="pill"
+                    onClick={() => handleCheckboxToggleAll(true)}
+                />
+                <Button
+                    label="Clear All"
+                    appearance="pill"
+                    onClick={() => handleCheckboxToggleAll(false)}
+                />
+            </div>
+        </>
     );
 }
 

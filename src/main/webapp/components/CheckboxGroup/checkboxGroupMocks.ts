@@ -35,9 +35,6 @@ export const checkboxGroupConfig = {
                                 groups: [
                                     {
                                         label: 'Collect',
-                                        options: {
-                                            defaultOpen: true,
-                                        },
                                         fields: [
                                             'collectFolderCollaboration',
                                             'collectFileMetadata',
