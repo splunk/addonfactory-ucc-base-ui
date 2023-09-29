@@ -12,7 +12,7 @@ const CollapsiblePanelWrapper = styled(CollapsiblePanel)`
     span {
         button {
             background-color: #f2f4f5;
-            font-size: 16px;
+            font-size: 14px;
 
             &:hover:not([disabled]),
             &:focus:not([disabled]),
@@ -24,9 +24,9 @@ const CollapsiblePanelWrapper = styled(CollapsiblePanel)`
     }
 `;
 
-const StyledPadding4 = styled.div`
-    padding-top: 4px;
-    padding-bottom: 4px;
+const StyledPadding8 = styled.div`
+    padding-top: 8px;
+    padding-bottom: 8px;
 `;
 
 const CustomGroupLabel = styled.div`
@@ -34,7 +34,8 @@ const CustomGroupLabel = styled.div`
     justify-content: space-between;
     padding: 6px 10px;
     background-color: #f2f4f5;
-    font-size: 16px;
+    font-size: 14px;
+    margin-bottom: 10px;
 `;
 
 const Description = styled.span`
@@ -60,7 +61,7 @@ function Group({ isExpandable, defaultOpen, children, title, description }: Grou
                     defaultOpen={defaultOpen}
                     description={description}
                 >
-                    <StyledPadding4>{children}</StyledPadding4>
+                    <StyledPadding8>{children}</StyledPadding8>
                 </CollapsiblePanelWrapper>
             ) : (
                 <>

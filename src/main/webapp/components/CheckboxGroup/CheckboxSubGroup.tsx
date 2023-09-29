@@ -5,8 +5,8 @@ import { getCheckedCheckboxesCount, GroupWithRows, ValueByField } from './checkb
 import CheckboxRowWrapper from './CheckboxRowWrapper';
 
 const StyledCheckboxRowWrapper = styled.div`
-    & > * {
-        margin-top: 10px;
+    & > *:not(:last-child) {
+        margin-bottom: 10px;
     }
 `;
 
