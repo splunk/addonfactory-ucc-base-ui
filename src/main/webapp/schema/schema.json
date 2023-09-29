@@ -824,7 +824,8 @@
                         "type": "boolean",
                         "default": false
                       }
-                    }
+                    },
+                    "additionalProperties": false
                   },
                   "fields": {
                     "type": "array",
@@ -835,7 +836,8 @@
                     "uniqueItems": true
                   }
                 },
-                "required": ["label", "fields"]
+                "required": ["label", "fields"],
+                "additionalProperties": false
               }
             },
             "rows": {
@@ -860,10 +862,11 @@
                             "type": "boolean",
                             "default": false
                           }
-                        }
+                        },
+                        "additionalProperties": false
                       }
                     },
-                    "required": ["label"]
+                    "additionalProperties": false
                   },
                   "text": {
                     "type": "object",
@@ -898,15 +901,18 @@
                           ]
                         }
                       }
-                    }
+                    },
+                    "additionalProperties": false
                   }
                 },
-                "required": ["field", "checkbox"]
+                "required": ["field"],
+                "additionalProperties": false
               },
               "minItems": 1
             }
           },
-          "required": ["rows"]
+          "required": ["rows"],
+          "additionalProperties": false
         },
         "validators": {
           "type": "array",

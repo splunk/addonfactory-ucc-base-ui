@@ -22,7 +22,7 @@ export function validateCheckboxGroup(
             if (row.text.required) {
                 errorMessage = Validator.RequiredValidator(
                     field,
-                    row.checkbox.label,
+                    row.checkbox?.label || row.field,
                     rowSubmittedValue?.text
                 );
                 // break loop
@@ -37,7 +37,7 @@ export function validateCheckboxGroup(
                         case 'regex':
                             errorMessage = Validator.RegexValidator(
                                 field,
-                                row.checkbox.label,
+                                row.checkbox?.label || row.field,
                                 validator,
                                 rowSubmittedValue?.text
                             );
@@ -45,7 +45,7 @@ export function validateCheckboxGroup(
                         case 'string':
                             errorMessage = Validator.StringValidator(
                                 field,
-                                row.checkbox.label,
+                                row.checkbox?.label || row.field,
                                 validator,
                                 rowSubmittedValue?.text
                             );
@@ -54,7 +54,7 @@ export function validateCheckboxGroup(
                         case 'number':
                             errorMessage = Validator.NumberValidator(
                                 field,
-                                row.checkbox.label,
+                                row.checkbox?.label || row.field,
                                 validator,
                                 rowSubmittedValue?.text
                             );

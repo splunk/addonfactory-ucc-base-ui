@@ -53,7 +53,7 @@ export interface Group {
 
 export interface Row {
     field: string;
-    checkbox: {
+    checkbox?: {
         label: string;
         value?: boolean;
         options?: {

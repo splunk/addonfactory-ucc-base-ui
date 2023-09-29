@@ -52,12 +52,6 @@ export const checkboxGroupConfig = {
                                 rows: [
                                     {
                                         field: 'collectFolderCollaboration',
-                                        checkbox: {
-                                            label: 'Collect folder collaboration',
-                                            options: {
-                                                enable: true,
-                                            },
-                                        },
                                         text: {
                                             defaultValue: 1200,
                                             required: false,
@@ -73,9 +67,6 @@ export const checkboxGroupConfig = {
                                         field: 'collectFileMetadata',
                                         checkbox: {
                                             label: 'Collect file metadata',
-                                            options: {
-                                                enable: true,
-                                            },
                                         },
                                         text: {
                                             defaultValue: 1,
