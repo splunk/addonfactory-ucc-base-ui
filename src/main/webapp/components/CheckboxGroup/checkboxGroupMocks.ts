@@ -89,7 +89,7 @@ export const checkboxGroupConfig = {
                                     {
                                         field: 'collectTasksAndComments',
                                         checkbox: {
-                                            label: 'This is a very very very very very very very very very long line',
+                                            label: 'This is a very very long line',
                                             options: {
                                                 enable: true,
                                             },
@@ -274,6 +274,7 @@ export const checkboxGroupConfig = {
                                             validators: [
                                                 {
                                                     type: 'string',
+                                                    minLength: 0,
                                                     maxLength: 2,
                                                 },
                                             ],
