@@ -85,7 +85,7 @@ class Validator {
      * @returns {Error|false}
      */
     static RequiredValidator(field, label, data) {
-        if (!this.checkIsFieldHasInput(data)) {
+        if (!Validator.checkIsFieldHasInput(data)) {
             return { errorField: field, errorMsg: getFormattedMessage(6, [label]) };
         }
         return false;
@@ -106,7 +106,7 @@ class Validator {
      * @returns {Error|false}
      */
     static StringValidator(field, label, validator, data) {
-        if (this.checkIsFieldHasInput(data) && data.length > validator.maxLength) {
+        if (Validator.checkIsFieldHasInput(data) && data.length > validator.maxLength) {
             return {
                 errorField: field,
                 errorMsg: validator.errorMsg
@@ -114,7 +114,7 @@ class Validator {
                     : getFormattedMessage(18, [label, validator.maxLength]),
             };
         }
-        if (this.checkIsFieldHasInput(data) && data.length < validator.minLength) {
+        if (Validator.checkIsFieldHasInput(data) && data.length < validator.minLength) {
             return {
                 errorField: field,
                 errorMsg: validator.errorMsg
@@ -143,7 +143,7 @@ class Validator {
         if (error) {
             return { errorField: field, errorMsg: error };
         }
-        if (this.checkIsFieldHasInput(data) && !regex.test(data)) {
+        if (Validator.checkIsFieldHasInput(data) && !regex.test(data)) {
             return {
                 errorField: field,
                 errorMsg: validator.errorMsg
@@ -169,7 +169,7 @@ class Validator {
         if (error) {
             return { errorField: field, errorMsg: error };
         }
-        if (this.checkIsFieldHasInput(data) && !regex.test(data)) {
+        if (Validator.checkIsFieldHasInput(data) && !regex.test(data)) {
             return {
                 errorField: field,
                 errorMsg: validator.errorMsg
@@ -210,7 +210,7 @@ class Validator {
             };
         }
         if (
-            (this.checkIsFieldHasInput(data) && val > validator.range[1]) ||
+            (Validator.checkIsFieldHasInput(data) && val > validator.range[1]) ||
             val < validator.range[0]
         ) {
             return {
@@ -258,7 +258,7 @@ class Validator {
 
         for (i = 0; i < this.entities.length; i += 1) {
             if (this.entities[i].required === true) {
-                ret = this.RequiredValidator(
+                ret = Validator.RequiredValidator(
                     this.entities[i].field,
                     this.entities[i].label,
                     data[this.entities[i].field]
