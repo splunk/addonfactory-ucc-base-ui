@@ -1300,7 +1300,7 @@
           "$ref": "#/definitions/DashboardPage"
         }
       },
-      "required": ["configuration", "inputs"],
+      "required": ["configuration"],
       "additionalProperties": false
     },
     "RegexValidator": {
