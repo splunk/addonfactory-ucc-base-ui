@@ -16,7 +16,7 @@ function TableWrapper({
     serviceName,
     handleRequestModalOpen,
     handleOpenPageStyleDialog,
-    displayBtnDisableAllRows,
+    displayActionBtnAllRows,
 }) {
     const [sortKey, setSortKey] = useState('name');
     const [sortDir, setSortDir] = useState('asc');
@@ -265,7 +265,7 @@ function TableWrapper({
                 changeToggleStatus={changeToggleStatus}
                 isTabs={isTabs}
                 rowData={rowData}
-                displayBtnDisableAllRows={displayBtnDisableAllRows}
+                displayActionBtnAllRows={displayActionBtnAllRows}
             />
             <CustomTable
                 page={page}
@@ -288,7 +288,7 @@ TableWrapper.propTypes = {
     serviceName: PropTypes.string,
     handleRequestModalOpen: PropTypes.func,
     handleOpenPageStyleDialog: PropTypes.func,
-    displayBtnDisableAllRows: PropTypes.bool,
+    displayActionBtnAllRows: PropTypes.bool,
 };
 
 export default memo(TableWrapper);

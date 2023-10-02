@@ -10,7 +10,7 @@ import TableContext from '../../context/TableContext';
 import { TableSelectBoxWrapper } from './CustomTableStyle';
 import { PAGE_INPUT } from '../../constants/pages';
 import { StyledButton } from '../../pages/EntryPageStyle';
-import { DisableAllStatusButton } from '../DisableAllStatusButton';
+import { InteractAllStatusButtons } from '../InteractAllStatusButton';
 
 const TableHeaderWrapper = styled.div`
     display: flex;
@@ -33,7 +33,7 @@ function TableHeader({
     handleRequestModalOpen,
     rowData,
     changeToggleStatus,
-    displayBtnDisableAllRows,
+    displayActionBtnAllRows,
 }) {
     const {
         pageSize,
@@ -119,8 +119,8 @@ function TableHeader({
                     />
                 )}
             </div>
-            <DisableAllStatusButton
-                displayBtnDisableAllRows={displayBtnDisableAllRows}
+            <InteractAllStatusButtons
+                displayActionBtnAllRows={displayActionBtnAllRows}
                 totalElement={totalElement}
                 allDataRows={rowData}
                 changeToggleStatus={changeToggleStatus}
@@ -135,7 +135,7 @@ TableHeader.propTypes = {
     totalElement: PropTypes.number,
     isTabs: PropTypes.bool,
     handleRequestModalOpen: PropTypes.func,
-    displayBtnDisableAllRows: PropTypes.bool,
+    displayActionBtnAllRows: PropTypes.bool,
     changeToggleStatus: PropTypes.func,
     rowData: PropTypes.object,
 };
