@@ -121,7 +121,6 @@ function TableHeader({
             </div>
             <InteractAllStatusButtons
                 displayActionBtnAllRows={displayActionBtnAllRows}
-                totalElement={totalElement}
                 dataRows={allFilteredData}
                 changeToggleStatus={changeToggleStatus}
             />
