@@ -1,111 +1,96 @@
 import React from 'react';
 
 import { render, screen } from '@testing-library/react';
-import { InteractAllStatusButtons } from './InteractAllStatusButton';
+import { AllInputRowsData, InteractAllStatusButtons } from './InteractAllStatusButton';
 
 describe('InteractAllStatusButtons', () => {
     const handleToggleStatusChange = jest.fn();
 
-    const allDataRowsMockUp = {
-        demo_input: {
-            aaaaa: {
-                account: 'Test_Account',
-                disabled: false,
-                'eai:acl': null,
-                host: '$decideOnStartup',
-                host_resolved: 'testHost',
-                index: 'default',
-                interval: '300',
-                'python.version': null,
-                id: 'https://localhost/aaaaa',
-                name: 'aaaaa',
-                serviceName: 'demo_input',
-                serviceTitle: 'demo_input',
-                __toggleShowSpinner: false,
-            },
-            bbbbb: {
-                account: 'Test_Account_2',
-                disabled: false,
-                'eai:acl': null,
-                host: '$decideOnStartup',
-                host_resolved: 'testHost',
-                index: 'default',
-                interval: '300',
-                'python.version': null,
-                id: 'https://localhost/bbbbb',
-                name: 'bbbbb',
-                serviceName: 'demo_input',
-                serviceTitle: 'demo_input',
-                __toggleShowSpinner: false,
-            },
-            brrrrrrr: {
-                account: 'aaaaa',
-                disabled: false,
-                'eai:acl': null,
-                host: '$decideOnStartup',
-                host_resolved: 'testHost',
-                index: 'default',
-                interval: '300',
-                'python.version': null,
-                id: 'https://localhost/brrrrrrr',
-                name: 'brrrrrrr',
-                serviceName: 'demo_input',
-                serviceTitle: 'demo_input',
-                __toggleShowSpinner: false,
-            },
-            cccccc: {
-                account: 'Test_Account',
-                disabled: true,
-                'eai:acl': null,
-                host: '$decideOnStartup',
-                host_resolved: 'testHost',
-                index: 'default',
-                interval: '300',
-                'python.version': null,
-                id: 'https://localhost/cccccc',
-                name: 'cccccc',
-                serviceName: 'demo_input',
-                serviceTitle: 'demo_input',
-                __toggleShowSpinner: false,
-            },
-            dddddd: {
-                account: 'Test_Account_2',
-                disabled: true,
-                'eai:acl': null,
-                host: '$decideOnStartup',
-                host_resolved: 'testHost',
-                index: 'default',
-                interval: '300',
-                'python.version': null,
-                id: 'https://localhost/dddddd',
-                name: 'dddddd',
-                serviceName: 'demo_input',
-                serviceTitle: 'demo_input',
-                __toggleShowSpinner: false,
-            },
-            gggggg: {
-                account: 'aaaaa',
-                disabled: true,
-                'eai:acl': null,
-                host: '$decideOnStartup',
-                host_resolved: 'testHost',
-                index: 'default',
-                interval: '300',
-                'python.version': null,
-                id: 'https://localhost/gggggg',
-                name: 'gggggg',
-                serviceName: 'demo_input',
-                serviceTitle: 'demo_input',
-                __toggleShowSpinner: false,
-            },
-        },
-    };
-
-    const totalElements = Object.values(allDataRowsMockUp)
-        .map((data) => Object.values(data).map((row) => row))
-        .flat().length;
+    let allDataRowsMockUp: AllInputRowsData;
+    let totalElements: number;
 
     beforeEach(() => {
+        allDataRowsMockUp = {
+            demo_input: {
+                aaaaa: {
+                    account: 'Test_Account',
+                    disabled: false,
+                    host: '$decideOnStartup',
+                    host_resolved: 'testHost',
+                    index: 'default',
+                    interval: '300',
+                    name: 'aaaaa',
+                    serviceName: 'demo_input',
+                    serviceTitle: 'demo_input',
+                    __toggleShowSpinner: false,
+                },
+                bbbbb: {
+                    account: 'Test_Account_2',
+                    disabled: false,
+                    host: '$decideOnStartup',
+                    host_resolved: 'testHost',
+                    index: 'default',
+                    interval: '300',
+                    name: 'bbbbb',
+                    serviceName: 'demo_input',
+                    serviceTitle: 'demo_input',
+                    __toggleShowSpinner: false,
+                },
+                brrrrrrr: {
+                    account: 'aaaaa',
+                    disabled: false,
+                    host: '$decideOnStartup',
+                    host_resolved: 'testHost',
+                    index: 'default',
+                    interval: '300',
+                    name: 'brrrrrrr',
+                    serviceName: 'demo_input',
+                    serviceTitle: 'demo_input',
+                    __toggleShowSpinner: false,
+                },
+                cccccc: {
+                    account: 'Test_Account',
+                    disabled: true,
+                    host: '$decideOnStartup',
+                    host_resolved: 'testHost',
+                    index: 'default',
+                    interval: '300',
+                    name: 'cccccc',
+                    serviceName: 'demo_input',
+                    serviceTitle: 'demo_input',
+                    __toggleShowSpinner: false,
+                },
+                dddddd: {
+                    account: 'Test_Account_2',
+                    disabled: true,
+                    host: '$decideOnStartup',
+                    host_resolved: 'testHost',
+                    index: 'default',
+                    interval: '300',
+                    name: 'dddddd',
+                    serviceName: 'demo_input',
+                    serviceTitle: 'demo_input',
+                    __toggleShowSpinner: false,
+                },
+                gggggg: {
+                    account: 'aaaaa',
+                    disabled: true,
+                    host: '$decideOnStartup',
+                    host_resolved: 'testHost',
+                    index: 'default',
+                    interval: '300',
+                    name: 'gggggg',
+                    serviceName: 'demo_input',
+                    serviceTitle: 'demo_input',
+                    __toggleShowSpinner: false,
+                },
+            },
+        };
+
+        totalElements = Object.values(allDataRowsMockUp)
+            .map((data) => Object.values(data).map((row) => row))
+            .flat().length;
+
         render(
             <InteractAllStatusButtons
                 data-testid="actionBtns"

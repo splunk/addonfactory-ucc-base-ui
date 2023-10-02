@@ -17,7 +17,7 @@ interface InputRowData {
     __toggleShowSpinner: boolean;
 }
 
-interface AllInputRowsData {
+export interface AllInputRowsData {
     [serviceName: string]: {
         [inputName: string]: InputRowData;
     };
@@ -59,17 +59,6 @@ export function InteractAllStatusButtons(props: DisableAllStatusButtonProps) {
     return props.displayActionBtnAllRows && props.totalElement > 1 ? (
         <div>
             <InteractAllActionButton
-                data-testid="disableAllBtn"
-                onClick={() => {
-                    setTryInteract(true);
-                    setIsDisabling(true);
-                }}
-                role="button"
-                disabled={false}
-            >
-                Disable all
-            </InteractAllActionButton>
-            <InteractAllActionButton
                 data-testid="enableAllBtn"
                 onClick={() => {
                     setTryInteract(true);
@@ -80,11 +69,22 @@ export function InteractAllStatusButtons(props: DisableAllStatusButtonProps) {
             >
                 Enable all
             </InteractAllActionButton>
+            <InteractAllActionButton
+                data-testid="disableAllBtn"
+                onClick={() => {
+                    setTryInteract(true);
+                    setIsDisabling(true);
+                }}
+                role="button"
+                disabled={false}
+            >
+                Disable all
+            </InteractAllActionButton>
             {tryInteract && (
                 <AcceptModal
-                    message={
-                        isDisabling ? 'Do you want to disable all?' : 'Do you want to enable all?'
-                    }
+                    message={`Do you want to ${
+                        isDisabling ? 'disable' : 'enable'
+                    } all? It may take a while.`}
                     open={tryInteract}
                     handleRequestClose={handleAcceptModal}
                     title={isDisabling ? 'Disable all' : 'Enable all'}
