@@ -7,6 +7,16 @@
     "schemaVersion": "0.0.3"
   },
   "pages": {
+    "configuration": {
+      "title": "",
+      "tabs": [
+        {
+          "name": "a",
+          "title": "",
+          "entity": []
+        }
+      ]
+    },
     "inputs": {
       "title": "Inputs",
       "table": {
