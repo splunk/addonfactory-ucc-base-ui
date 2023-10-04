@@ -30,7 +30,7 @@ function isValidFile(fileType, fileSize, supportedFileTypes, maxFileSize) {
 }
 
 function FileInputComponent(props) {
-    const { field, disabled, controlOptions, handleChange, fileNameToDisplay } = props;
+    const { field, disabled, controlOptions, handleChange, fileNameToDisplay, encrypted } = props;
     const {
         fileSupportMessage,
         supportedFileTypes,
@@ -43,11 +43,19 @@ function FileInputComponent(props) {
      use fileNameToDisplay during editing to get
      the possibility of removal previously added file
 
-     if encrypted, can only delete this file
-     if decrypted, can push it with other changes or delete
+     if encrypted, this file can only be delete
+     if decrypted, this file can be deleted or pushed with other changes
     */
     const [fileName, setFileName] = useState(fileNameToDisplay || '');
-    const [errorMsg, setErrorMsg] = useState('');
+
+    /* 
+     if the file data is encrypted and we display its name
+     then we display error message "file needs to be reuploaded"
+     as we do not have access to data inside due to encription
+    */
+    const [errorMsg, setErrorMsg] = useState(
+        fileNameToDisplay && encrypted ? 'Please reupload this file' : ''
+    );
 
     const handleAddFiles = (files) => {
         if (files.length) {
@@ -113,6 +121,7 @@ FileInputComponent.propTypes = {
     disabled: PropTypes.bool,
     handleChange: PropTypes.func,
     fileNameToDisplay: PropTypes.string,
+    encrypted: PropTypes.bool,
 };
 
 export default FileInputComponent;
