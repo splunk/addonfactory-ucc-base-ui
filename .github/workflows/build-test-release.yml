@@ -16,14 +16,14 @@ jobs:
     outputs:
       matrix_supportedSplunk: ${{ steps.matrix.outputs.supportedSplunk }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - id: matrix
         uses: splunk/addonfactory-test-matrix-action@v1
   fossa-scan:
     continue-on-error: true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: run fossa anlyze and create report
         run: |
           curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install-latest.sh | bash
@@ -47,16 +47,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Check License Header
-        uses: apache/skywalking-eyes@v0.4.0
+        uses: apache/skywalking-eyes@v0.5.0
 
   semgrep:
     runs-on: ubuntu-latest
     name: security-sast-semgrep
     if: github.actor != 'dependabot[bot]'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Semgrep
         id: semgrep
         uses: returntocorp/semgrep-action@v1
@@ -73,7 +73,7 @@ jobs:
       - fossa-scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           #Very Important semantic-release won't trigger a tagged
           #build if this is not set false
@@ -145,7 +145,7 @@ jobs:
           - "alert"
           - "input"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         name: Checkout backend repo addonfactory-ucc-generator
         with:
             repository: splunk/addonfactory-ucc-generator
