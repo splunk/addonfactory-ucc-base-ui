@@ -1,3 +1,11 @@
+# 🚫DEPRECATION NOTICE 🚫
+
+As of October 4, 2023, this repository has been deprecated. 
+
+The contents of this repository have been [merged](https://github.com/splunk/addonfactory-ucc-generator/pull/864) into the backend repository [addonfactory-ucc-generator](https://github.com/splunk/addonfactory-ucc-generator) under the `ui` subfolder. All future updates, issues, pull requests, and other activities related to this repo will be managed there.
+
+Please refer to the [addonfactory-ucc-generator](https://github.com/splunk/addonfactory-ucc-generator) repository for the latest version and updates.
+
 # Contributing to UCC UI Library
 
 ## Overview
